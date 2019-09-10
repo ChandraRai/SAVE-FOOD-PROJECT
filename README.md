@@ -1,5 +1,5 @@
 # Software Development Project - II (COMP-313)
-Supervised by: `Prof. Hao Lac`, Centennial College _Fall 2019_
+Supervised by: `Prof. Hao Lac`, Centennial College 
 
 ## Team Members
 
@@ -31,3 +31,5 @@ Supervised by: `Prof. Hao Lac`, Centennial College _Fall 2019_
 [Please login to the PIVOTAL TRACKER for requirements.](https://www.pivotaltracker.com/n/projects/2236889)
 
 
+
+_Fall 2019_
