@@ -1,0 +1,42 @@
+﻿
+nav #mainNav {
+    background-color: #FC5759;
+}
+
+#mainNav .navbar-toggler {
+    background-color: none;
+}
+
+
+
+.navbar > .container, .navbar > .container-fluid {
+    display: inline-block;
+}
+.container navbar-top{
+    position:relative;
+}
+.buttonArea {
+    display:inline;
+}
+.logoArea {
+    display: inline;
+    position: absolute;
+    left: 50%;
+}
+
+.btn-cancelOrder {
+    display: inline-block;
+    text-align: center;
+    min-width: 49%;
+    height: 40px;
+    border-radius: 40px;
+    background-color: #FC5759;
+    color: #ffffff;
+}
+
+#btnBack {
+    display: inline;
+    background-color: transparent;
+    border: none;
+    color: #FC5759;
+}

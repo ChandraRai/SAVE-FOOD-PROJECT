@@ -1,0 +1,78 @@
+﻿body {
+    padding: 0 30px 0;
+    font-family: 'Roboto',Open Sans;
+}
+
+.a-link-save {
+    color: #ffffff;
+}
+
+.a-link-back {
+    color: #FC5759;
+}
+
+    .a-link-back:hover {
+        color: #FC5759;
+        text-decoration: underline;
+    }
+
+p {
+    font-size: 12px;
+    color: #808080;
+}
+
+    p > span {
+        color: #FC5759;
+    }
+
+.infoType {
+    color: #747474;
+    font-size: 0.7em;
+    margin-bottom: 4px;
+}
+
+.form-bottom {
+    border: none;
+    border-bottom: 1px solid #c4c4c4;
+    border-radius: 0;
+    height: 20px;
+}
+
+.editForm {
+    padding-top: 100px;
+}
+
+.dropdown {
+    display: inline-block;
+    content: "";
+}
+
+.dropdown-type {
+    border: 1px solid #dfdfdf;
+    font-family: 'Roboto',Open Sans;
+    font-weight: 100;
+    color: #dfdfdf;
+}
+
+.login100-form-btn {
+    min-width: 49%;
+    height: 40px;
+    border-radius: 40px;
+    background-color: #FC5759;
+    color: #ffffff;
+}
+
+.btn-container {
+    padding-top: 30px;
+}
+
+#btnBack {
+    background-color: transparent;
+    border: none;
+    color: #FC5759;
+}
+
+#btnSave {
+    color: #ffffff;
+    border: none;
+}

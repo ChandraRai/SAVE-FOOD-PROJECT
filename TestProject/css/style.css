@@ -1,0 +1,199 @@
+/*
+    Theme Name: ComingSoon
+    Theme URL: https://bootstrapmade.com/comingsoon-free-html-bootstrap-template/
+    Author: BootstrapMade
+    Author URL: https://bootstrapmade.com
+*/
+/* ==== Google font ==== */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700,100);
+
+@import url('font-awesome.css');
+/* ==== overwrite bootstrap standard ==== */
+@import url('overwrite.css');
+
+
+
+body {
+	background:url('../images/background.jpg') 0 0 no-repeat;
+	overflow-x:hidden;
+    background-size: cover;
+	font-family:'Roboto',Open Sans;
+}
+
+.title h1 {
+	font-size:40px;
+	margin-top:30px;
+	color:#fff;
+	text-align:center;	
+	font-family:Roboto;	
+}
+
+.welcome {
+    text-align: center;
+}
+
+p {
+	font-family:Roboto;
+	color:#fff;	
+}
+
+
+#countdown_dashboard {
+	margin-top:60px;
+}
+
+.countDown .days_dash .digit {
+	color: #FF0000;
+}
+
+.countDown .hours_dash .digit {
+	color: #FF0000;
+}
+
+.countDown .minutes_dash .digit {
+	color: #FF0000;
+}
+
+.countDown .seconds_dash .digit {
+	color: #FF0000;
+}
+
+.dash {
+	height: 114px;
+	background: transparent url('../images/dash.png') 0 0 no-repeat;
+	float: left;
+	margin-left: 21px;
+	position: relative;
+}
+
+.dash .digit {
+	font-size: 55pt;
+	font-weight: bold;
+	float: left;
+	width: 55px;
+	text-align: center;
+	color: #fff;
+	position: relative;
+}
+
+.dash_title {
+	position: absolute;
+	display: block;
+	bottom: 0px;	
+	font-size:12px;
+	font-weight:500;
+	color: #fff;
+	margin-left:10px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-family:Roboto;
+}
+
+form.form-horizontal {
+	margin-top:60px;	
+}
+
+#subscribe_form {
+	position: relative;
+} 
+
+#email_field {
+	border-left: 0px solid #fff;
+	border-right: 0px solid #fff;
+	border-top: 0px solid #fff;
+	border-bottom: 0px solid #fff;
+	font-size: 18px;
+	padding: 10px 14px;
+	width: 400px;
+	border-radius:7px;
+	background:#f9f9f9;
+	font-family:Roboto;
+}
+
+#subscribe_button {
+	border-left: 0px solid #fff;
+	border-right: 0px solid #fff;
+	border-top: 0px solid #fff;
+	border-bottom: 0px solid #fff;
+	font-size: 18px;
+	color: #FFF;
+	padding: 10px 14px;
+	background:#FF0000;
+	border-radius:7px;
+	margin-left:10px;
+	font-family:Roboto;
+}
+
+ul.social-network {
+	font-size: 30px;
+	list-style:none;
+	margin-top:40px;
+	margin-bottom:10px;
+	padding:10px;
+	transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+}
+
+ul.social-network li {
+	display:inline;
+	margin: 0 18px;	
+}
+
+ul.social-network li a {	
+	color:#d0d0d0;	
+}
+.social-network li:hover .fa-twitter {
+  color: #00abf0;
+}
+.social-network li:hover .fa-facebook {
+  color: #39579a;
+}
+.social-network li:hover .fa-google-plus {
+  color: #eb8984;
+}
+.social-network li:hover .fa-pinterest {
+  color: #c9171e;
+  
+}
+.social-network li:hover .fa-linkedin {
+  color: #0077b5; 
+}
+.social-network li:hover .fa-youtube-play {
+  color: #C84941; 
+}
+.social-network li:hover .fa-dribbble {
+  color: #EA4C89 ; 
+}
+.social-network li:hover .fa-pinterest-square {
+  color: #EA4B49; 
+}
+
+#loading {
+	text-align: center;
+	margin: 10px;
+	display: none;
+	position: absolute;
+	width: 100%;
+	top: 60px;
+}
+
+.copyright {
+	color:#fff;
+	font-size:18px;
+	margin-top:10px;
+	margin-bottom:10px;
+	text-shadow:none;
+	font-family:Roboto;
+}
+
+.copyright a {
+	text-decoration:none;
+	color: #FF0000;
+}
+
+.copyright a:hover {
+	text-decoration:none;
+}
