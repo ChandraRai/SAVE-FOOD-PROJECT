@@ -17,7 +17,7 @@ Supervised by: `Prof. Hao Lac`, Centennial College
 |:------:|:-------------------:|:-----------:| :-------------------------------: |
 | 1      | Changmin Shin       | 300895984   | cshin4@my.centennialcollege.ca    |
 | 2      | Alishan Shalwani    | 300902288   | ashalwan@my.centennialcollege.ca  |
-| 3      | Vadym Harkusha      | 300909484    vharkush@my.centennialcollege.ca   |
+| 3      | Vadym Harkusha      | 300909484   | vharkush@my.centennialcollege.ca  |
 
 
 ### Database Layer
@@ -30,4 +30,4 @@ Supervised by: `Prof. Hao Lac`, Centennial College
 
 [Please login to the PIVOTAL TRACKER for requirements.](https://www.pivotaltracker.com/n/projects/2236889)
 
-* Fall 2019 *
+_Fall 2019_
