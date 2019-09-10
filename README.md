@@ -28,9 +28,8 @@ Supervised by: `Prof. Hao Lac`, Centennial College
 | 2      | Shiva Raut          | 300902187   | sraut2@my.centennialcollege.ca    |
 
 
-
+## Important Links
 * [Please login to the PIVOTAL TRACKER for requirements.](https://www.pivotaltracker.com/n/projects/2236889)
-
 * [Click the link for User Stories video.](https://drive.google.com/file/d/15dJ_zTk8JUyRCrhMPT7EiLvspPd_WlDT/view?usp=sharing)
 
 _Fall 2019_
