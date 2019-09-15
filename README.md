@@ -7,7 +7,7 @@ Supervised by: `Prof. Hao Lac`, Centennial College
 
 | S.No.  | Name           	             | Student No. | Email		                         |
 |:------:|:-----------------------------:|:-----------:| :-------------------------------: |
-| 1      | Chandra Rai                   | 300890510   | nikhilrai.fourteen@gmail.com      |
+| 1      | Vadym Harkusha                | 300909484   | vharkush@my.centennialcollege.ca  |
 | 2      | Siyanthan Vijithamparanathan  | 300925200   | svijitha@my.centennialcollege.ca  |
 
 

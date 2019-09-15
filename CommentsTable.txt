@@ -1,0 +1,10 @@
+CREATE TABLE [dbo].[Comments]
+(
+    [CId] INT IDENTITY(1,1) NOT NULL,
+    CONSTRAINT FK_FoodComments FOREIGN KEY (FId)     
+    REFERENCES FoodItems(FId),	 
+    [FId] INT NOT NULL,
+    [Comment] VARCHAR(MAX) NOT NULL, 
+    [Date] DATETIME NOT NULL, 
+    PRIMARY KEY CLUSTERED ([CId] ASC)
+)
