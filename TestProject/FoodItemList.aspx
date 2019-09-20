@@ -136,9 +136,12 @@
         <div class="card-body">
             <h5 class="card-title">Food & Health Videos</h5>
             <p class="card-text">Eat Healthy Live Healthy</p>
-            <a href="#" class="btn btn-primary">Save Food</a>
 
+            <div class="search-container1">
+                    <asp:TextBox type="text" placeholder="Youtube Link..." name="search" runat="server" ID="txtVideo" AutoPostBack="False" />
+                    <asp:Button runat="server" ID="btnShare" Text="Share" OnClick="btnShare_Click" class="btn btn-primary" type="submit" />
 
+            </div>
 
             <!-- Footer -->
             <footer class="page-footer font-small mdb-color lighten-3 pt-4">
