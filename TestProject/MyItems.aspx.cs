@@ -115,6 +115,40 @@ public partial class MyItems : System.Web.UI.Page
         }
     }
 
+    
+    /// <summary>
+    /// Populates all health tips on the page
+    /// Vadym Harkusha
+    /// </summary>
+    protected void DisplayHealthTips()
+    {
+        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+        var conn = new SqlConnection(connectionString);
+
+        var comm = new SqlCommand(
+        "SELECT Posts.PId, Posts.Post, Posts.Date, USERS.Username " +
+        "FROM Posts INNER JOIN USERS ON Posts.UId = USERS.Id " +
+        "AND WHERE Posts.PostType = 0", conn);
+
+        try
+        {
+            conn.Open();
+            var reader = comm.ExecuteReader();
+            // ADD VALID DATASTORE HERE
+            //repeaterUserFoodItems.DataSource = reader;
+            //repeaterUserFoodItems.DataBind();
+            reader.Close();
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine("Exception in DisplayHealthTips -> " + e);
+        }
+        finally
+        {
+            conn.Close();
+        }
+    }
+
     /// <summary>
     /// This method shows all of the items the user has ordered
     /// Siyanthan Vijithamparanathan - 300925200
