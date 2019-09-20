@@ -1,19 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI.WebControls;
-using System.Windows.Forms;
+
 /// <summary>
 /// Zhi Wei Su - 300899450
 /// Siyanthan Vijithamparanathan - 300925200
 /// SaveFood Web Application
 /// FoodItemList.aspx.cs Code Behind
 /// </summary>
-
 public partial class foodItemList : System.Web.UI.Page
 {
     /// <summary>
@@ -22,9 +19,11 @@ public partial class foodItemList : System.Web.UI.Page
     /// Authorized users will be able to see the list of food
     /// Zhi Wei Su - 300899450
     /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!User.Identity.IsAuthenticated || Session["CurrentUser"]==null)
+        if (!User.Identity.IsAuthenticated || Session["CurrentUser"] == null)
         {
             FormsAuthentication.RedirectToLoginPage("Login.aspx");
         }
@@ -47,7 +46,8 @@ public partial class foodItemList : System.Web.UI.Page
 
                     // checks if the user is an admin
                     // enables/disables controls and changes text
-                    if (admin == "1") {
+                    if (admin == "1")
+                    {
                         ShowFoodListAll();
                         btnEdit.Visible = true;
                         btnDelete.Visible = true;
@@ -55,11 +55,12 @@ public partial class foodItemList : System.Web.UI.Page
                         btnSendEmail.Visible = false;
                         h2Title.InnerText = "DONATED FOOD LIST - Admin View";
                         h3Title.InnerText = "Admin List. Edit or Delete an item.";
-                        
+
                     }
                     else
                     {
                         ShowFoodList();
+                        DisplayHealthVideos();
                         btnEdit.Visible = false;
                         btnDelete.Visible = false;
                         btnPickup.Visible = true;
@@ -67,7 +68,7 @@ public partial class foodItemList : System.Web.UI.Page
                         h2Title.InnerText = "DONATED FOOD LIST";
                         h3Title.InnerText = "Request a listed food item below!";
                     }
-                        
+
                 }
                 catch
                 {
@@ -79,7 +80,6 @@ public partial class foodItemList : System.Web.UI.Page
                 }
             }
         }
-       
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public partial class foodItemList : System.Web.UI.Page
             conn.Close();
         }
     }
-    
+
     /// <summary>
     /// Zhi Wei Su 300899450
     /// This method shows all of the rows in the FoodItems table for Admin users
@@ -152,6 +152,9 @@ public partial class foodItemList : System.Web.UI.Page
     /// Zhi Wei Su 300899450
     /// This method changes the background color of the table row based on item status
     /// </summary>
+    /// <param name="status">The status<see cref="string"/></param>
+    /// <param name="date">The date<see cref="DateTime"/></param>
+    /// <returns>The <see cref="string"/></returns>
     protected string ChangeColor(string status, DateTime date)
     {
         if (DateTime.Now > date)
@@ -167,6 +170,8 @@ public partial class foodItemList : System.Web.UI.Page
     /// Specific to individual food item
     /// Siyanthan Vijithamparanathan - 300925200
     /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void GetModelData(object sender, EventArgs e)
     {
         string[] args = new string[5];
@@ -182,15 +187,22 @@ public partial class foodItemList : System.Web.UI.Page
         ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openModal();", true);
     }
 
+    /// <summary>
+    /// The btnPickup_Click
+    /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void btnPickup_Click(object sender, EventArgs e)
     {
         PickUpItem();
     }
 
     /// <summary>
-    ///  Zhi Wei Su 300899450
+    /// Zhi Wei Su 300899450
     ///  This method searches for an item with a given text and displays all that contains it
     /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void SearchItem(object sender, EventArgs e)
     {
         if (!string.IsNullOrEmpty(txtSearch.Text))
@@ -265,7 +277,7 @@ public partial class foodItemList : System.Web.UI.Page
                 comm.Parameters.AddWithValue("@FId", hiddenFoodId.Value);
                 comm.Parameters.AddWithValue("@PickedUp", DateTime.Now);
                 comm2.Parameters.AddWithValue("@username", Session["CurrentUser"].ToString());
-                
+
 
                 SqlCommand comm3 = new SqlCommand("UPDATE FOODITEMS SET STATUS = @status WHERE FId=@FId", conn);
                 comm3.Parameters.AddWithValue("@status", 0);
@@ -297,14 +309,14 @@ public partial class foodItemList : System.Web.UI.Page
             conn.Close();
             ShowFoodList();
         }
-
-        
     }
 
     /// <summary>
     /// Redirects to SendEmail page
     /// Saves selected user in session
     /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void btnSendEmail_Click(object sender, EventArgs e)
     {
         Session["UserEmail"] = txtDonor.InnerText;
@@ -314,11 +326,16 @@ public partial class foodItemList : System.Web.UI.Page
     /// <summary>
     /// Redirects to AddFoodItem page
     /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void btnAddItem_Click(object sender, EventArgs e)
     {
         Response.Redirect("AddFoodItem.aspx");
     }
 
+    /// <summary>
+    /// The RemoveItem
+    /// </summary>
     protected void RemoveItem()
     {
         SqlConnection conn;
@@ -346,13 +363,161 @@ public partial class foodItemList : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// The btnDelete_Click
+    /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void btnDelete_Click(object sender, EventArgs e)
     {
         RemoveItem();
     }
 
+    /// <summary>
+    /// The EditItemsDirect_Click
+    /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void EditItemsDirect_Click(object sender, EventArgs e)
     {
         Response.Redirect("EditItems.aspx?id=" + hiddenFoodId.Value);
+    }
+
+    /// <summary>
+    /// Populates all health videos on the page
+    /// Siyanthan Viji
+    /// </summary>
+    protected void DisplayHealthVideos()
+    {
+        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+        var conn = new SqlConnection(connectionString);
+
+        var comm = new SqlCommand(
+        "SELECT Posts.PId, Posts.Post, Posts.Date" +
+        " FROM Posts WHERE Posts.PostType = 1", conn);
+
+        try
+        {
+            conn.Open();
+            var reader = comm.ExecuteReader();
+
+            rptrVideos.DataSource = reader;
+            rptrVideos.DataBind();
+            reader.Close();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception in DisplayHealthVideos -> " + e);
+        }
+        finally
+        {
+            conn.Close();
+        }
+    }
+
+    /// <summary>
+    /// The btnShare_Click
+    /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
+    protected void btnShare_Click(object sender, EventArgs e)
+    {
+        if (txtVideo.Text != "")
+        {
+            string VId = getVideoId(txtVideo.Text);
+            if (VId == "")
+            {
+                txtPopup.InnerText = "Posting Error";
+                txtPopupText.InnerText = "Trouble getting Youtube Video. Please confirm the link provided is valid.";
+                btnConfirmPopup.Text = "Exit";
+                ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openPopup();", true);
+            }
+            else
+            {
+                AddVideoPost(VId);
+            }
+        }
+        else
+        {
+
+            txtPopup.InnerText = "Posting Error";
+            txtPopupText.InnerText = "Youtube Link must be provided.";
+            btnConfirmPopup.Text = "Exit";
+            ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openPopup();", true);
+        }
+    }
+
+    /// <summary>
+    /// The getVideoId
+    /// </summary>
+    /// <param name="Url">The Url<see cref="string"/></param>
+    /// <returns>The <see cref="string"/></returns>
+    protected string getVideoId(string Url)
+    {
+        string[] seperator = { "?", "v=" };
+        string video = txtVideo.Text;
+        string VId = "";
+        string[] id = video.Split(seperator, 3, StringSplitOptions.None);
+        if (id.Length == 3)
+        {
+            VId = id[2];
+        }
+        return VId;
+    }
+
+    /// <summary>
+    /// The AddVideoPost
+    /// </summary>
+    /// <param name="VId">The VId<see cref="string"/></param>
+    protected void AddVideoPost(string VId)
+    {
+        //Add Video to posts
+        SqlConnection conn;
+        SqlCommand comm;
+        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+        conn = new SqlConnection(connectionString);
+        SqlCommand comm2 = new SqlCommand("SELECT ID FROM Users WHERE Username = @username", conn);
+        comm2.Parameters.AddWithValue("@username", Session["CurrentUser"].ToString());
+
+        try
+        {
+            conn.Open();
+            int Uid = (int)comm2.ExecuteScalar();
+
+
+
+            comm = new SqlCommand(
+                "INSERT INTO Posts (UId, Post,Date,PostType) " +
+                "VALUES (@UId, @Post, @Date,@PostType)", conn);
+            comm.Parameters.AddWithValue("@UId", Uid);
+            comm.Parameters.AddWithValue("@Date", DateTime.Now);
+            comm.Parameters.AddWithValue("@Post", VId);
+            comm.Parameters.AddWithValue("@PostType", 1);
+
+
+            try
+            {
+                comm.ExecuteNonQuery();
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+                DisplayHealthVideos();
+            }
+
+        }
+        catch
+        {
+
+        }
+        finally
+        {
+            conn.Close();
+            DisplayHealthVideos();
+        }
     }
 }
