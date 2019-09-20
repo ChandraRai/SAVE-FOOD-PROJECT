@@ -393,8 +393,8 @@ public partial class foodItemList : System.Web.UI.Page
         var conn = new SqlConnection(connectionString);
 
         var comm = new SqlCommand(
-        "SELECT Posts.PId, Posts.Post, Posts.Date" +
-        " FROM Posts WHERE Posts.PostType = 1", conn);
+        "SELECT Posts.PId, Posts.Post, Posts.Date,Users.Username" +
+        " FROM Posts INNER JOIN Users on Posts.UId=Users.Id  WHERE Posts.PostType = 1", conn);
 
         try
         {

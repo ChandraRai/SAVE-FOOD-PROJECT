@@ -160,6 +160,14 @@
                                         <div class="embed-responsive embed-responsive-16by9">
                                             <iframe class="embed-responsive-item" src='https://www.youtube.com/embed/<%#Eval("Post") %>'></iframe>
                                         </div>
+                                        <div class="foodItem-caption">
+                                        <asp:Label runat="server" ID="lblStatus" Visible="false"></asp:Label>
+                                        <p class="text-muted" style="color: black;">
+                                            Posted By: <%#Eval("Username") %>
+                                            <br>
+                                            Date Posted: <%#Eval("Date") %>
+                                        </p>
+                                    </div>
                                         <a href="">
                                             <div class="mask rgba-white-light"></div>
                                         </a>
