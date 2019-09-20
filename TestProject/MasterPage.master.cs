@@ -25,49 +25,18 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
     private void LoadData()
     {
-        //Label lblUserName = (Label)loginView.FindControl("lblUser");
-        //Label lblUserEmail = (Label)loginView.FindControl("lblEmail");
+        User currentUser = new User();
         if (HttpContext.Current.User.Identity.Name != null)
         {
             string user = HttpContext.Current.User.Identity.Name;
             lblUser.Text = user;
+            currentUser=UserManager.getUser(user);
         }
         else if (Request.Cookies["userName"].Value != null)
             lblUser.Text = Request.Cookies["userName"].ToString();
 
-        SqlDataReader reader;
-        SqlConnection conn;
-        SqlCommand commandEmail;
-        SqlCommand commandPrivilege;
-        string privilege;
-
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
-        commandEmail = new SqlCommand("SELECT Email From USERS WHERE Username = @userName", conn);
-        commandEmail.Parameters.AddWithValue("@userName", HttpContext.Current.User.Identity.Name);
-        commandPrivilege = new SqlCommand("SELECT Privilege From USERS WHERE Username = @userName", conn);
-        commandPrivilege.Parameters.AddWithValue("@userName", HttpContext.Current.User.Identity.Name);
-
-        try
-        {
-            conn.Open();
-            reader = commandEmail.ExecuteReader();
-            while (reader.Read())
-                lblEmail.Text = reader["Email"].ToString();
-            reader.Close();
-            privilege = commandPrivilege.ExecuteScalar().ToString();
-            setPage(privilege);
-        }
-        catch
-        {
-
-        }
-        finally
-        {
-            conn.Close();
-        }
-
-
+        setPage(currentUser.privilege);
+        lblEmail.Text = currentUser.email;
     }
 
     protected void btnSignOut_Click(object sender, EventArgs e)
@@ -84,9 +53,9 @@ public partial class MasterPage : System.Web.UI.MasterPage
         Response.Redirect("UserProfile.aspx");
     }
 
-    protected void setPage(string admin)
+    protected void setPage(int admin)
     {
-        if (admin == "1")
+        if (admin == 1)
         {
             menuItem1.InnerHtml = "SaveFood Items";
             menuItem2.InnerHtml = "SaveFood Accounts";
