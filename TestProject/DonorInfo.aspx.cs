@@ -51,7 +51,7 @@ public partial class DonorInfoaspx : System.Web.UI.Page
     protected void ShowInfo()
     {
 
-        User user = UserManager.getUser(Session["OtherUser"].ToString());
+        User user = UserManager.getUser(Session["OtherUser"].ToString(),"Username");
 
         txtFirstName.Text = user.firstName;
         ViewState["First"] = user.firstName;
@@ -93,6 +93,6 @@ public partial class DonorInfoaspx : System.Web.UI.Page
     /// <returns>The <see cref="string"/></returns>
     protected string getUserId(string user)
     {
-        return UserManager.getUser(user).uId;
+        return UserManager.getUser(user,"Username").uId;
     }
 }

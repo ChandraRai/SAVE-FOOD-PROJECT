@@ -30,7 +30,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
         {
             string user = HttpContext.Current.User.Identity.Name;
             lblUser.Text = user;
-            currentUser=UserManager.getUser(user);
+            currentUser=UserManager.getUser(user,"Username");
         }
         else if (Request.Cookies["userName"].Value != null)
             lblUser.Text = Request.Cookies["userName"].ToString();
