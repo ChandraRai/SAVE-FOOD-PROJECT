@@ -4249,8 +4249,19 @@ readers do not read off random characters that represent icons */
     src: url(/fonts/RalewayDots-Regular.ttf);
 }
 
+@font-face {
+    font-family: FrederickatheGreat-Regular;
+    src: url(/fonts/FrederickatheGreat-Regular.ttf);
+}
+
+@font-face {
+    font-family: JosefinSlab-Thin;
+    src: url(/fonts/JosefinSlab-Thin.ttf);
+}
+
 .myFooter {
-    font-family: Monoton-Regular;
+    font-family: sans-serif;
+    font-size: small;
 }
 
 
