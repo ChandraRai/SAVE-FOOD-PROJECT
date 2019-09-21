@@ -164,8 +164,6 @@
                                             <div class="mask rgba-white-light"></div>
                                         </a>
                                     </div>
-
-
                                 </div>
                                 <!--Grid column-->
                             </ItemTemplate>
@@ -177,10 +175,11 @@
                             <b>Find the latest updated content here!</b>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><a href="https://www.canada.ca/en/health-canada.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Health Canada</a></li>
-                            <li class="list-group-item"><a href=" https://www.canada.ca/en/health-canada/services/food-nutrition.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Food and Nutrition</a></li>
-                            <li class="list-group-item"><a href="https://www.canada.ca/en/health-canada.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Health Canada</a></li>
-                            <li class="list-group-item"><a href=" https://www.canada.ca/en/health-canada/services/food-nutrition.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Food and Nutrition</a></li>
+                            <asp:Repeater ID="rptrHealthTips" runat="server">
+                                <ItemTemplate>
+                                    <li class="list-group-item"><a href='<%#Eval ("Post") %>'' class="btn btn-secondary btn-lg active" role="button" aria-pressed="true"><%#Eval ("Title") %></a></li>
+                                </ItemTemplate>
+                            </asp:Repeater>
                         </ul>
                     </div>
                     <!--Grid row-->

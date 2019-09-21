@@ -61,6 +61,7 @@ public partial class foodItemList : System.Web.UI.Page
                     {
                         ShowFoodList();
                         DisplayHealthVideos();
+                        DisplayHealthTips();
                         btnEdit.Visible = false;
                         btnDelete.Visible = false;
                         btnPickup.Visible = true;
@@ -520,4 +521,38 @@ public partial class foodItemList : System.Web.UI.Page
             DisplayHealthVideos();
         }
     }
+
+
+    /// <summary>
+    /// Populates all health tips on the page
+    /// Vadym Harkusha
+    /// </summary>
+    protected void DisplayHealthTips()
+    {
+        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+        var conn = new SqlConnection(connectionString);
+
+        var comm = new SqlCommand(
+        "SELECT Posts.PId, Posts.Post, Posts.Date, Posts.Title, USERS.Username " +
+        "FROM Posts INNER JOIN USERS ON Posts.UId = USERS.Id " +
+        "WHERE Posts.PostType = 0 ORDER BY Posts.Date", conn);
+
+        try
+        {
+            conn.Open();
+            var reader = comm.ExecuteReader();
+            rptrHealthTips.DataSource = reader;
+            rptrHealthTips.DataBind();
+            reader.Close();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception in DisplayHealthTips -> " + e);
+        }
+        finally
+        {
+            conn.Close();
+        }
+    }
+
 }

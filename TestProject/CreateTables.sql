@@ -1,3 +1,5 @@
+
+
 CREATE TABLE [dbo].[USERS] (
     [Id]        INT            IDENTITY (1, 1) NOT NULL,
     [Username]  NVARCHAR (50)  NOT NULL,
@@ -9,6 +11,8 @@ CREATE TABLE [dbo].[USERS] (
     [Privilege] SMALLINT       DEFAULT ((0)) NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
 CREATE TABLE [dbo].[FoodItems] (
     [FId]           INT           IDENTITY (1, 1) NOT NULL,
@@ -24,6 +28,8 @@ CREATE TABLE [dbo].[FoodItems] (
 );
 
 
+
+
 CREATE TABLE [dbo].[Orders] (
     [OId]      INT      IDENTITY (1, 1) NOT NULL,
     [FId]      INT      NOT NULL,
@@ -33,6 +39,8 @@ CREATE TABLE [dbo].[Orders] (
     CONSTRAINT [FK_DonatedFood] FOREIGN KEY ([FId]) REFERENCES [dbo].[FoodItems] ([FId]),
     CONSTRAINT [FK_User] FOREIGN KEY ([UId]) REFERENCES [dbo].[USERS] ([Id])
 );
+
+
 
 CREATE TABLE [dbo].[Comments]
 (
@@ -51,11 +59,16 @@ CREATE TABLE [dbo].[Comments]
 
 
 
+CREATE TABLE [dbo].[Posts]
+(
+    [PId] INT IDENTITY(1,1) NOT NULL,
+    CONSTRAINT FK_Posts FOREIGN KEY (UId)     
+    REFERENCES Users(Id), 
+	[UId] INT NOT NULL,	
+    [Post] VARCHAR(MAX) NOT NULL, 
+    [Date] DATETIME NOT NULL, 
+    PRIMARY KEY CLUSTERED ([PId] ASC)
+);
 
+ALTER TABLE dbo.Posts ADD Title VARCHAR(MAX);
 
-
-
-
-
-
-   
