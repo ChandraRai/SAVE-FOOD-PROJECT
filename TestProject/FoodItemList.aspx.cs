@@ -23,6 +23,7 @@ public partial class foodItemList : System.Web.UI.Page
     /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        /*
         if (!User.Identity.IsAuthenticated || Session["CurrentUser"] == null)
         {
             FormsAuthentication.RedirectToLoginPage("Login.aspx");
@@ -80,6 +81,7 @@ public partial class foodItemList : System.Web.UI.Page
                 }
             }
         }
+        */
     }
 
     /// <summary>
@@ -435,6 +437,7 @@ public partial class foodItemList : System.Web.UI.Page
             else
             {
                 AddVideoPost(VId);
+                txtVideo.Text = "";
             }
         }
         else
@@ -444,6 +447,7 @@ public partial class foodItemList : System.Web.UI.Page
             txtPopupText.InnerText = "Youtube Link must be provided.";
             btnConfirmPopup.Text = "Exit";
             ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openPopup();", true);
+            txtVideo.Text = "";
         }
     }
 

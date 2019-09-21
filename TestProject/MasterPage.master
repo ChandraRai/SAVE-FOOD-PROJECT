@@ -14,6 +14,7 @@
 
      <!-- Custom fonts for this template -->
      <link href="css/all.css" rel="stylesheet" type="text/css">
+     <link rel="stylesheet" type="text/css" href="css/foodItem.css">
 
     <style>
 
@@ -140,5 +141,14 @@
                     document.body.style.backgroundColor = "white";
                 }
             </script>
+
+     <div class="footer">
+         <div class="myFooter">
+              &copy; All Rights Reserved - 2019 Fall COMP - 313 <strong>SaveFood Team</strong>
+         </div>
+           
+     </div>
+           
+          
 </body>
 </html>

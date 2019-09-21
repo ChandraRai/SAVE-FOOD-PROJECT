@@ -1,7 +1,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="foodItemList.aspx.cs" Inherits="foodItemList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <link rel="stylesheet" type="text/css" href="css/foodItem.css">
+   
     <script type="text/javascript">
         function openModal() {
             $('#foodItem1').modal('show');
@@ -16,10 +16,11 @@
     <section class="bg-light">
         <div class="container">
             <div class="row">
+
                 <%-- Content Head --%>
                 <div class="col-lg-12 text-center head-div">
                     <h2 class="section-heading text-uppercase" id="h2Title" runat="server">Donated Food List</h2>
-                    <h3 class="text-muted div-h3" id="h3Title" runat="server">Food for you.</h3>
+                    <h3 class="FoodForYou" runat="server">Food for you.</h3>
                 </div>
                 <%-- Search Bar --%>
                 <div class="search-container1">
@@ -30,15 +31,9 @@
 
 
             <div class="text-left">
-                <asp:Button runat="server" ID="btnAddItem" Text="Add Item" OnClick="btnAddItem_Click" class="btn btn-primary" type="submit" />
+                <asp:Button runat="server" ID="btnAddItem" Text="+Add Item" OnClick="btnAddItem_Click" class="btn btn-primary" type="submit" />
 
             </div>
-
-
-
-
-
-
             <div class="row">
                 <asp:Repeater ID="repeaterFoodItems" runat="server">
                     <ItemTemplate>
@@ -107,18 +102,11 @@
                                     <li>Expiry Date: <span runat="server" id="txtExpiry"></span></li>
                                 </ul>
 
-
-
                                 <asp:Button ID="btnPickup" runat="server" Text="+Pickup" CssClass="btn btn-primary" OnClick="btnPickup_Click" Visible="false" Display="Dynamic" />
                                 <asp:Button ID="btnSendEmail" runat="server" Text="Contact Donor" CssClass="btn btn-danger" OnClick="btnSendEmail_Click" Visible="false" Display="Dynamic" />
                                 <asp:Button ID="btnEdit" runat="server" Text="+Edit" CssClass="btn btn-primary" OnClick="EditItemsDirect_Click" Visible="false" Display="Dynamic" />
                                 <asp:Button ID="btnDelete" runat="server" Text="Delete" CssClass="btn btn-danger" Visible="false" Display="Dynamic" OnClick="btnDelete_Click" />
                                 <asp:HiddenField ID="hiddenFoodId" runat="server" />
-
-
-
-
-
 
                             </div>
                         </div>
@@ -135,11 +123,11 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">Food & Health Videos</h5>
-            <p class="card-text">Eat Healthy Live Healthy</p>
+            <p class="EatHealthy">Eat Healthy, Live Healthy</p>
 
             <div class="search-container1">
-                    <asp:TextBox type="text" placeholder="Youtube Link..." name="search" runat="server" ID="txtVideo" AutoPostBack="False" />
-                    <asp:Button runat="server" ID="btnShare" Text="Share" OnClick="btnShare_Click" class="btn btn-primary" type="submit" />
+                <asp:TextBox type="text" placeholder="Youtube link here..." Width="450px" name="search" runat="server" ID="txtVideo" AutoPostBack="False" />
+                <asp:Button runat="server" ID="btnShare" Text="Share" OnClick="btnShare_Click" class="btn btn-primary" type="submit" />
 
             </div>
 
@@ -171,46 +159,22 @@
                             </ItemTemplate>
                         </asp:Repeater>
                     </div>
+
+                    <!--Users post section-->
+                    <hr />
                     <div class="row">
                         <div class="card-header">
                             <h5>Food and Health Tips </h5>
                             <b>Find the latest updated content here!</b>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><a href="https://www.canada.ca/en/health-canada.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Health Canada</a></li>
-                            <li class="list-group-item"><a href=" https://www.canada.ca/en/health-canada/services/food-nutrition.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Food and Nutrition</a></li>
-                            <li class="list-group-item"><a href="https://www.canada.ca/en/health-canada.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Health Canada</a></li>
-                            <li class="list-group-item"><a href=" https://www.canada.ca/en/health-canada/services/food-nutrition.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Food and Nutrition</a></li>
+                            <li class="list-group-item">Test text</li>
                         </ul>
                     </div>
-                    <!--Grid row-->
-                    <hr />
                 </div>
-                <!-- Footer Elements -->
-
-                <!-- Copyright -->
-                <div class="footer-copyright text-center py-3">
-                    © 2019 Copyright: SaveFood
-   
-					<a href="https://mdbootstrap.com/education/bootstrap/">MDBootstrap.com</a>
-                </div>
-                <!-- Copyright -->
-
             </footer>
-
-
-
-            <!-- Footer -->
-
-
-
-
-
-        </div>
-        <div class="card-footer text-muted">
         </div>
     </div>
-
     <!-- Popup Modal -->
     <div class="modal fade" id="popUpConfirm" role="dialog">
         <div class="modal-dialog">
