@@ -555,4 +555,40 @@ public partial class foodItemList : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Method for adding health tips into the Posts table
+    /// </summary>
+    /// <param name="postTitle">The VId<see cref="string"/></param>
+    /// <param name="postLink">The VId<see cref="string"/></param>
+    protected void AddHealthTips(string postTitle,string postLink)
+    {
+        SqlConnection conn;
+        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+        conn = new SqlConnection(connectionString);
+        SqlCommand comm = new SqlCommand(
+            "INSERT INTO dbo.Posts (Title, UId, Post, Date, PostType)" +
+                "VALUES (@Title, (select Id from USERS where Username = @username)," +
+                " @Post, @Date, @PostType)", conn);
+        comm.Parameters.AddWithValue("@Post", postTitle);
+        comm.Parameters.AddWithValue("@username", Session["CurrentUser"].ToString());
+        comm.Parameters.AddWithValue("@Post", postLink);
+        comm.Parameters.AddWithValue("@Date", DateTime.Now);
+        comm.Parameters.AddWithValue("@PostType", 0);
+
+        try
+        {
+            conn.Open();
+            comm.ExecuteNonQuery();
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine("Exception in AddHealthTips -> " + e);
+        }
+        finally
+        {
+            conn.Close();
+            DisplayHealthTips();
+        }
+    }
+
 }
