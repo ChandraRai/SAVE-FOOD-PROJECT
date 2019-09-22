@@ -9,7 +9,11 @@
 		function openPopup() {
 			$('#popUpConfirm').modal('show');
 		}
-    </script>
+
+
+	</script>
+
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -256,6 +260,64 @@
 							<li class="list-group-item"><a href="https://www.canada.ca/en/health-canada.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Health Canada</a></li>
 							<li class="list-group-item"><a href=" https://www.canada.ca/en/health-canada/services/food-nutrition.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Food and Nutrition</a></li>
 						</ul>
+
+
+
+
+
+						<div class="modal fade" id="orangeModalSubscription" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+							aria-hidden="true">
+							<div class="modal-dialog modal-notify modal-warning" role="document">
+								<!--Content-->
+								<div class="modal-content">
+									<!--Header-->
+									<div class="modal-header text-center">
+										<h4 class="modal-title white-text w-100 font-weight-bold py-2 "><b>Add Health Tips</b></h4>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border-radius: 3px 3px 0 0;">
+											<span aria-hidden="true" class="white-text">&times;</span>
+										</button>
+									</div>
+
+									<!--Body-->
+									<div class="modal-body">
+										<div class="form-group">
+
+											<label class="control-label">Title</label>
+											<input type="text" class="form-control" id="title">
+										</div>
+
+										<div class="md-form">
+											<div class="form-group">
+												<label class="control-label">Post</label>
+												<textarea class="form-control" rows="5" id="post"></textarea>
+											</div>
+										</div>
+
+
+										<div class="md-form">
+											<div class="form-group">
+												<!-- Date input -->
+												<label class="control-label" for="date">Date</label>
+												<input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text" />
+											</div>
+										</div>
+
+
+									</div>
+
+									<!--Footer-->
+									<div class="modal-footer justify-content-center">
+										<a type="button" class="btn btn-outline-warning waves-effect" style="border-radius: 3px;">Post<i class="fas fa-paper-plane-o ml-1"></i></a>
+									</div>
+								</div>
+								<!--/.Content-->
+							</div>
+						</div>
+
+						<div class="text-center">
+							<a href="" class="btn btn-default btn-rounded" data-toggle="modal" data-target="#orangeModalSubscription">
+								<b>Add Health Tips</b></a>
+						</div>
 
 
 
