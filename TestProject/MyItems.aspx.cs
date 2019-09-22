@@ -88,31 +88,8 @@ public partial class MyItems : System.Web.UI.Page
     /// </summary>
     protected void ShowFoodList()
     {
-        SqlDataReader reader;
-        SqlConnection conn;
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
-        SqlCommand comm = new SqlCommand(
-        "SELECT FoodItems.FId, FoodItems.FoodName, FoodItems.FoodDesc, FoodItems.Status, FoodItems.FoodCondition, FoodItems.Expiry, FoodItems.Id, FoodItems.PostingDate, USERS.Username " +
-        "FROM FoodItems INNER JOIN USERS ON FoodItems.Id = USERS.Id " +
-        "WHERE Users.username=@username", conn);
-        comm.Parameters.AddWithValue("@username", Session["CurrentUser"].ToString());
-        try
-        {
-            conn.Open();
-            reader = comm.ExecuteReader();
-            repeaterUserFoodItems.DataSource = reader;
-            repeaterUserFoodItems.DataBind();
-            reader.Close();
-        }
-        catch
-        {
-
-        }
-        finally
-        {
-            conn.Close();
-        }
+        repeaterUserFoodItems.DataSource = FoodManager.getUserFoodList();
+        repeaterUserFoodItems.DataBind();
     }
 
     

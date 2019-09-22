@@ -46,7 +46,7 @@
                             <td>
                                 <div class="col-md-4 col-sm-6 foodItem-item">
                                     <asp:LinkButton CssClass="foodItem-link"
-                                        CommandArgument='<%#Eval("UserName")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId") +";"+Eval("PostingDate")%>'
+                                        CommandArgument='<%#Eval("donor.username")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId") +";"+Eval("PostingDate")%>'
                                         runat="server"
                                         OnClick="GetModelData">
                               <%--<div class="foodItem-hover">
@@ -62,7 +62,7 @@
                                     <div class="foodItem-caption">
                                         <asp:Label runat="server" ID="lblStatus" Visible="false"></asp:Label>
                                         <p class="text-muted" style="color: black;">
-                                            Donor: <%#Eval("UserName") %>
+                                            Donor: <%#Eval("donor.username") %>
                                             <br>
                                             Posted: <%#Eval("PostingDate") %>
                                             <br>
@@ -163,9 +163,9 @@
                                         <div class="foodItem-caption">
                                         <asp:Label runat="server" ID="lblStatus" Visible="false"></asp:Label>
                                         <p class="text-muted" style="color: black;">
-                                            Posted By: <%#Eval("Username") %>
+                                            Posted By: <%#Eval("user.username") %>
                                             <br>
-                                            Date Posted: <%#Eval("Date") %>
+                                            Date Posted: <%#Eval("postingDate") %>
                                         </p>
                                     </div>
                                         <a href="">
