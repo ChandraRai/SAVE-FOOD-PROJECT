@@ -15,28 +15,37 @@ using System.Web.UI.WebControls;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
-    protected void Page_Load(object sender, EventArgs e)
+
+    protected void Page_Init(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
         {
-            LoadData();
+            User currentUser = new User();
+            if (HttpContext.Current.User.Identity.IsAuthenticated && Session["CurrentUser"] != null)
+            {
+                string user = HttpContext.Current.User.Identity.Name;
+                lblUser.Text = user;
+                currentUser = UserManager.getUser(user, "Username");
+                lblUser.Text = currentUser.username;
+                lblEmail.Text = currentUser.email;
+                setPage(currentUser.privilege);
+            }
+            else
+            {
+                Response.Redirect("Login.aspx");
+            }
         }
+    }
+
+        protected void Page_Load(object sender, EventArgs e)
+    {
+
+       
     }
 
     private void LoadData()
     {
-        User currentUser = new User();
-        if (HttpContext.Current.User.Identity.Name != null)
-        {
-            string user = HttpContext.Current.User.Identity.Name;
-            lblUser.Text = user;
-            currentUser=UserManager.getUser(user,"Username");
-        }
-        else if (Request.Cookies["userName"].Value != null)
-            lblUser.Text = Request.Cookies["userName"].ToString();
-
-        setPage(currentUser.privilege);
-        lblEmail.Text = currentUser.email;
+       
     }
 
     protected void btnSignOut_Click(object sender, EventArgs e)

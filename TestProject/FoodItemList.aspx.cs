@@ -23,63 +23,30 @@ public partial class foodItemList : System.Web.UI.Page
     /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!User.Identity.IsAuthenticated || Session["CurrentUser"] == null)
+        if (!Page.IsPostBack)
         {
-            FormsAuthentication.RedirectToLoginPage("Login.aspx");
-        }
-        else if (User.Identity.IsAuthenticated)
-        {
-            if (!IsPostBack)
+            if (UserManager.getUser(Session["CurrentUser"].ToString(), "Username").privilege == 1)
             {
-                SqlConnection conn;
-                SqlCommand command;
-                string admin;
-                string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-                conn = new SqlConnection(connectionString);
-                command = new SqlCommand("SELECT Privilege From USERS WHERE Username = @userName", conn);
-                command.Parameters.AddWithValue("@userName", HttpContext.Current.User.Identity.Name);
-
-                try
-                {
-                    conn.Open();
-                    admin = command.ExecuteScalar().ToString();
-
-                    // checks if the user is an admin
-                    // enables/disables controls and changes text
-                    if (admin == "1")
-                    {
-                        ShowFoodListAll();
-                        btnEdit.Visible = true;
-                        btnDelete.Visible = true;
-                        btnPickup.Visible = false;
-                        btnSendEmail.Visible = false;
-                        h2Title.InnerText = "DONATED FOOD LIST - Admin View";
-                        h3Title.InnerText = "Admin List. Edit or Delete an item.";
-
-                    }
-                    else
-                    {
-                        ShowFoodList();
-                        DisplayHealthVideos();
-                        btnEdit.Visible = false;
-                        btnDelete.Visible = false;
-                        btnPickup.Visible = true;
-                        btnSendEmail.Visible = true;
-                        h2Title.InnerText = "DONATED FOOD LIST";
-                        h3Title.InnerText = "Request a listed food item below!";
-                    }
-
-                }
-                catch
-                {
-
-                }
-                finally
-                {
-                    conn.Close();
-                }
+                ShowFoodListAll();
+                PageSetup(true, true, false, false, "DONATED FOOD LIST - Admin View", "Admin List. Edit or Delete an item.");
+            }
+            else
+            {
+                ShowFoodList();
+                DisplayHealthVideos();
+                PageSetup(false, false, true, true, "DONATED FOOD LIST", "Request a listed food item below!");
             }
         }
+    }
+
+    protected void PageSetup(bool showEdit,bool showDelete,bool showPickup,bool showEmail,string h2Text,string h3Text)
+    {
+            btnEdit.Visible = showEdit;
+            btnDelete.Visible = showDelete;
+            btnPickup.Visible = showPickup;
+            btnSendEmail.Visible = showEmail;
+            h2Title.InnerText = h2Text;
+            h3Title.InnerText = h3Text;
     }
 
     /// <summary>

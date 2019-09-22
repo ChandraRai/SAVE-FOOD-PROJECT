@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web.Security;
 using System.Web.UI;
 
 /// <summary>
@@ -17,19 +16,7 @@ public partial class EditAccountaspx : System.Web.UI.Page
     /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!User.Identity.IsAuthenticated || Session["CurrentUser"] == null)
-        {
-            FormsAuthentication.RedirectToLoginPage("Login.aspx");
-        }
-        else if (User.Identity.IsAuthenticated)
-        {
-            if (!Page.IsPostBack)
-            {
-                LoadData();
-            }
-            btnSave.PostBackUrl = Request.RawUrl;
-
-        }
+        ValidateUser();
     }
 
     /// <summary>
@@ -232,5 +219,18 @@ public partial class EditAccountaspx : System.Web.UI.Page
     protected void lnkEditPass_click(object sender, EventArgs e)
     {
         Response.Redirect("EditPassword.aspx");
+    }
+
+    /// <summary>
+    /// The ValidateUser
+    /// </summary>
+    public void ValidateUser()
+    {
+
+        if (!Page.IsPostBack)
+        {
+            LoadData();
+            btnSave.PostBackUrl = Request.RawUrl;
+        }
     }
 }
