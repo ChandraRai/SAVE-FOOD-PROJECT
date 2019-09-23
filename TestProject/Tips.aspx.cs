@@ -16,38 +16,10 @@ public partial class Tips : System.Web.UI.Page
     
     protected void btnTipsSave_Click(object sender, EventArgs e)
     {
-        SqlConnection conn;
-        SqlCommand comm;
-
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
-        comm = new SqlCommand(
-                    "INSERT INTO Posts (UId, Title, Post, Date) " +
-                    "VALUES (@UId, @Title, @Post, @Date)", conn);
-
-        comm.Parameters.AddWithValue("@UId", 1);
-        comm.Parameters.AddWithValue("@Title", txtTitle.Text);
-        comm.Parameters.AddWithValue("@Post", txtTips.Text);
-        comm.Parameters.AddWithValue("@Date", DateTime.Now);
-
-        // Exception Handling for empty fields to be done here first
-
-
-        //Execute query
-        try
-        {
-            conn.Open();
-            comm.ExecuteNonQuery();
-        }
-        catch
-        {
-
-        }
-        finally
-        {
-            conn.Close();
-            Response.Redirect("FoodItemList.aspx");
-        } 
+        Posts post = new Posts(Session["CurrentUser"].ToString(), txtTitle.Text, txtTips.Text, 0);
+        PostsManager.addPost(post);
+        Response.Redirect("FoodItemList.aspx");
+       
     }
 
     protected void btnTipsCancel_Click(object sender, EventArgs e)
