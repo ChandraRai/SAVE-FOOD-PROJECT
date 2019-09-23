@@ -32,9 +32,10 @@
                             <td>
                                 <div class="col-md-4 col-sm-6 foodItem-item">
                                     <asp:LinkButton CssClass="foodItem-link"
-                                        CommandArgument='<%#Eval("UserName")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId")+";"+Eval("Status")+";"+Eval("PostingDate") +";donor"%>'
-                                        runat="server" OnClick="GetModelData">
-                                        <%--<div class="foodItem-hover">
+                                        CommandArgument='<%#Eval("donor.UserName")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId")+";"+Eval("Status")+";"+Eval("PostingDate") +";donor"%>'
+                                        runat="server"
+                                        OnClick="GetModelData">
+                              <%--<div class="foodItem-hover">
                                     <div class="foodItem-hover-content">
                                       <i class="fas fa-plus fa-3x"></i>
                                     </div>
@@ -75,25 +76,26 @@
                     <ItemTemplate>
                         <div class="col-md-4 col-sm-6 foodItem-item">
                             <asp:LinkButton CssClass="foodItem-link"
-                                CommandArgument='<%#Eval("UserName")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId")+";"+Eval("Status")+";"+Eval("PickedUp")+";order"%>'
-                                runat="server" OnClick="GetModelData">
-                                <%--<div class="foodItem-hover">
+                                CommandArgument='<%#Eval("foodOrder.donor.UserName")  + ";" + Eval("foodOrder.FoodName") +";"+Eval("foodOrder.FoodDesc") +";"+Eval("FoodOrder.Expiry") +";"+Eval("foodOrder.FId")+";"+Eval("foodOrder.Status")+";"+Eval("postingDate")+";order"%>'
+                                runat="server"
+                                OnClick="GetModelData">
+                              <%--<div class="foodItem-hover">
                                     <div class="foodItem-hover-content">
                                       <i class="fas fa-plus fa-3x"></i>
                                     </div>
                               </div>--%>
-                                <div class="foodItem-caption">
-                                    <h4 style="color:black;"><%#Eval("foodName") %></h4>
-                                </div>
-                                <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
+                       <div class="foodItem-caption">
+                        <h4 style="color:black;"><%#Eval("foodOrder.foodName") %></h4>
+                       </div>
+                           <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
                             </asp:LinkButton>
                             <div class="foodItem-caption">
                                 <p class="text-muted">
                                     Order#: <%#Eval("OId") %>
                                     <br>
-                                    Ordered: <%#Eval("PickedUp") %>
+                                    Ordered: <%#Eval("postingDate") %>
                                     <br>
-                                    Expiry: <%#Eval("Expiry") %>
+                                    Expiry: <%#Eval("foodOrder.Expiry") %>
                                 </p>
                             </div>
                         </div>

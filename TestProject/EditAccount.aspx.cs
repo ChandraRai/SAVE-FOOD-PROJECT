@@ -1,39 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+
 /// <summary>
 /// Zhi Wei Su - 300899450
 /// Siyanthan Vijithamparanathan - 300925200
 /// SaveFood Web Application
 /// EditAccount.aspx.cs Code Behind
 /// </summary>
-
 public partial class EditAccountaspx : System.Web.UI.Page
 {
+    /// <summary>
+    /// The Page_Load
+    /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!User.Identity.IsAuthenticated || Session["CurrentUser"] == null)
-        {
-            FormsAuthentication.RedirectToLoginPage("Login.aspx");
-        }
-        else if (User.Identity.IsAuthenticated)
-        {
-            if (!Page.IsPostBack)
-            {
-                LoadData();
-            }
-            btnSave.PostBackUrl = Request.RawUrl;
-
-        }
+        ValidateUser();
     }
 
+    /// <summary>
+    /// The LoadData
+    /// </summary>
     private void LoadData()
     {
         string sucess = Request.QueryString["sucess"];
@@ -49,7 +37,7 @@ public partial class EditAccountaspx : System.Web.UI.Page
         }
         else
         {
-            if (verifyRole() == "0")
+            if (UserManager.getUser(Session["CurrentUser"].ToString(), "Username").privilege == 0)
             {
                 if (id == null)
                 {
@@ -75,47 +63,26 @@ public partial class EditAccountaspx : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// The ShowAdminInfo
+    /// </summary>
+    /// <param name="id">The id<see cref="string"/></param>
     protected void ShowAdminInfo(string id)
     {
-        SqlDataReader reader;
-        SqlConnection conn;
-        SqlCommand command;
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
-        command = new SqlCommand("SELECT Username, FirstName, LastName, Email, Phone, Password FROM USERS WHERE Id = @Id", conn);
-
- 
-        command.Parameters.AddWithValue("@Id",id);
-
-        try
+        User user = UserManager.getUser(id, "Id");
+        if (!user.Equals(null))
         {
-            conn.Open();
-            reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                lblUsername.InnerText = reader["Username"].ToString() + "'s Profile";
-                txtFirstName.Text = reader["FirstName"].ToString();
-                ViewState["First"] = reader["FirstName"].ToString();
-                txtLastName.Text = reader["LastName"].ToString();
-                ViewState["Last"] = reader["LastName"].ToString();
-                txtEmail.Text = reader["Email"].ToString();
-                ViewState["Email"] = reader["Email"].ToString();
-                txtPhone.Text = reader["Phone"].ToString();
-                ViewState["Phone"] = reader["Phone"].ToString();
-                lnkEditPass.Visible = false;
-
-            }
-            reader.Close();
+            lblUsername.InnerText = user.username;
+            txtFirstName.Text = user.firstName;
+            ViewState["First"] = user.firstName;
+            txtLastName.Text = user.lastName;
+            ViewState["Last"] = user.lastName;
+            txtEmail.Text = user.email;
+            ViewState["Email"] = user.email;
+            txtPhone.Text = user.phone;
+            ViewState["Phone"] = user.phone;
+            lnkEditPass.Visible = false;
         }
-        catch
-        {
-
-        }
-        finally
-        {
-            conn.Close();
-        }
-
     }
 
     /// <summary>
@@ -124,94 +91,56 @@ public partial class EditAccountaspx : System.Web.UI.Page
     /// </summary>
     protected void ShowInfo()
     {
-        SqlDataReader reader;
-        SqlConnection conn;
-        SqlCommand command;
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
-        command = new SqlCommand("SELECT Username, FirstName, LastName, Email, Phone, Password FROM USERS WHERE Username = @userName", conn);
-
-        command.Parameters.AddWithValue("@userName", Session["CurrentUser"].ToString());
-
-        try
-        {
-            conn.Open();
-            reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                lblUsername.InnerText = reader["Username"].ToString() + "'s Profile";
-                txtFirstName.Text = reader["FirstName"].ToString();
-                ViewState["First"] = reader["FirstName"].ToString();
-                txtLastName.Text = reader["LastName"].ToString();
-                ViewState["Last"] = reader["LastName"].ToString();
-                txtEmail.Text = reader["Email"].ToString();
-                ViewState["Email"] = reader["Email"].ToString();
-                txtPhone.Text = reader["Phone"].ToString();
-                ViewState["Phone"] = reader["Phone"].ToString();
-                //txtPassword.Attributes["type"] = "password";
-                //txtPassword.Text = reader["Password"].ToString();
-            }
-            reader.Close();
-        }
-        catch
-        {
-
-        }
-        finally
-        {
-            conn.Close();
-        }
-
+        User user = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        lblUsername.InnerText = user.username;
+        txtFirstName.Text = user.firstName;
+        ViewState["First"] = user.firstName;
+        txtLastName.Text = user.lastName;
+        ViewState["Last"] = user.lastName;
+        txtEmail.Text = user.email;
+        ViewState["Email"] = user.email;
+        txtPhone.Text = user.phone;
+        ViewState["Phone"] = user.phone;
     }
 
     /// <summary>
     /// Zhi Wei Su - 300899450
     /// This method updates information about the user
     /// </summary>
-    protected void UpdateProfile(string firstName, string lastName, string email, /*string password,*/ string phone)
+    /// <param name="firstName">The firstName<see cref="string"/></param>
+    /// <param name="lastName">The lastName<see cref="string"/></param>
+    /// <param name="email">The email<see cref="string"/></param>
+    /// <param name="phone">The phone<see cref="string"/></param>
+    protected void UpdateProfile(string firstName, string lastName, string email, string phone)
     {
-        SqlConnection conn;
-        SqlCommand comm;
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
+        string username = Session["CurrentUser"].ToString();
 
-        if (verifyRole() == "0")
+        if (UserManager.getUser(username, "Username").privilege == 0)
         {
-            comm = new SqlCommand("UPDATE USERS SET FirstName = @first, LastName = @last, Phone = @phone, Email = @email WHERE Username = @username", conn);
-            comm.Parameters.AddWithValue("@first", firstName);
-            comm.Parameters.AddWithValue("@last", lastName);
-            comm.Parameters.AddWithValue("@email", email);
-            comm.Parameters.AddWithValue("@phone", phone);
-            comm.Parameters.AddWithValue("@username", Session["CurrentUser"].ToString());
+
+            User currentUser = UserManager.getUser(username, "Username");
+            currentUser.firstName = firstName;
+            currentUser.lastName = lastName;
+            currentUser.email = email;
+            currentUser.phone = phone;
+            UserManager.UpdateUser(currentUser);
+
         }
         else
         {
-            comm = new SqlCommand("UPDATE USERS SET FirstName = @first, LastName = @last, Phone = @phone, Email = @email WHERE Id = @Id", conn);
-            comm.Parameters.AddWithValue("@first", firstName);
-            comm.Parameters.AddWithValue("@last", lastName);
-            comm.Parameters.AddWithValue("@email", email);
-            comm.Parameters.AddWithValue("@phone", phone);
-            comm.Parameters.AddWithValue("@Id", Request.QueryString["id"]);
-        }
-
-
-        try
-        {
-            conn.Open();
-            comm.ExecuteNonQuery();
-        }
-
-        catch
-        {
-
-        }
-
-        finally
-        {
-            conn.Close();
+            username = Request.QueryString["id"];
+            User currentUser = UserManager.getUser(username, "Username");
+            currentUser.firstName = firstName;
+            currentUser.lastName = lastName;
+            currentUser.email = email;
+            currentUser.phone = phone;
+            UserManager.UpdateUser(currentUser);
         }
     }
 
+    /// <summary>
+    /// The EditProfile
+    /// </summary>
     protected void EditProfile()
     {
         txtEmail.Enabled = true;
@@ -235,18 +164,19 @@ public partial class EditAccountaspx : System.Web.UI.Page
         || !txtEmail.Text.Equals(ViewState["Email"].ToString())
         || !txtPhone.Text.Equals(ViewState["Phone"].ToString()))
         {
-                if (Page.IsValid)
-                {
-                    UpdateProfile(txtFirstName.Text, txtLastName.Text, txtEmail.Text, txtPhone.Text);
-                    txtEmail.Enabled = false;
-                    txtPhone.Enabled = false;
-                    txtFirstName.Enabled = false;
-                    txtLastName.Enabled = false;
-                    btnEdit.Enabled = true;
-                    btnEdit.Visible = true;
-                    btnSave.Enabled = false;
-                    btnSave.Visible = false;
-                }
+            if (Page.IsValid)
+            {
+
+                UpdateProfile(txtFirstName.Text, txtLastName.Text, txtEmail.Text, txtPhone.Text);
+                txtEmail.Enabled = false;
+                txtPhone.Enabled = false;
+                txtFirstName.Enabled = false;
+                txtLastName.Enabled = false;
+                btnEdit.Enabled = true;
+                btnEdit.Visible = true;
+                btnSave.Enabled = false;
+                btnSave.Visible = false;
+            }
         }
         else
         {
@@ -261,46 +191,46 @@ public partial class EditAccountaspx : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// The btnEdit_Click
+    /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void btnEdit_Click(object sender, EventArgs e)
     {
         EditProfile();
     }
 
+    /// <summary>
+    /// The btnEdit_Save
+    /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void btnEdit_Save(object sender, EventArgs e)
     {
         SaveProfile();
     }
 
+    /// <summary>
+    /// The lnkEditPass_click
+    /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void lnkEditPass_click(object sender, EventArgs e)
     {
         Response.Redirect("EditPassword.aspx");
     }
 
-    protected string verifyRole()
+    /// <summary>
+    /// The ValidateUser
+    /// </summary>
+    public void ValidateUser()
     {
-        SqlConnection conn;
-        SqlCommand command;
-        string ROLE = "";
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
-        command = new SqlCommand("SELECT Privilege From USERS WHERE Username = @userName", conn);
-        command.Parameters.AddWithValue("@userName", HttpContext.Current.User.Identity.Name);
 
-        try
+        if (!Page.IsPostBack)
         {
-            conn.Open();
-            ROLE = command.ExecuteScalar().ToString();
-
+            LoadData();
+            btnSave.PostBackUrl = Request.RawUrl;
         }
-        catch
-        {
-
-        }
-        finally
-        {
-            conn.Close();
-        }
-        return ROLE;
     }
-
 }
