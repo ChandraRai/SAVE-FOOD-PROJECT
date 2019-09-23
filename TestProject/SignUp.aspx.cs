@@ -9,11 +9,6 @@ using System.Web.UI;
 /// </summary>
 public partial class SingIn : Page
 {
-    /// <summary>
-    /// The Page_Load
-    /// </summary>
-    /// <param name="sender">The sender<see cref="object"/></param>
-    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -21,10 +16,6 @@ public partial class SingIn : Page
 
         }
     }
-
-    /// <summary>
-    /// The InitializeComponent
-    /// </summary>
     private void InitializeComponent()
     {
     }
@@ -48,6 +39,7 @@ public partial class SingIn : Page
 
     /// <summary>
     /// Zhi Wei Su - 300899450
+    /// Siyanthan Vijithamparanathan - 300925200
     /// This method checks if the username already exists
     /// </summary>
     /// <returns>The <see cref="bool"/></returns>

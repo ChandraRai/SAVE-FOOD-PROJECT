@@ -45,13 +45,23 @@ public class User
         this.password = Sha1(Salt(password));
     }
 
+    public User(string username, string _email, string _phone, string _firstName, string _lastName)
+    {
+        this.username = username;
+        email = _email;
+        phone = _phone;
+        firstName = _firstName;
+        lastName = _lastName;
+
+    }
+
     //Getter and Setters
     public string uId { get; private set; }
-    public string username { get; private set; }
-    public string email { get; private set; }
-    public string phone { get; private set; }
-    public string firstName { get; private set; }
-    public string lastName { get; private set; }
+    public string username { get; set; }
+    public string email { get;set; }
+    public string phone { get; set; }
+    public string firstName { get; set; }
+    public string lastName { get; set; }
     public int privilege { get; private set; }
     public string password { get; private set; }
 
