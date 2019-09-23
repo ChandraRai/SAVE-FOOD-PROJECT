@@ -6,4 +6,3 @@
     <asp:Label runat="server" Text="Successfully Logged Out." ID="lblLoggedOut"></asp:Label>
     <asp:Button runat="server" Text="Return to login page." ID="btnReturn" />
 </asp:Content>
-
