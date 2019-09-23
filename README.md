@@ -18,6 +18,7 @@ Supervised by: `Prof. Hao Lac`, Centennial College
 | 1      | Changmin Shin       | 300895984   | cshin4@my.centennialcollege.ca    |
 | 2      | Alishan Shalwani    | 300902288   | ashalwan@my.centennialcollege.ca  |
 | 3      | Vadym Harkusha      | 300909484   | vharkush@my.centennialcollege.ca  |
+| 4      | Sahith Gudipati     | 300986770   | sgudipat@my.centennialcollege.ca  |
 
 
 ### Database Layer
