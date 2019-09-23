@@ -26,6 +26,7 @@ public partial class foodItemList : System.Web.UI.Page
             {
                 ShowFoodList();
                 DisplayHealthVideos();
+                DisplayHealthTips();
                 PageSetup(false, false, true, true, "DONATED FOOD LIST", "Request a listed food item below!");
             }
         }
@@ -195,7 +196,7 @@ public partial class foodItemList : System.Web.UI.Page
     /// </summary>
     protected void DisplayHealthVideos()
     {
-        rptrVideos.DataSource = PostsManager.getVideoList();
+        rptrVideos.DataSource = PostsManager.getPostsList(1);
         rptrVideos.DataBind();
     }
 
@@ -236,7 +237,7 @@ public partial class foodItemList : System.Web.UI.Page
     protected void AddVideoPost(string VId)
     {
         //Add Video to posts
-        Posts newPost = new Posts(Session["CurrentUser"].ToString(), VId, 1);
+        Posts newPost = new Posts(Session["CurrentUser"].ToString(),"" ,VId, 1);
         PostsManager.addPost(newPost);
         DisplayHealthVideos();
 
@@ -254,35 +255,10 @@ public partial class foodItemList : System.Web.UI.Page
         Response.Redirect("Tips.aspx");
     }
 
-
-    //
-
-
     protected void DisplayHealthTips()
     {
-        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        var conn = new SqlConnection(connectionString);
-
-        var comm = new SqlCommand(
-        "SELECT Posts.Title, Posts.Post, Posts.Date" +
-        " FROM Posts WHERE Posts.PostType = 0", conn);
-
-        try
-        {
-            conn.Open();
-            var reader = comm.ExecuteReader();
-            repeaterPost.DataSource = reader;
-            repeaterPost.DataBind();
-            reader.Close();
-        }
-        catch (Exception e)
-        {
-            //Console.WriteLine("Exception in DisplayHealthVideos -> " + e);
-        }
-        finally
-        {
-            conn.Close();
-        }
+        repeaterPost.DataSource = PostsManager.getPostsList(0);
+        repeaterPost.DataBind();
     }
 
 

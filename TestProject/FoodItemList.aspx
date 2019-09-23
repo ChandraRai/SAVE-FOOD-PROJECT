@@ -183,9 +183,9 @@
                 <asp:Repeater ID="repeaterPost" runat="server">
                     <ItemTemplate>
                         <div class="card-body">
-                            <h6><%#Eval("Title")%></h6>
-                            <p><%#Eval("Post") %></p>
-                            <p><small><i>Posted on: <%#Eval("Date") %></i></small></p>
+                            <h6><%#Eval("title")%></h6>
+                            <p><%#Eval("post") %></p>
+                            <p><small><i>Posted on: <%#Eval("postingDate") %></i></small></p>
                             <hr />
                         </div>
 
