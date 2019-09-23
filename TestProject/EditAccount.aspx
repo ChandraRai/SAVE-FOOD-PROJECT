@@ -14,7 +14,8 @@
         <p runat="server" id="lblUsername"><%#Eval("Username") %></p>
         <div class="form-group" runat="server">
             <p class="profile-mb-0">
-                <img src="images/defaultFace.png" alt="Avatar" style="border-radius: 50%; width: 100px; text-align: center; margin-right: auto; display: block;"></p>
+                <img src="images/defaultFace.png" alt="Avatar" 
+                style="border-radius: 50%; width: 100px; text-align: center; margin-right: auto; display: block;"></p>
             <%--<button class="profile-mb-30 btnEdit">Edit</button>--%><br />
             <p class="infoType" runat="server" id="lblFirst">First Name</p>
             <div class="input-group mb-3">

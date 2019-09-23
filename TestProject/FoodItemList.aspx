@@ -23,22 +23,17 @@
                 </div>
                 <%-- Search Bar --%>
                 <div class="search-container1">
-                    <asp:TextBox type="text" placeholder="Search.." name="search" runat="server" ID="txtSearch" OnTextChanged="SearchItem" AutoPostBack="True" />
+                    <asp:TextBox type="text" placeholder="Search.." name="search" runat="server" ID="txtSearch"
+                        OnTextChanged="SearchItem" AutoPostBack="True" />
                     <%--<asp:Button runat="server" ID="btnSearch" Text="Search" OnClick="btnSearch_Click"/>--%>
                 </div>
             </div>
 
 
             <div class="text-left">
-                <asp:Button runat="server" ID="btnAddItem" Text="Add Item" OnClick="btnAddItem_Click" class="btn btn-primary" type="submit" />
-
+                <asp:Button runat="server" ID="btnAddItem" Text="Add Item" OnClick="btnAddItem_Click"
+                    class="btn btn-primary" type="submit" />
             </div>
-
-
-
-
-
-
             <div class="row">
                 <asp:Repeater ID="repeaterFoodItems" runat="server">
                     <ItemTemplate>
@@ -47,17 +42,17 @@
                                 <div class="col-md-4 col-sm-6 foodItem-item">
                                     <asp:LinkButton CssClass="foodItem-link"
                                         CommandArgument='<%#Eval("UserName")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId") +";"+Eval("PostingDate")%>'
-                                        runat="server"
-                                        OnClick="GetModelData">
-                              <%--<div class="foodItem-hover">
+                                        runat="server" OnClick="GetModelData">
+                                        <%--<div class="foodItem-hover">
                                     <div class="foodItem-hover-content">
                                       <i class="fas fa-plus fa-3x"></i>
                                     </div>
                               </div>--%>
-                    <div class="foodItem-caption">
-                      <h4 <%# ChangeColor(Eval("Status").ToString(), (DateTime)Eval("Expiry")) %>><%#Eval("foodName") %></h4>
-                    </div>
-                           <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
+                                        <div class="foodItem-caption">
+                                            <h4 <%# ChangeColor(Eval("Status").ToString(), (DateTime)Eval("Expiry")) %>>
+                                                <%#Eval("foodName") %></h4>
+                                        </div>
+                                        <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
                                     </asp:LinkButton>
                                     <div class="foodItem-caption">
                                         <asp:Label runat="server" ID="lblStatus" Visible="false"></asp:Label>
@@ -98,7 +93,8 @@
                                 <h2 class="text-uppercase" runat="server" id="txtFoodName">Name of Food
                                 </h2>
                                 <a href="DonorInfo.aspx">
-                                    <p class="item-intro text-muted">Name of Donor : <span runat="server" id="txtDonor"></span></p>
+                                    <p class="item-intro text-muted">Name of Donor : <span runat="server"
+                                            id="txtDonor"></span></p>
                                 </a>
                                 <img class="img-fluid d-block mx-auto" src="images/01-full.jpg" alt="">
                                 <p runat="server" id="txtfoodDesc"></p>
@@ -109,10 +105,15 @@
 
 
 
-                                <asp:Button ID="btnPickup" runat="server" Text="+Pickup" CssClass="btn btn-primary" OnClick="btnPickup_Click" Visible="false" Display="Dynamic" />
-                                <asp:Button ID="btnSendEmail" runat="server" Text="Contact Donor" CssClass="btn btn-danger" OnClick="btnSendEmail_Click" Visible="false" Display="Dynamic" />
-                                <asp:Button ID="btnEdit" runat="server" Text="+Edit" CssClass="btn btn-primary" OnClick="EditItemsDirect_Click" Visible="false" Display="Dynamic" />
-                                <asp:Button ID="btnDelete" runat="server" Text="Delete" CssClass="btn btn-danger" Visible="false" Display="Dynamic" OnClick="btnDelete_Click" />
+                                <asp:Button ID="btnPickup" runat="server" Text="+Pickup" CssClass="btn btn-primary"
+                                    OnClick="btnPickup_Click" Visible="false" Display="Dynamic" />
+                                <asp:Button ID="btnSendEmail" runat="server" Text="Contact Donor"
+                                    CssClass="btn btn-danger" OnClick="btnSendEmail_Click" Visible="false"
+                                    Display="Dynamic" />
+                                <asp:Button ID="btnEdit" runat="server" Text="+Edit" CssClass="btn btn-primary"
+                                    OnClick="EditItemsDirect_Click" Visible="false" Display="Dynamic" />
+                                <asp:Button ID="btnDelete" runat="server" Text="Delete" CssClass="btn btn-danger"
+                                    Visible="false" Display="Dynamic" OnClick="btnDelete_Click" />
                                 <asp:HiddenField ID="hiddenFoodId" runat="server" />
 
 
@@ -138,8 +139,10 @@
             <p class="card-text">Eat Healthy Live Healthy</p>
 
             <div class="search-container1">
-                    <asp:TextBox type="text" placeholder="Youtube Link..." name="search" runat="server" ID="txtVideo" AutoPostBack="False" />
-                    <asp:Button runat="server" ID="btnShare" Text="Share" OnClick="btnShare_Click" class="btn btn-primary" type="submit" />
+                <asp:TextBox type="text" placeholder="Youtube Link..." name="search" runat="server" ID="txtVideo"
+                    AutoPostBack="False" />
+                <asp:Button runat="server" ID="btnShare" Text="Share" OnClick="btnShare_Click" class="btn btn-primary"
+                    type="submit" />
 
             </div>
 
@@ -158,7 +161,8 @@
                                     <!--Image-->
                                     <div class="view overlay z-depth-1-half">
                                         <div class="embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" src='https://www.youtube.com/embed/<%#Eval("Post") %>'></iframe>
+                                            <iframe class="embed-responsive-item"
+                                                src='https://www.youtube.com/embed/<%#Eval("Post") %>'></iframe>
                                         </div>
                                         <a href="">
                                             <div class="mask rgba-white-light"></div>
@@ -177,10 +181,20 @@
                             <b>Find the latest updated content here!</b>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><a href="https://www.canada.ca/en/health-canada.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Health Canada</a></li>
-                            <li class="list-group-item"><a href=" https://www.canada.ca/en/health-canada/services/food-nutrition.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Food and Nutrition</a></li>
-                            <li class="list-group-item"><a href="https://www.canada.ca/en/health-canada.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Health Canada</a></li>
-                            <li class="list-group-item"><a href=" https://www.canada.ca/en/health-canada/services/food-nutrition.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Food and Nutrition</a></li>
+                            <li class="list-group-item"><a href="https://www.canada.ca/en/health-canada.html"
+                                    class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Health
+                                    Canada</a></li>
+                            <li class="list-group-item"><a
+                                    href=" https://www.canada.ca/en/health-canada/services/food-nutrition.html"
+                                    class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Food and
+                                    Nutrition</a></li>
+                            <li class="list-group-item"><a href="https://www.canada.ca/en/health-canada.html"
+                                    class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Health
+                                    Canada</a></li>
+                            <li class="list-group-item"><a
+                                    href=" https://www.canada.ca/en/health-canada/services/food-nutrition.html"
+                                    class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Food and
+                                    Nutrition</a></li>
                         </ul>
                     </div>
                     <!--Grid row-->
@@ -191,8 +205,8 @@
                 <!-- Copyright -->
                 <div class="footer-copyright text-center py-3">
                     © 2019 Copyright: SaveFood
-   
-					<a href="https://mdbootstrap.com/education/bootstrap/">MDBootstrap.com</a>
+
+                    <a href="https://mdbootstrap.com/education/bootstrap/">MDBootstrap.com</a>
                 </div>
                 <!-- Copyright -->
 
