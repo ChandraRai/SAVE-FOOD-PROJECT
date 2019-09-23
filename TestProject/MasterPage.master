@@ -15,6 +15,7 @@
      <!-- Custom fonts for this template -->
      <link href="css/all.css" rel="stylesheet" type="text/css">
      <link rel="stylesheet" type="text/css" href="css/foodItem.css">
+    <link rel="stylesheet" type="text/css" href="css/tips.css">
 
     <style>
 
@@ -111,6 +112,7 @@
                   <a href="#" runat="server" id="menuContact">Contact Us</a>
                   <asp:LinkButton runat="server" OnClick="btnSignOut_Click">Logout</asp:LinkButton>
                 </div>
+
           <!-- Navigation -->
                      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
                      <div class="topnav">

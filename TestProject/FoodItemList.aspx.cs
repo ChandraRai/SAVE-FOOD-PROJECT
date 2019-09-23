@@ -23,7 +23,9 @@ public partial class foodItemList : System.Web.UI.Page
     /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        /*
+        DisplayHealthTips();
+        
+        
         if (!User.Identity.IsAuthenticated || Session["CurrentUser"] == null)
         {
             FormsAuthentication.RedirectToLoginPage("Login.aspx");
@@ -81,7 +83,7 @@ public partial class foodItemList : System.Web.UI.Page
                 }
             }
         }
-        */
+        
     }
 
     /// <summary>
@@ -481,7 +483,7 @@ public partial class foodItemList : System.Web.UI.Page
         string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
         conn = new SqlConnection(connectionString);
         SqlCommand comm2 = new SqlCommand("SELECT ID FROM Users WHERE Username = @username", conn);
-        comm2.Parameters.AddWithValue("@username", Session["CurrentUser"].ToString());
+        //comm2.Parameters.AddWithValue("@username", Session["CurrentUser"].ToString());
 
         try
         {
@@ -524,4 +526,41 @@ public partial class foodItemList : System.Web.UI.Page
             DisplayHealthVideos();
         }
     }
+
+    protected void btnHealthTipsPost_Click(object sender, EventArgs e) {
+        Response.Redirect("Tips.aspx");
+    }
+
+
+    //
+    
+
+    protected void DisplayHealthTips()
+    {
+        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+        var conn = new SqlConnection(connectionString);
+
+        var comm = new SqlCommand(
+        "SELECT Posts.Title, Posts.Post, Posts.Date" +
+        " FROM Posts WHERE Posts.PostType = 0", conn);
+
+        try
+        {
+            conn.Open();
+            var reader = comm.ExecuteReader();
+            repeaterPost.DataSource = reader;
+            repeaterPost.DataBind();
+            reader.Close();
+        }
+        catch (Exception e)
+        {
+            //Console.WriteLine("Exception in DisplayHealthVideos -> " + e);
+        }
+        finally
+        {
+            conn.Close();
+        }
+    }
+
+
 }

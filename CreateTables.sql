@@ -59,16 +59,21 @@ CREATE TABLE [dbo].[Comments]
 
 
 
+
+
 CREATE TABLE [dbo].[Posts]
 (
     [PId] INT IDENTITY(1,1) NOT NULL,
     CONSTRAINT FK_Posts FOREIGN KEY (UId)     
     REFERENCES Users(Id), 
-	[UId] INT NOT NULL,	
+	[UId] INT NOT NULL,
+    [Title] VARCHAR(MAX) NULL,	
     [Post] VARCHAR(MAX) NOT NULL, 
     [Date] DATETIME NOT NULL, 
+	[PostType] SMALLINT DEFAULT ((0)) NOT NULL,
     PRIMARY KEY CLUSTERED ([PId] ASC)
 );
+
 
 
 

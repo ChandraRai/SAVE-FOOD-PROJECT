@@ -20,7 +20,7 @@
                 <%-- Content Head --%>
                 <div class="col-lg-12 text-center head-div">
                     <h2 class="section-heading text-uppercase" id="h2Title" runat="server">Donated Food List</h2>
-                    <h3 class="FoodForYou" runat="server">Food for you.</h3>
+                    <h3 class="FoodForYou" id="h3Title" runat="server">Food for you.</h3>
                 </div>
                 <%-- Search Bar --%>
                 <div class="search-container1">
@@ -32,7 +32,7 @@
 
             <div class="text-left">
                 <asp:Button runat="server" ID="btnAddItem" Text="+Add Item" OnClick="btnAddItem_Click" class="btn btn-primary" type="submit" />
-
+                <asp:Button runat="server" ID="btnPost" OnClick="btnHealthTipsPost_Click" Text="Post Health Tips"  class="btn btn-primary" type="submit" />
             </div>
             <div class="row">
                 <asp:Repeater ID="repeaterFoodItems" runat="server">
@@ -128,7 +128,7 @@
             <div class="search-container1">
                 <asp:TextBox type="text" placeholder="Youtube link here..." Width="450px" name="search" runat="server" ID="txtVideo" AutoPostBack="False" />
                 <asp:Button runat="server" ID="btnShare" Text="Share" OnClick="btnShare_Click" class="btn btn-primary" type="submit" />
-
+                 
             </div>
 
             <!-- Footer -->
@@ -166,15 +166,29 @@
                         <div class="card-header">
                             <h5>Food and Health Tips </h5>
                             <b>Find the latest updated content here!</b>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Test text</li>
-                        </ul>
+                        </div>  
                     </div>
                 </div>
             </footer>
+
+            <!-- Health tips display-->
+            <div class="row">
+                <asp:Repeater ID="repeaterPost" runat="server">
+                    <ItemTemplate>
+                            <div class="card-body">
+                                <h6><%#Eval("Title")%></h6>
+                                <p><%#Eval("Post") %></p>
+                                <p><small><i>Posted on: <%#Eval("Date") %></i></small></p>
+                                <hr />
+                            </div>
+
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
         </div>
+
     </div>
+
     <!-- Popup Modal -->
     <div class="modal fade" id="popUpConfirm" role="dialog">
         <div class="modal-dialog">
