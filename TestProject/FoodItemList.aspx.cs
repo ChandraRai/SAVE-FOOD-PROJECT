@@ -13,14 +13,6 @@ using System.Web.UI.WebControls;
 /// </summary>
 public partial class foodItemList : System.Web.UI.Page
 {
-    /// <summary>
-    /// This method checks if the session value is null and if the user is authenticated
-    /// Unauthorized users will be redirected to the login page
-    /// Authorized users will be able to see the list of food
-    /// Zhi Wei Su - 300899450
-    /// </summary>
-    /// <param name="sender">The sender<see cref="object"/></param>
-    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
@@ -74,9 +66,6 @@ public partial class foodItemList : System.Web.UI.Page
     /// Zhi Wei Su 300899450
     /// This method changes the background color of the table row based on item status
     /// </summary>
-    /// <param name="status">The status<see cref="string"/></param>
-    /// <param name="date">The date<see cref="DateTime"/></param>
-    /// <returns>The <see cref="string"/></returns>
     protected string ChangeColor(string status, DateTime date)
     {
         if (DateTime.Now > date)
@@ -91,9 +80,6 @@ public partial class foodItemList : System.Web.UI.Page
     /// This method sets the toggle window popup properties
     /// Specific to individual food item
     /// Siyanthan Vijithamparanathan - 300925200
-    /// </summary>
-    /// <param name="sender">The sender<see cref="object"/></param>
-    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void GetModelData(object sender, EventArgs e)
     {
         string[] args = new string[5];
@@ -150,16 +136,17 @@ public partial class foodItemList : System.Web.UI.Page
 
         if (donor.uId == consumer.uId)
         {
+            showPopup(
+                    "Error",
+                    "You cannot pickup your own food.",
+                    "CANCEL"
+                    );
 
-            txtPopup.InnerText = "Error";
-            txtPopupText.InnerText = "You cannot pickup your own Food.";
-            hiddenFoodSelection.Value = "CANCEL";
-            ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openPopup();", true);
         }
         else
         {
             OrderManager.addOrder(new Order(hiddenFoodId.Value, consumer.uId));
-            FoodManager.updateFoodStatus(hiddenFoodId.Value);
+            FoodManager.updateFoodStatus(hiddenFoodId.Value,0);
             ShowFoodList();
         }
     }
@@ -168,8 +155,6 @@ public partial class foodItemList : System.Web.UI.Page
     /// Redirects to SendEmail page
     /// Saves selected user in session
     /// </summary>
-    /// <param name="sender">The sender<see cref="object"/></param>
-    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void btnSendEmail_Click(object sender, EventArgs e)
     {
         Session["UserEmail"] = txtDonor.InnerText;
@@ -179,11 +164,14 @@ public partial class foodItemList : System.Web.UI.Page
     /// <summary>
     /// Redirects to AddFoodItem page
     /// </summary>
-    /// <param name="sender">The sender<see cref="object"/></param>
-    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void btnAddItem_Click(object sender, EventArgs e)
     {
         Response.Redirect("AddFoodItem.aspx");
+    }
+
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        RemoveItem();
     }
 
     /// <summary>
@@ -195,21 +183,6 @@ public partial class foodItemList : System.Web.UI.Page
         ShowFoodListAll();
     }
 
-    /// <summary>
-    /// The btnDelete_Click
-    /// </summary>
-    /// <param name="sender">The sender<see cref="object"/></param>
-    /// <param name="e">The e<see cref="EventArgs"/></param>
-    protected void btnDelete_Click(object sender, EventArgs e)
-    {
-        RemoveItem();
-    }
-
-    /// <summary>
-    /// The EditItemsDirect_Click
-    /// </summary>
-    /// <param name="sender">The sender<see cref="object"/></param>
-    /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void EditItemsDirect_Click(object sender, EventArgs e)
     {
         Response.Redirect("EditItems.aspx?id=" + hiddenFoodId.Value);
@@ -225,22 +198,19 @@ public partial class foodItemList : System.Web.UI.Page
         rptrVideos.DataBind();
     }
 
-    /// <summary>
-    /// The btnShare_Click
-    /// </summary>
-    /// <param name="sender">The sender<see cref="object"/></param>
-    /// <param name="e">The e<see cref="EventArgs"/></param>
+    
     protected void btnShare_Click(object sender, EventArgs e)
     {
         if (txtVideo.Text != "")
         {
-            string VId = getVideoId(txtVideo.Text);
+            string VId = Posts.getVideoURL(txtVideo.Text);
             if (VId == "")
             {
-                txtPopup.InnerText = "Posting Error";
-                txtPopupText.InnerText = "Trouble getting Youtube Video. Please confirm the link provided is valid.";
-                btnConfirmPopup.Text = "Exit";
-                ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openPopup();", true);
+                showPopup(
+                    "Posting Error",
+                    "Trouble getting Youtube Video. Please confirm the link provided is valid.",
+                    "Exit"
+                    );
             }
             else
             {
@@ -248,31 +218,13 @@ public partial class foodItemList : System.Web.UI.Page
             }
         }
         else
-        {
-
-            txtPopup.InnerText = "Posting Error";
-            txtPopupText.InnerText = "Youtube Link must be provided.";
-            btnConfirmPopup.Text = "Exit";
-            ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openPopup();", true);
+        { 
+            showPopup(
+                    "Posting Error",
+                    "Youtube Link must be provided.",
+                    "Exit"
+                    );
         }
-    }
-
-    /// <summary>
-    /// The getVideoId
-    /// </summary>
-    /// <param name="Url">The Url<see cref="string"/></param>
-    /// <returns>The <see cref="string"/></returns>
-    protected string getVideoId(string Url)
-    {
-        string[] seperator = { "?", "v=" };
-        string video = txtVideo.Text;
-        string VId = "";
-        string[] id = video.Split(seperator, 3, StringSplitOptions.None);
-        if (id.Length == 3)
-        {
-            VId = id[2];
-        }
-        return VId;
     }
 
     /// <summary>
@@ -286,5 +238,13 @@ public partial class foodItemList : System.Web.UI.Page
         PostsManager.addPost(newPost);
         DisplayHealthVideos();
 
+    }
+
+    protected void showPopup(string title,string desc,string btnMessage)
+    {
+        txtPopup.InnerText = title;
+        txtPopupText.InnerText = desc;
+        btnConfirmPopup.Text = btnMessage;
+        ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openPopup();", true);
     }
 }

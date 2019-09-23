@@ -19,6 +19,47 @@ public class FoodManager
         //
     }
 
+    public static Food getFood(string value, string  field)
+    {
+        Food item = new Food();
+        SqlDataReader reader;
+        SqlConnection conn;
+        SqlCommand comm;
+        string command = "SELECT FoodItems.FId, FoodItems.FoodName, FoodItems.FoodDesc, FoodItems.Status, FoodItems.FoodCondition, FoodItems.Expiry, FoodItems.Id, FoodItems.PostingDate " +
+            "FROM FoodItems INNER JOIN USERS ON FoodItems.Id = USERS.Id WHERE "+ field + " = " + value;
+        User user = new User();
+
+
+        conn = new SqlConnection(connStr);
+        comm = new SqlCommand(command, conn);
+
+
+        try
+        {
+            conn.Open();
+            reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                item = new Food(reader["FId"].ToString(), reader["FoodName"].ToString(), reader["FoodDesc"].ToString(), Int32.Parse(reader["Status"].ToString()),
+                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString());
+            }
+
+            reader.Close();
+            return item;
+
+        }
+        catch
+        {
+            return item;
+        }
+        finally
+        {
+            conn.Close();
+        }
+
+    }
+
+
     public static LinkedList<Food> getUserFoodList()
     {
         LinkedList<Food> inventory = new LinkedList<Food>();
@@ -38,6 +79,43 @@ public class FoodManager
             while (reader.Read())
             {
                 Food item = new Food(reader["FId"].ToString(), reader["FoodName"].ToString(), reader["FoodDesc"].ToString(),Int32.Parse(reader["Status"].ToString()),
+                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString());
+                inventory.AddLast(item);
+            }
+            reader.Close();
+            return inventory;
+        }
+        catch
+        {
+            return null;
+        }
+        finally
+        {
+            conn.Close();
+        }
+
+    }
+
+    public static LinkedList<Food> getUserFoodList(string username)
+    {
+        LinkedList<Food> inventory = new LinkedList<Food>();
+
+        SqlDataReader reader;
+        SqlConnection conn;
+        SqlCommand comm;
+        string query = "SELECT FoodItems.FId, FoodItems.FoodName, FoodItems.FoodDesc, FoodItems.Status, FoodItems.FoodCondition, FoodItems.Expiry, FoodItems.Id, FoodItems.PostingDate " +
+            "FROM FoodItems INNER JOIN USERS ON FoodItems.Id = USERS.Id WHERE (FoodItems.Status = 1) AND FoodItems.Id=@UId";
+        conn = new SqlConnection(connStr);
+        comm = new SqlCommand(query, conn);
+        comm.Parameters.AddWithValue("@UId", UserManager.getUser(username,"UserName").uId);
+
+        try
+        {
+            conn.Open();
+            reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                Food item = new Food(reader["FId"].ToString(), reader["FoodName"].ToString(), reader["FoodDesc"].ToString(), Int32.Parse(reader["Status"].ToString()),
                     reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString());
                 inventory.AddLast(item);
             }
@@ -126,7 +204,7 @@ public class FoodManager
         }
     }
 
-    public static void updateFoodStatus(string foodId)
+    public static void updateFoodStatus(string foodId,int status)
     {
         SqlConnection conn;
         SqlCommand comm;
@@ -134,7 +212,7 @@ public class FoodManager
         conn = new SqlConnection(connStr);
         comm = new SqlCommand(query, conn);
         comm.Parameters.AddWithValue("@FId", foodId);
-        comm.Parameters.AddWithValue("@status", 0);
+        comm.Parameters.AddWithValue("@status", status);
 
         try
         {

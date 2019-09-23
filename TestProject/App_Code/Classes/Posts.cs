@@ -28,9 +28,22 @@ public class Posts
         pId = _pId;
         postingDate = Convert.ToDateTime(_postdate);
     }
+
     public string pId { get; private set; }
     public User user { get; private set; }
     public string post { get; set; }
     public DateTime postingDate { get; private set; }
     public int postType { get; private set; }
+
+    public static string getVideoURL(string url)
+    {
+        string[] seperator = { "?", "v=" };
+        string VId = "";
+        string[] id = url.Split(seperator, 3, StringSplitOptions.None);
+        if (id.Length == 3)
+        {
+            VId = id[2];
+        }
+        return VId;
+    }
 }
