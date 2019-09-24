@@ -28,12 +28,18 @@
                     <%--<asp:Button runat="server" ID="btnSearch" Text="Search" OnClick="btnSearch_Click"/>--%>
                 </div>
             </div>
-            <div class="text-left">
-                <asp:Button runat="server" ID="btnAddItem" Text="+Add Item" OnClick="btnAddItem_Click"
-                    class="btn btn-primary" type="submit" />
-                <asp:Button runat="server" ID="btnPost" OnClick="btnHealthTipsPost_Click" Text="Post Health Tips"
-                    class="btn btn-primary" type="submit" />
-            </div>
+            <div class="row">
+                <div class="col-10">
+                    <asp:Button runat="server" ID="btnAddItem" Text="+Add Item" OnClick="btnAddItem_Click"
+                        class="btn btn-primary" type="submit" />
+                    <asp:Button runat="server" ID="btnPost" OnClick="btnHealthTipsPost_Click" Text="Post Health Tips"
+                        class="btn btn-primary" type="submit" />
+                </div>
+                <div class="col-2">
+                      <asp:Button runat="server" ID="btnRequest" Text="Food Request"
+                        class="btn btn-primary" type="submit" OnClick="btnRequest_Click" />
+                </div>
+              </div>
             <div class="row">
                 <asp:Repeater ID="repeaterFoodItems" runat="server">
                     <ItemTemplate>
