@@ -260,6 +260,11 @@ public partial class foodItemList : System.Web.UI.Page
         repeaterPost.DataSource = PostsManager.getPostsList(0);
         repeaterPost.DataBind();
     }
+     protected void btnRequest_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Request.aspx");
+
+    }
 
 
 }
