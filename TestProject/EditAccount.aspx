@@ -7,6 +7,38 @@
             $('#popUpConfirm').modal('show');
         }
     </script>
+	
+	
+	<style>
+	h1[alt="Simple"] {color: black;}
+a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
+
+
+
+
+.starrating > input {display: none;}  /* Remove radio buttons */
+
+.starrating > label:before { 
+  content: "\f005"; /* Star */
+  margin: 1px;
+  font-size: 3em;
+  font-family: FontAwesome;
+  display: inline-block; 
+}
+
+.starrating > label
+{
+  color: #222222; /* Start color when not clicked */
+}
+
+.starrating > input:checked ~ label
+{ color: #ffca08 ; } /* Set yellow color when star checked */
+
+.starrating > input:hover ~ label
+{ color: #ffca08 ;  } /* Set yellow color when star hover */
+
+
+</style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="container editForm">
@@ -18,6 +50,18 @@
                     style="border-radius: 50%; width: 100px; text-align: center; margin-right: auto; display: block;">
             </p>
             <%--<button class="profile-mb-30 btnEdit">Edit</button>--%><br />
+				
+	        <center><b>My Ratings</b></center>
+ 
+	        <div class="container" align="right">
+		        <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
+			        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 star"></label>
+			        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 star"></label>
+			        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 star"></label>
+			        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 star"></label>
+			        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
+		        </div>
+	        </div>	
             <p class="infoType" runat="server" id="lblFirst">First Name</p>
             <div class="input-group mb-3">
                 <asp:TextBox ID="txtFirstName" runat="server" CssClass="form-control" aria-label="Username"
