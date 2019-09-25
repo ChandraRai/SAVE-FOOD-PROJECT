@@ -66,9 +66,9 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
                 </div>
             </div>
             <div class="text-left">
-                <asp:Button runat="server" ID="btnAddItem" Text="+Add Item" OnClick="btnAddItem_Click"
+                <asp:Button runat="server" ID="btnAddRating" Text="+Add Item" OnClick="btnAddItem_Click"
                     class="btn btn-primary" type="submit" />
-                <asp:Button runat="server" ID="btnPost" OnClick="btnHealthTipsPost_Click" Text="Post Health Tips"
+                <asp:Button runat="server" ID="btnPostRating" OnClick="btnHealthTipsPost_Click" Text="Post Health Tips"
                     class="btn btn-primary" type="submit" />
                 
 			<h1 class="text-center" alt="Simple">Rate Stats</h1>
@@ -84,6 +84,18 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
 			</div>	
                 
             </div>
+            <div class="row">
+                <div class="col-10">
+                    <asp:Button runat="server" ID="btnAddItem" Text="+Add Item" OnClick="btnAddItem_Click"
+                        class="btn btn-primary" type="submit" />
+                    <asp:Button runat="server" ID="btnPost" OnClick="btnHealthTipsPost_Click" Text="Post Health Tips"
+                        class="btn btn-primary" type="submit" />
+                </div>
+                <div class="col-2">
+                      <asp:Button runat="server" ID="btnRequest" Text="Food Request"
+                        class="btn btn-primary" type="submit" OnClick="btnRequest_Click" />
+                </div>
+              </div>
             <div class="row">
                 <asp:Repeater ID="repeaterFoodItems" runat="server">
                     <ItemTemplate>
