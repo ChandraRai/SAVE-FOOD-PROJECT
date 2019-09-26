@@ -130,6 +130,22 @@
                                     <li>Date Posted: <span runat="server" id="txtPostedDate"></span></li>
                                     <li>Expiry Date: <span runat="server" id="txtExpiry"></span></li>
                                 </ul>
+                                	
+								<h1> RATE US</h1>
+								
+	                            <span  onmouseover="starmark(this)" onclick="starmark(this)" id="1one" style="font-size:40px;cursor:pointer;"  class="fa fa-star checked"></span>
+	                            <span onmouseover="starmark(this)" onclick="starmark(this)" id="2one"  style="font-size:40px;cursor:pointer;" class="fa fa-star "></span>
+	                            <span onmouseover="starmark(this)" onclick="starmark(this)" id="3one"  style="font-size:40px;cursor:pointer;" class="fa fa-star "></span>
+	                            <span onmouseover="starmark(this)" onclick="starmark(this)" id="4one"  style="font-size:40px;cursor:pointer;" class="fa fa-star"></span>
+	                            <span onmouseover="starmark(this)" onclick="starmark(this)" id="5one"  style="font-size:40px;cursor:pointer;" class="fa fa-star"></span>
+	                            <br/>
+							
+
+	                            <button  onclick="result()" type="button" style="margin-top:10px;margin-left:5px;" class="btn btn-lg btn-success">Submit</button>
+
+                                
+                                
+                                
                                 <asp:Button ID="Button1" runat="server" Text="Edit Item" CssClass="btn btn-primary"
                                     OnClick="EditItemsDirect_Click" />
                                 <asp:Button ID="removeItem" runat="server" Text="Remove Item" CssClass="btn btn-danger"
