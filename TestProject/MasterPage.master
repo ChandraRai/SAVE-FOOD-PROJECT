@@ -5,7 +5,7 @@
 <head runat="server">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Welcome to SaveFood Software Project</title>
+    <title>Welcome to SaveFood Software Project II</title>
      <!-- Bootstrap core CSS -->
      <link href="css/bootstrap.css" rel="stylesheet">
      <link href="css/agency.css" rel="stylesheet">
@@ -147,10 +147,7 @@
      <div class="footer">
          <div class="myFooter">
               &copy; All Rights Reserved - 2019 Fall COMP - 313 <strong>SaveFood Team</strong>
-         </div>
-           
+         </div>           
      </div>
-           
-          
 </body>
 </html>
