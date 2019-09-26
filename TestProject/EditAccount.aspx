@@ -51,17 +51,17 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
             </p>
             <%--<button class="profile-mb-30 btnEdit">Edit</button>--%><br />
 				
-	        <center><b>My Ratings</b></center>
+	       			
+	        <center><b>Current Rating</b></center>
  
-	        <div class="container" align="right">
-		        <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-			        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 star"></label>
-			        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 star"></label>
-			        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 star"></label>
-			        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 star"></label>
-			        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
-		        </div>
-	        </div>	
+			<center>
+	        <span  onmouseover="starmark(this)" onclick="starmark(this)" id="1one" style="font-size:40px;cursor:pointer;"  class="fa fa-star checked"></span>
+	        <span onmouseover="starmark(this)" onclick="starmark(this)" id="2one"  style="font-size:40px;cursor:pointer;" class="fa fa-star "></span>
+	        <span onmouseover="starmark(this)" onclick="starmark(this)" id="3one"  style="font-size:40px;cursor:pointer;" class="fa fa-star "></span>
+	        <span onmouseover="starmark(this)" onclick="starmark(this)" id="4one"  style="font-size:40px;cursor:pointer;" class="fa fa-star"></span>
+	        <span onmouseover="starmark(this)" onclick="starmark(this)" id="5one"  style="font-size:40px;cursor:pointer;" class="fa fa-star"></span>
+	        <br/>
+			</center>
             <p class="infoType" runat="server" id="lblFirst">First Name</p>
             <div class="input-group mb-3">
                 <asp:TextBox ID="txtFirstName" runat="server" CssClass="form-control" aria-label="Username"
