@@ -139,6 +139,7 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
                                 <p runat="server" id="txtfoodDesc"></p>
                                 <ul class="list-inline">
                                     <li>Date Posted: <span runat="server" id="txtPosted"></span></li>
+                                    <li>Donor's rating: <span runat="server" id="txtRating"></span></li>
                                     <li>Expiry Date: <span runat="server" id="txtExpiry"></span></li>
                                 </ul>
 

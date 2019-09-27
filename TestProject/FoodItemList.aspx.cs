@@ -95,7 +95,45 @@ public partial class foodItemList : System.Web.UI.Page
         txtExpiry.InnerText = args[3];
         hiddenFoodId.Value = args[4];
         txtPosted.InnerText = args[5];
+        txtRating.InnerText = getDonorsRating();
         ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openModal();", true);
+    }
+
+    private string getDonorsRating()
+    {
+        var numberOfReviews = 0;
+        var sumOfRatings = 0;
+        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+        var conn = new SqlConnection(connectionString);
+        var comm = new SqlCommand(
+            "SELECT *  FROM dbo.Rate WHERE UId = @userId", conn);
+
+        var currentUser = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        comm.Parameters.AddWithValue("@userId", currentUser.uId);
+
+        try
+        {
+            conn.Open();
+            var reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                numberOfReviews++;
+                sumOfRatings += Convert.ToInt32(reader["Rate"].ToString());
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception was thrown in AddRating -> " + e);
+        }
+        finally
+        {
+            conn.Close();
+        }
+
+        if (numberOfReviews != 0)
+            return Math.Round((double)(sumOfRatings / numberOfReviews)).ToString();
+
+        return numberOfReviews.ToString();
     }
 
     /// <summary>
