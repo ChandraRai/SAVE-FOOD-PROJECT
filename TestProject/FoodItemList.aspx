@@ -36,50 +36,56 @@
                         class="btn btn-primary" type="submit" />
                 </div>
                 <div class="col-2">
-                      <asp:Button runat="server" ID="btnRequest" Text="Food Request"
+                    <asp:Button runat="server" ID="btnRequest" Text="Request Food"
                         class="btn btn-primary" type="submit" OnClick="btnRequest_Click" />
                 </div>
-              </div>
+            </div>
+
+            <!--This is for Food Item list -->
             <div class="row">
-                <asp:Repeater ID="repeaterFoodItems" runat="server">
-                    <ItemTemplate>
-                        <tr>
-                            <td>
-                                <div class="col-md-4 col-sm-6 foodItem-item">
-                                    <asp:LinkButton CssClass="foodItem-link"
-                                        CommandArgument='<%#Eval("donor.username")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId") +";"+Eval("PostingDate")%>'
-                                        runat="server"
-                                        OnClick="GetModelData">
-                              <%--<div class="foodItem-hover">
-                                    <div class="foodItem-hover-content">
-                                      <i class="fas fa-plus fa-3x"></i>
-                                    </div>
-                              </div>--%>
+                <div class="col-9" id="myItemListBorder">
+                    
+                        <asp:Repeater ID="repeaterFoodItems" runat="server">
+                            <ItemTemplate>
+                              <div class="col col-md-4" id="myItems">
+                                        <asp:LinkButton CssClass="foodItem-link"
+                                            CommandArgument='<%#Eval("donor.username")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId") +";"+Eval("PostingDate")%>' runat="server" OnClick="GetModelData">                            
                                         <div class="foodItem-caption">
                                             <h4 <%# ChangeColor(Eval("Status").ToString(), (DateTime)Eval("Expiry")) %>>
                                                 <%#Eval("foodName") %></h4>
                                         </div>
                                         <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
-                                    </asp:LinkButton>
-                                    <div class="foodItem-caption">
-                                        <asp:Label runat="server" ID="lblStatus" Visible="false"></asp:Label>
-                                        <p class="text-muted" style="color: black;">
-                                            Donor: <%#Eval("donor.username") %>
-                                            <br>
-                                            Posted: <%#Eval("PostingDate") %>
-                                            <br>
-                                            Expiry Date: <%#Eval("Expiry") %>
-                                        </p>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </ItemTemplate>
-                </asp:Repeater>
+                                        </asp:LinkButton>
+                                        <div class="foodItem-caption">
+                                            <asp:Label runat="server" ID="lblStatus" Visible="false"></asp:Label>
+                                            <p class="text-muted" style="color: black;">
+                                                Donor: <%#Eval("donor.username") %>
+                                                <br>
+                                                Posted: <%#Eval("PostingDate") %>
+                                                <br>
+                                                Expiry Date: <%#Eval("Expiry") %>
+                                            </p>
+                                        </div>
+                                   </div>
+                            </ItemTemplate>
+
+                        </asp:Repeater>
+                    </div>
+
+
+                <!--This is for Request Items -->
+                <div class="col-3">
+                    <ul>
+                        <li>
+                            <p>This space is for Request Items to be displayed!</p>
+                        </li>
+                    </ul>                    
+                </div>
             </div>
         </div>
     </section>
-    <!-- foodItem modal -->
+
+    <!-- foodItem model -->
     <!-- modal 1 -->
     <div class="foodItem-modal modal fade" id="foodItem1" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
