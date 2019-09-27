@@ -52,8 +52,9 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
             <%--<button class="profile-mb-30 btnEdit">Edit</button>--%><br />
 				
 	       			
-	        <center><b>Current Rating</b></center>
+	        <center><b>Current Rating: <p runat="server" id="lblRating"><%#Eval("Rate") %></p></b></center>
  
+            
 			<center>
 	        <span  onmouseover="starmark(this)" onclick="starmark(this)" id="1one" style="font-size:40px;cursor:pointer;"  class="fa fa-star checked"></span>
 	        <span onmouseover="starmark(this)" onclick="starmark(this)" id="2one"  style="font-size:40px;cursor:pointer;" class="fa fa-star "></span>
