@@ -46,6 +46,18 @@
     margin-left: 400px;
 }
 
+#myItems {
+    float:left; 
+}
+
+#myItemListBorder {  
+    margin-bottom: 10px;
+    margin-top: 5px;  
+    border: 1px ridge;
+    padding: 20px;
+    box-shadow: 5px 10px 8px 10px #888888;
+}
+
 
 
 
