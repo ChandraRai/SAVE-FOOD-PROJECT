@@ -15,3 +15,50 @@
     font-weight: 400;
     font-family: Arial;
 }
+
+.FoodForYou {
+    font-family: DancingScript-Regular;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.EatHealthy {
+    font-family: RalewayDots-Regular;
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+.card-header b {
+    font-family: RalewayDots-Regular;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.card-header h5 {
+    font-family: FrederickatheGreat-Regular;
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+.healthTipsDisplay {
+    margin-left: 400px;
+}
+
+#myItems {
+    float:left; 
+}
+
+#myItemListBorder {  
+    margin-bottom: 10px;
+    margin-top: 5px;  
+    border: 1px ridge;
+    padding: 20px;
+    box-shadow: 5px 10px 8px 10px #888888;
+}
+
+
+
+
+

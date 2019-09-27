@@ -18,16 +18,17 @@ public class PostsManager
         // TODO: Add constructor logic here
         //
     }
-    public static LinkedList<Posts> getVideoList()
+    public static LinkedList<Posts> getPostsList(int type)
     {
         LinkedList<Posts> videoList = new LinkedList<Posts>();
 
         SqlDataReader reader;
         SqlConnection conn;
         SqlCommand comm;
-        string query = "SELECT Posts.PId, Posts.Post, Posts.Date,Users.Username FROM Posts INNER JOIN Users on Posts.UId=Users.Id  WHERE Posts.PostType = 1";
+        string query = "SELECT Posts.PId, Posts.Title, Posts.Post, Posts.Date,Users.Username FROM Posts INNER JOIN Users on Posts.UId=Users.Id  WHERE Posts.PostType = @type ";
         conn = new SqlConnection(connStr);
         comm = new SqlCommand(query, conn);
+        comm.Parameters.AddWithValue("@type", type);
 
         try
         {
@@ -35,7 +36,8 @@ public class PostsManager
             reader = comm.ExecuteReader();
             while (reader.Read())
             {
-                Posts item = new Posts(reader["PId"].ToString(), reader["Post"].ToString(), reader["Date"].ToString(), reader["Username"].ToString());
+                Posts item = new Posts(reader["PId"].ToString(),reader["Title"].ToString(),
+                    reader["Post"].ToString(), reader["Date"].ToString(), reader["Username"].ToString());
                 videoList.AddLast(item);
             }
             reader.Close();
@@ -56,13 +58,14 @@ public class PostsManager
     {
         SqlConnection conn;
         SqlCommand comm;
-        string query = "INSERT INTO Posts (UId, Post,Date,PostType) VALUES (@UId, @Post, @Date,@PostType)";
+        string query = "INSERT INTO Posts (UId, Title, Post,Date,PostType) VALUES (@UId, @Title, @Post, @Date,@PostType)";
         conn = new SqlConnection(connStr);
         comm = new SqlCommand(query, conn);
         comm.Parameters.AddWithValue("@UId", post.user.uId);
         comm.Parameters.AddWithValue("@Date", DateTime.Now);
         comm.Parameters.AddWithValue("@Post", post.post);
         comm.Parameters.AddWithValue("@PostType", post.postType);
+        comm.Parameters.AddWithValue("@Title", post.title);
 
 
         try

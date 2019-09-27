@@ -15,6 +15,7 @@ public partial class foodItemList : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+
         if (!Page.IsPostBack)
         {
             if (UserManager.getUser(Session["CurrentUser"].ToString(), "Username").privilege == 1)
@@ -26,9 +27,11 @@ public partial class foodItemList : System.Web.UI.Page
             {
                 ShowFoodList();
                 DisplayHealthVideos();
+                DisplayHealthTips();
                 PageSetup(false, false, true, true, "DONATED FOOD LIST", "Request a listed food item below!");
             }
         }
+
     }
 
     protected void PageSetup(bool showEdit, bool showDelete, bool showPickup, bool showEmail, string h2Text, string h3Text)
@@ -92,7 +95,45 @@ public partial class foodItemList : System.Web.UI.Page
         txtExpiry.InnerText = args[3];
         hiddenFoodId.Value = args[4];
         txtPosted.InnerText = args[5];
+        txtRating.InnerText = getDonorsRating();
         ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openModal();", true);
+    }
+
+    private string getDonorsRating()
+    {
+        var numberOfReviews = 0;
+        var sumOfRatings = 0;
+        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+        var conn = new SqlConnection(connectionString);
+        var comm = new SqlCommand(
+            "SELECT *  FROM dbo.Rate WHERE UId = @userId", conn);
+
+        var currentUser = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        comm.Parameters.AddWithValue("@userId", currentUser.uId);
+
+        try
+        {
+            conn.Open();
+            var reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                numberOfReviews++;
+                sumOfRatings += Convert.ToInt32(reader["Rate"].ToString());
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception was thrown in AddRating -> " + e);
+        }
+        finally
+        {
+            conn.Close();
+        }
+
+        if (numberOfReviews != 0)
+            return Math.Round((double)(sumOfRatings / numberOfReviews)).ToString();
+
+        return numberOfReviews.ToString();
     }
 
     /// <summary>
@@ -146,7 +187,7 @@ public partial class foodItemList : System.Web.UI.Page
         else
         {
             OrderManager.addOrder(new Order(hiddenFoodId.Value, consumer.uId));
-            FoodManager.updateFoodStatus(hiddenFoodId.Value,0);
+            FoodManager.updateFoodStatus(hiddenFoodId.Value, 0);
             ShowFoodList();
         }
     }
@@ -194,11 +235,11 @@ public partial class foodItemList : System.Web.UI.Page
     /// </summary>
     protected void DisplayHealthVideos()
     {
-        rptrVideos.DataSource = PostsManager.getVideoList();
+        rptrVideos.DataSource = PostsManager.getPostsList(1);
         rptrVideos.DataBind();
     }
 
-    
+
     protected void btnShare_Click(object sender, EventArgs e)
     {
         if (txtVideo.Text != "")
@@ -215,10 +256,11 @@ public partial class foodItemList : System.Web.UI.Page
             else
             {
                 AddVideoPost(VId);
+                txtVideo.Text = "";
             }
         }
         else
-        { 
+        {
             showPopup(
                     "Posting Error",
                     "Youtube Link must be provided.",
@@ -234,17 +276,35 @@ public partial class foodItemList : System.Web.UI.Page
     protected void AddVideoPost(string VId)
     {
         //Add Video to posts
-        Posts newPost = new Posts(Session["CurrentUser"].ToString(), VId, 1);
+        Posts newPost = new Posts(Session["CurrentUser"].ToString(), "", VId, 1);
         PostsManager.addPost(newPost);
         DisplayHealthVideos();
 
     }
 
-    protected void showPopup(string title,string desc,string btnMessage)
+    protected void showPopup(string title, string desc, string btnMessage)
     {
         txtPopup.InnerText = title;
         txtPopupText.InnerText = desc;
         btnConfirmPopup.Text = btnMessage;
         ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openPopup();", true);
     }
+
+    protected void btnHealthTipsPost_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Tips.aspx");
+    }
+
+    protected void DisplayHealthTips()
+    {
+        repeaterPost.DataSource = PostsManager.getPostsList(0);
+        repeaterPost.DataBind();
+    }
+    protected void btnRequest_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Request.aspx");
+
+    }
+
+
 }

@@ -48,7 +48,6 @@
                             aria-label="Username" 
                             aria-describedby="basic-addon1" 
                             placeholder="Confirm Current Password"
-
                             Display="Dynamic"
                             TextMode="Password" />
                      </div>
@@ -62,11 +61,9 @@
               <asp:Label runat="server" ID="lblSaveMessage" Visible="false" Enabled="False" Display="Dynamic"/>
               <div class="container-login100-form-btn" style="height:10px">
                       <div class="btn-container">
-					    <button class="login100-form-btn" id="btnBack">
-						    <a href="EditAccount.aspx" class="a-link-back">
-						    Back 
-						    </a>
-					    </button>
+					              <button class="login100-form-btn" id="btnBack">
+						             <a href="EditAccount.aspx" class="a-link-back">Back</a>
+					              </button>
                           <asp:LinkButton runat="server"
                               Visible ="true"
                               Enabled="true"

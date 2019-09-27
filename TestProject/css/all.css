@@ -4224,3 +4224,49 @@ readers do not read off random characters that represent icons */
 .fas {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900; }
+
+
+
+@font-face {
+    font-family: DancingScript-Regular;
+    src: url(/fonts/DancingScript-Regular.ttf);
+}
+
+
+@font-face {
+    font-family: SairaStencilOne-Regular;
+    src: url(/fonts/SairaStencilOne-Regular.ttf);
+}
+
+
+@font-face {
+    font-family: Monoton-Regular;
+    src: url(/fonts/Monoton-Regular.ttf);
+}
+
+@font-face {
+    font-family: RalewayDots-Regular;
+    src: url(/fonts/RalewayDots-Regular.ttf);
+}
+
+@font-face {
+    font-family: FrederickatheGreat-Regular;
+    src: url(/fonts/FrederickatheGreat-Regular.ttf);
+}
+
+@font-face {
+    font-family: JosefinSlab-Thin;
+    src: url(/fonts/JosefinSlab-Thin.ttf);
+}
+
+.myFooter {
+    font-family: sans-serif;
+    font-size: small;
+}
+
+.request {
+    margin-left: 400px;
+}
+
+
+

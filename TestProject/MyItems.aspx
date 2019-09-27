@@ -40,10 +40,11 @@
                                       <i class="fas fa-plus fa-3x"></i>
                                     </div>
                               </div>--%>
-                      <div class="foodItem-caption">
-                        <h4 <%# ChangeColor(Eval("Status").ToString(), (DateTime)Eval("Expiry")) %>><%#Eval("foodName") %></h4>
-                       </div>
-                           <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
+                                        <div class="foodItem-caption">
+                                            <h4 <%# ChangeColor(Eval("Status").ToString(), (DateTime)Eval("Expiry")) %>>
+                                                <%#Eval("foodName") %></h4>
+                                        </div>
+                                        <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
                                     </asp:LinkButton>
                                     <div class="foodItem-caption">
                                         <p class="text-muted">
@@ -121,15 +122,20 @@
                                 <!-- Project modals Go Here -->
                                 <h2 class="text-uppercase" runat="server" id="txtFoodName">Name of Food
                                 </h2>
-                                <p class="item-intro text-muted">Name of Donor: <span runat="server" id="txtDonor"></span></p>
+                                <p class="item-intro text-muted">
+                                    Name of Donor: <span runat="server"
+                                        id="txtDonor"></span>
+                                </p>
                                 <img class="img-fluid d-block mx-auto" src="images/01-full.jpg" alt="">
                                 <p runat="server" id="txtfoodDesc"></p>
                                 <ul class="list-inline">
                                     <li>Date Posted: <span runat="server" id="txtPostedDate"></span></li>
                                     <li>Expiry Date: <span runat="server" id="txtExpiry"></span></li>
                                 </ul>
-                                <asp:Button ID="Button1" runat="server" Text="Edit Item" CssClass="btn btn-primary" OnClick="EditItemsDirect_Click" />
-                                <asp:Button ID="removeItem" runat="server" Text="Remove Item" CssClass="btn btn-danger" OnClick="removeItem_Click" />
+                                <asp:Button ID="Button1" runat="server" Text="Edit Item" CssClass="btn btn-primary"
+                                    OnClick="EditItemsDirect_Click" />
+                                <asp:Button ID="removeItem" runat="server" Text="Remove Item" CssClass="btn btn-danger"
+                                    OnClick="removeItem_Click" />
                                 <asp:HiddenField ID="hiddenFoodId" runat="server" />
                             </div>
                         </div>
@@ -152,7 +158,8 @@
                         <div class="col-lg-8 mx-auto">
                             <div class="modal-body">
                                 <!-- Project modals Go Here -->
-                                <h2 class="text-uppercase" runat="server" id="H1">Order Number:<span runat="server" id="txtFoodOrderId"></span>
+                                <h2 class="text-uppercase" runat="server" id="H1">Order Number:<span runat="server"
+                                    id="txtFoodOrderId"></span>
                                 </h2>
                                 <a href="DonorInfo.aspx">
                                     <p class="item-intro text-muted">
@@ -167,12 +174,27 @@
                                     <li>Orderd: <span runat="server" id="txtFoodOrdered"></span></li>
                                     <li>Expiry Date: <span runat="server" id="txtFoodOrderDate"></span></li>
                                 </ul>
+                                <asp:Panel runat="server" ID="panelRate">
+                                    <h2>Rate donor</h2>
+                                    <div class="container" align="center">
+                                        <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFive" />
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFour" />
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starThree" />
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starTwo" />
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starOne" Checked="true" />
+                                        </div>
+                                        <asp:Button runat="server" class="profile-mb-30" ID="btnSubmitRating" Text="Submit Rating"
+                                            Visible="true" Display="Dynamic" OnClick="btnSubmitRating_Click"></asp:Button>
+                                    </div>
+                                </asp:Panel>
                                 <div class="btn-container">
                                     <button class="btn btn-danger" id="btnBack">
-                                        <a class="a-link-back">Back  </a>
+                                        <a class="a-link-back">Back </a>
                                     </button>
                                 </div>
-                                <asp:Button ID="btnCancelOrder" runat="server" Text="Cancel Order" CssClass="btn btn-danger btn-cancelOrder" OnClick="btnCancelOrder_Click" />
+                                <asp:Button ID="btnCancelOrder" runat="server" Text="Cancel Order"
+                                    CssClass="btn btn-danger btn-cancelOrder" OnClick="btnCancelOrder_Click" />
                                 <asp:HiddenField ID="hiddenFoodOrderId" runat="server" />
                             </div>
                         </div>
@@ -195,7 +217,8 @@
                     <p><span runat="server" id="txtPopupText"></span></p>
                 </div>
                 <div class="modal-footer">
-                    <asp:Button ID="btnConfirmPopup" runat="server" Text="Confirm" CssClass="btn btn-warning" OnClick="btnConfirmPopup_Click" />
+                    <asp:Button ID="btnConfirmPopup" runat="server" Text="Confirm" CssClass="btn btn-warning"
+                        OnClick="btnConfirmPopup_Click" />
 
                 </div>
             </div>
@@ -203,4 +226,3 @@
         </div>
     </div>
 </asp:Content>
-
