@@ -28,6 +28,7 @@ public partial class foodItemList : System.Web.UI.Page
                 ShowFoodList();
                 DisplayHealthVideos();
                 DisplayHealthTips();
+                DisplayUserRequests();
                 PageSetup(false, false, true, true, "DONATED FOOD LIST", "Request a listed food item below!");
             }
         }
@@ -300,6 +301,13 @@ public partial class foodItemList : System.Web.UI.Page
         repeaterPost.DataSource = PostsManager.getPostsList(0);
         repeaterPost.DataBind();
     }
+
+    protected void DisplayUserRequests()
+    {
+        rptrRequests.DataSource = RequestManager.getRequests(0,UserManager.getUser(Session["CurrentUser"].ToString(),"Username").uId);
+        rptrRequests.DataBind();
+    }
+
     protected void btnRequest_Click(object sender, EventArgs e)
     {
         Response.Redirect("Request.aspx");
