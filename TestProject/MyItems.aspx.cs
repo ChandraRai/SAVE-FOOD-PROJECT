@@ -19,6 +19,7 @@ public partial class MyItems : System.Web.UI.Page
         {
             ShowFoodList();
             ShowOrderFoodList();
+
         }     
         
     }
@@ -175,5 +176,55 @@ public partial class MyItems : System.Web.UI.Page
         txtPopupText.InnerText = desc;
         hiddenFoodSelection.Value = message;
         ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openPopup();", true);
+    }
+
+    protected void btnSubmitRating_Click(object sender, EventArgs e)
+    {
+        var rating = GetRatingFromInput();
+        AddRating(rating);
+    }
+
+    private void AddRating(int rating)
+    {
+        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+        var conn = new SqlConnection(connectionString);
+        var comm = new SqlCommand(
+            "INSERT INTO dbo.Rate (UId, OId, Rate, Date)" +
+            "VALUES(@userId, @orderId, @rate, @date)", conn);
+
+        var currentUser = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        comm.Parameters.AddWithValue("@userId", currentUser.uId);
+        comm.Parameters.AddWithValue("@orderId", hiddenFoodOrderId.Value);
+        comm.Parameters.AddWithValue("@rate", rating);
+        comm.Parameters.AddWithValue("@date", DateTime.Now);;
+
+        try
+        {
+            conn.Open();
+            comm.ExecuteNonQuery();
+            Response.Redirect("MyItems.aspx");
+
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine("Exception was thrown in AddRating -> " + e);
+        }
+        finally
+        {
+            conn.Close();
+        }
+    }
+
+    private int GetRatingFromInput()
+    {
+        if (starOne.Checked)
+            return 1;
+        if (starTwo.Checked)
+            return 2;
+        if (starThree.Checked)
+            return 3;
+        if (starFour.Checked)
+            return 4;
+        return 5;
     }
 }

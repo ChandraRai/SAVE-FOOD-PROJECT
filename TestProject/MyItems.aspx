@@ -122,30 +122,16 @@
                                 <!-- Project modals Go Here -->
                                 <h2 class="text-uppercase" runat="server" id="txtFoodName">Name of Food
                                 </h2>
-                                <p class="item-intro text-muted">Name of Donor: <span runat="server"
-                                        id="txtDonor"></span></p>
+                                <p class="item-intro text-muted">
+                                    Name of Donor: <span runat="server"
+                                        id="txtDonor"></span>
+                                </p>
                                 <img class="img-fluid d-block mx-auto" src="images/01-full.jpg" alt="">
                                 <p runat="server" id="txtfoodDesc"></p>
                                 <ul class="list-inline">
                                     <li>Date Posted: <span runat="server" id="txtPostedDate"></span></li>
                                     <li>Expiry Date: <span runat="server" id="txtExpiry"></span></li>
                                 </ul>
-                                	
-								<h1> RATE US</h1>
-								
-	                            <span  onmouseover="starmark(this)" onclick="starmark(this)" id="1one" style="font-size:40px;cursor:pointer;"  class="fa fa-star checked"></span>
-	                            <span onmouseover="starmark(this)" onclick="starmark(this)" id="2one"  style="font-size:40px;cursor:pointer;" class="fa fa-star "></span>
-	                            <span onmouseover="starmark(this)" onclick="starmark(this)" id="3one"  style="font-size:40px;cursor:pointer;" class="fa fa-star "></span>
-	                            <span onmouseover="starmark(this)" onclick="starmark(this)" id="4one"  style="font-size:40px;cursor:pointer;" class="fa fa-star"></span>
-	                            <span onmouseover="starmark(this)" onclick="starmark(this)" id="5one"  style="font-size:40px;cursor:pointer;" class="fa fa-star"></span>
-	                            <br/>
-							
-
-	                            <button  onclick="result()" type="button" style="margin-top:10px;margin-left:5px;" class="btn btn-lg btn-success">Submit</button>
-
-                                
-                                
-                                
                                 <asp:Button ID="Button1" runat="server" Text="Edit Item" CssClass="btn btn-primary"
                                     OnClick="EditItemsDirect_Click" />
                                 <asp:Button ID="removeItem" runat="server" Text="Remove Item" CssClass="btn btn-danger"
@@ -173,7 +159,7 @@
                             <div class="modal-body">
                                 <!-- Project modals Go Here -->
                                 <h2 class="text-uppercase" runat="server" id="H1">Order Number:<span runat="server"
-                                        id="txtFoodOrderId"></span>
+                                    id="txtFoodOrderId"></span>
                                 </h2>
                                 <a href="DonorInfo.aspx">
                                     <p class="item-intro text-muted">
@@ -188,6 +174,19 @@
                                     <li>Orderd: <span runat="server" id="txtFoodOrdered"></span></li>
                                     <li>Expiry Date: <span runat="server" id="txtFoodOrderDate"></span></li>
                                 </ul>
+                                <h2>Rate donor</h2>
+
+                                <div class="container" align="center">
+                                    <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
+                                        <asp:RadioButton runat="server" GroupName="rating" ID="starFive"/>
+                                        <asp:RadioButton runat="server" GroupName="rating" ID="starFour"/>
+                                        <asp:RadioButton runat="server" GroupName="rating" ID="starThree"/>
+                                        <asp:RadioButton runat="server" GroupName="rating" ID="starTwo"/>
+                                        <asp:RadioButton runat="server" GroupName="rating" ID="starOne" Checked="true"/>
+                                    </div>
+                                    <asp:Button runat="server" class="profile-mb-30" ID="btnSubmitRating" Text="Submit Rating"
+                                        Visible="true" Display="Dynamic" OnClick="btnSubmitRating_Click"></asp:Button>
+                                </div>
                                 <div class="btn-container">
                                     <button class="btn btn-danger" id="btnBack">
                                         <a class="a-link-back">Back </a>

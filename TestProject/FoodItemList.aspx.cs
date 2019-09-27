@@ -15,7 +15,7 @@ public partial class foodItemList : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        /*
+
         if (!Page.IsPostBack)
         {
             if (UserManager.getUser(Session["CurrentUser"].ToString(), "Username").privilege == 1)
@@ -31,7 +31,6 @@ public partial class foodItemList : System.Web.UI.Page
                 PageSetup(false, false, true, true, "DONATED FOOD LIST", "Request a listed food item below!");
             }
         }
-        */
 
     }
 

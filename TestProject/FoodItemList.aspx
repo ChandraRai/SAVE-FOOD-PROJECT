@@ -16,9 +16,6 @@
 	h1[alt="Simple"] {color: black;}
 a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
 
-
-
-
 .starrating > input {display: none;}  /* Remove radio buttons */
 
 .starrating > label:before { 
@@ -39,6 +36,7 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
 
 .starrating > input:hover ~ label
 { color: #ffca08 ;  } /* Set yellow color when star hover */
+
 
 
 </style>
@@ -64,25 +62,6 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
                         OnTextChanged="SearchItem" AutoPostBack="True" />
                     <%--<asp:Button runat="server" ID="btnSearch" Text="Search" OnClick="btnSearch_Click"/>--%>
                 </div>
-            </div>
-            <div class="text-left">
-                <asp:Button runat="server" ID="btnAddRating" Text="+Add Item" OnClick="btnAddItem_Click"
-                    class="btn btn-primary" type="submit" />
-                <asp:Button runat="server" ID="btnPostRating" OnClick="btnHealthTipsPost_Click" Text="Post Health Tips"
-                    class="btn btn-primary" type="submit" />
-                
-			<h1 class="text-center" alt="Simple">Rate Stats</h1>
- 
-			<div class="container" align="right">
-				<div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-					<input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 star"></label>
-					<input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 star"></label>
-					<input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 star"></label>
-					<input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 star"></label>
-					<input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
-				</div>
-			</div>	
-                
             </div>
             <div class="row">
                 <div class="col-10">
@@ -150,17 +129,6 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
                         <div class="col-lg-8 mx-auto">
                             <div class="modal-body">
                                 <!-- Project modals Go Here -->
-                                	<h1 class="text-center" alt="Simple">Please rate our service!</h1>
- 
-								<div class="container" align="right">
-									<div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-										<input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 star"></label>
-										<input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 star"></label>
-										<input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 star"></label>
-										<input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 star"></label>
-										<input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
-									</div>
-								</div>	
                                 <h2 class="text-uppercase" runat="server" id="txtFoodName">Name of Food
                                 </h2>
                                 <a href="DonorInfo.aspx">
