@@ -70,7 +70,37 @@ public partial class MyItems : System.Web.UI.Page
             hiddenFoodOrderId.Value = args[4];
             txtFoodOrdered.InnerText = args[6];
             ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openModalOrder();", true);
+            panelRate.Visible = !isOrderRated();
         }
+    }
+
+    private bool isOrderRated()
+    {
+        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+        var conn = new SqlConnection(connectionString);
+        var comm = new SqlCommand(
+            "SELECT *  FROM dbo.Rate WHERE " +
+            "UId = @userId AND OId = @orderId", conn);
+
+        var currentUser = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        comm.Parameters.AddWithValue("@userId", currentUser.uId);
+        comm.Parameters.AddWithValue("@orderId", txtFoodOrderId.InnerText);
+
+        try
+        {
+            conn.Open();
+            var reader = comm.ExecuteReader();
+            return reader.HasRows;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception was thrown in AddRating -> " + e);
+        }
+        finally
+        {
+            conn.Close();
+        }
+        return false;
     }
 
     /// <summary>
@@ -182,6 +212,7 @@ public partial class MyItems : System.Web.UI.Page
     {
         var rating = GetRatingFromInput();
         AddRating(rating);
+        Response.Redirect("MyItems.aspx");
     }
 
     private void AddRating(int rating)
@@ -194,7 +225,7 @@ public partial class MyItems : System.Web.UI.Page
 
         var currentUser = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
         comm.Parameters.AddWithValue("@userId", currentUser.uId);
-        comm.Parameters.AddWithValue("@orderId", hiddenFoodOrderId.Value);
+        comm.Parameters.AddWithValue("@orderId", txtFoodOrderId.InnerText);
         comm.Parameters.AddWithValue("@rate", rating);
         comm.Parameters.AddWithValue("@date", DateTime.Now);;
 
@@ -202,8 +233,7 @@ public partial class MyItems : System.Web.UI.Page
         {
             conn.Open();
             comm.ExecuteNonQuery();
-            Response.Redirect("MyItems.aspx");
-
+            
         }
         catch(Exception e)
         {

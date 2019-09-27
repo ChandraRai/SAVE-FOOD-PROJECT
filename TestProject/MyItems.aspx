@@ -174,19 +174,20 @@
                                     <li>Orderd: <span runat="server" id="txtFoodOrdered"></span></li>
                                     <li>Expiry Date: <span runat="server" id="txtFoodOrderDate"></span></li>
                                 </ul>
-                                <h2>Rate donor</h2>
-
-                                <div class="container" align="center">
-                                    <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-                                        <asp:RadioButton runat="server" GroupName="rating" ID="starFive"/>
-                                        <asp:RadioButton runat="server" GroupName="rating" ID="starFour"/>
-                                        <asp:RadioButton runat="server" GroupName="rating" ID="starThree"/>
-                                        <asp:RadioButton runat="server" GroupName="rating" ID="starTwo"/>
-                                        <asp:RadioButton runat="server" GroupName="rating" ID="starOne" Checked="true"/>
+                                <asp:Panel runat="server" ID="panelRate">
+                                    <h2>Rate donor</h2>
+                                    <div class="container" align="center">
+                                        <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFive" />
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFour" />
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starThree" />
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starTwo" />
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starOne" Checked="true" />
+                                        </div>
+                                        <asp:Button runat="server" class="profile-mb-30" ID="btnSubmitRating" Text="Submit Rating"
+                                            Visible="true" Display="Dynamic" OnClick="btnSubmitRating_Click"></asp:Button>
                                     </div>
-                                    <asp:Button runat="server" class="profile-mb-30" ID="btnSubmitRating" Text="Submit Rating"
-                                        Visible="true" Display="Dynamic" OnClick="btnSubmitRating_Click"></asp:Button>
-                                </div>
+                                </asp:Panel>
                                 <div class="btn-container">
                                     <button class="btn btn-danger" id="btnBack">
                                         <a class="a-link-back">Back </a>
