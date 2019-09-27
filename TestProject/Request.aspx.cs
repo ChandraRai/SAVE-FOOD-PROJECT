@@ -16,4 +16,14 @@ public partial class Request : System.Web.UI.Page
     {
         Response.Redirect("FoodItemList.aspx");
     }
+
+    protected void btnRequestSubmit_Click(object sender, EventArgs e)
+    {
+        if (Page.IsValid)
+        {
+            UserRequest request = new UserRequest(Session["CurrentUser"].ToString(), txtFoodType.Text, txtDetails.Text, txtQty.Text);
+            RequestManager.addRequest(request);
+            Response.Redirect("FoodItemList.aspx");
+        }
+    }
 }
