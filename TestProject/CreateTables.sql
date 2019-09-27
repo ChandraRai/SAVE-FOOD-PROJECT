@@ -51,11 +51,15 @@ CREATE TABLE [dbo].[Comments]
 
 
 
+CREATE TABLE [dbo].[Rate]
+(
+   [RId] INT IDENTITY(1,1) NOT NULL,
+   [UId] INT NOT NULL,
+   CONSTRAINT FK_Rate FOREIGN KEY (UId) REFERENCES Users(Id),
+   [OId] INT NOT NULL,
+   CONSTRAINT FK_Orders FOREIGN KEY (OId) REFERENCES Orders(OId),
+   [Rate] SMALLINT DEFAULT ((0)) NOT NULL,
+   [Date] DATETIME NOT NULL,
+   PRIMARY KEY CLUSTERED ([RId] ASC)
+);
 
-
-
-
-
-
-
-   
