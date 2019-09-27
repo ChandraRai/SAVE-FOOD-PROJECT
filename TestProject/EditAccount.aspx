@@ -7,6 +7,38 @@
             $('#popUpConfirm').modal('show');
         }
     </script>
+	
+	
+	<style>
+	h1[alt="Simple"] {color: black;}
+a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
+
+
+
+
+.starrating > input {display: none;}  /* Remove radio buttons */
+
+.starrating > label:before { 
+  content: "\f005"; /* Star */
+  margin: 1px;
+  font-size: 3em;
+  font-family: FontAwesome;
+  display: inline-block; 
+}
+
+.starrating > label
+{
+  color: #222222; /* Start color when not clicked */
+}
+
+.starrating > input:checked ~ label
+{ color: #ffca08 ; } /* Set yellow color when star checked */
+
+.starrating > input:hover ~ label
+{ color: #ffca08 ;  } /* Set yellow color when star hover */
+
+
+</style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="container editForm">
@@ -18,6 +50,19 @@
                     style="border-radius: 50%; width: 100px; text-align: center; margin-right: auto; display: block;">
             </p>
             <%--<button class="profile-mb-30 btnEdit">Edit</button>--%><br />
+				
+	       			
+	        <center><b>Current Rating: <p runat="server" id="lblRating"><%#Eval("Rate") %></p></b></center>
+ 
+            
+			<center>
+	        <span  onmouseover="starmark(this)" onclick="starmark(this)" id="1one" style="font-size:40px;cursor:pointer;"  class="fa fa-star checked"></span>
+	        <span onmouseover="starmark(this)" onclick="starmark(this)" id="2one"  style="font-size:40px;cursor:pointer;" class="fa fa-star "></span>
+	        <span onmouseover="starmark(this)" onclick="starmark(this)" id="3one"  style="font-size:40px;cursor:pointer;" class="fa fa-star "></span>
+	        <span onmouseover="starmark(this)" onclick="starmark(this)" id="4one"  style="font-size:40px;cursor:pointer;" class="fa fa-star"></span>
+	        <span onmouseover="starmark(this)" onclick="starmark(this)" id="5one"  style="font-size:40px;cursor:pointer;" class="fa fa-star"></span>
+	        <br/>
+			</center>
             <p class="infoType" runat="server" id="lblFirst">First Name</p>
             <div class="input-group mb-3">
                 <asp:TextBox ID="txtFirstName" runat="server" CssClass="form-control" aria-label="Username"

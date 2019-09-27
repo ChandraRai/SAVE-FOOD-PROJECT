@@ -10,6 +10,41 @@
             $('#popUpConfirm').modal('show');
         }
     </script>
+    
+    	
+<style>
+	h1[alt="Simple"] {color: black;}
+a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
+
+.starrating > input {display: none;}  /* Remove radio buttons */
+
+.starrating > label:before { 
+  content: "\f005"; /* Star */
+  margin: 1px;
+  font-size: 5em;
+  font-family: FontAwesome;
+  display: inline-block; 
+}
+
+.starrating > label
+{
+  color: #222222; /* Start color when not clicked */
+}
+
+.starrating > input:checked ~ label
+{ color: #ffca08 ; } /* Set yellow color when star checked */
+
+.starrating > input:hover ~ label
+{ color: #ffca08 ;  } /* Set yellow color when star hover */
+
+
+
+</style>
+	
+
+	
+    
+    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -110,6 +145,7 @@
                                 <p runat="server" id="txtfoodDesc"></p>
                                 <ul class="list-inline">
                                     <li>Date Posted: <span runat="server" id="txtPosted"></span></li>
+                                    <li>Donor's rating: <span runat="server" id="txtRating"></span></li>
                                     <li>Expiry Date: <span runat="server" id="txtExpiry"></span></li>
                                 </ul>
 
