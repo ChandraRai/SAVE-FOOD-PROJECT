@@ -23,6 +23,15 @@ public class UserRequest
         Status = 0;
         Date = DateTime.Now;
     }
+    public UserRequest(string _URId,string _itemType,string _itemDetails, string _ammount,string _date,string UId, int _status)
+    {
+        URId = _URId;
+        ItemType = _itemType;
+        ItemDetails = _itemDetails;
+        Amount = _ammount;
+        Status = _status;
+        user = UserManager.getUser(UId, "Id");
+    }
     //Getter and Setters
     public string URId { get; private set; }
     public string ItemType { get; set; }

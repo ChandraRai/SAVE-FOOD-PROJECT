@@ -111,9 +111,14 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
                 <!--This is for Request Items -->
                 <div class="col-3">
                     <ul>
-                        <li>
-                            <p>This space is for Request Items to be displayed!</p>
-                        </li>
+                        <asp:Repeater ID="rptrRequests" runat="server">
+                            <ItemTemplate>
+                                <li>
+                                    <p><%#Eval("ItemType")%> Posted by:<%#Eval("user.username")%></p>
+                                </li>
+                            </ItemTemplate>
+
+                        </asp:Repeater>
                     </ul>                    
                 </div>
             </div>

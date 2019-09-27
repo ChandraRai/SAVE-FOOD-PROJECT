@@ -48,4 +48,48 @@ public class RequestManager
             conn.Close();
         }
     }
+
+    public static LinkedList<UserRequest> getRequests(int type,string id)
+    {
+        LinkedList<UserRequest> inventory = new LinkedList<UserRequest>();
+
+        SqlDataReader reader;
+        SqlConnection conn;
+        SqlCommand comm;
+        string query = "SELECT URId, UId, ItemType, ItemDetails, Amount, Date, Status FROM UserRequest WHERE Status=@type AND UId!=@Id";
+        conn = new SqlConnection(connStr);
+        comm = new SqlCommand(query, conn);
+        comm.Parameters.AddWithValue("@type", type);
+        comm.Parameters.AddWithValue("@Id", id);
+
+        try
+        {
+            conn.Open();
+            reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                UserRequest item = new UserRequest(
+                    reader["URId"].ToString(),
+                    reader["ItemType"].ToString(),
+                    reader["ItemDetails"].ToString(),
+                    reader["Amount"].ToString(),
+                    reader["Date"].ToString(),
+                    reader["UId"].ToString(),
+                    Int32.Parse(reader["Status"].ToString())
+                    );
+                inventory.AddLast(item);
+            }
+            reader.Close();
+            return inventory;
+        }
+        catch
+        {
+            return null;
+        }
+        finally
+        {
+            conn.Close();
+        }
+
+    }
 }
