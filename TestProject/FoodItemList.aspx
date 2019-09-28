@@ -78,8 +78,7 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
 
             <!--This is for Food Item list -->
             <div class="row">
-                <div class="col-9" id="myItemListBorder">
-                    
+                <div class="col-9" id="myItemListBorder">                    
                         <asp:Repeater ID="repeaterFoodItems" runat="server">
                             <ItemTemplate>
                               <div class="col col-md-4" id="myItems">
@@ -103,30 +102,34 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
                                         </div>
                                    </div>
                             </ItemTemplate>
-
                         </asp:Repeater>
                     </div>
 
 
                 <!--This is for Request Items -->
                 <div class="col-3">
-                    <ul>
-                        <asp:Repeater ID="rptrRequests" runat="server">
-                            <ItemTemplate>
-                                <li>
-                                    <p><%#Eval("ItemType")%> Posted by:<%#Eval("user.username")%></p>
-                                </li>
-                            </ItemTemplate>
-
-                        </asp:Repeater>
-                    </ul>                    
+                    <asp:Repeater ID="rptrRequests" runat="server">
+                        <ItemTemplate>
+                            <h5 style="margin-left:50px; margin-top: 20px">
+                                <a data-toggle="collapse" data-target="#items" href="#items">+ <%#Eval("ItemType")%></a>
+                            </h5>
+                            <div id="items" class="collapse" style="margin-left:50px" >
+                                <p>User-Request Id: <%#Eval("URId")%></p>
+                                <p>Item Details: <%#Eval("ItemDetails")%></p>
+                                <p>Amount: <%#Eval("Amount")%></p>
+                                <p>Posted Date: <%#Eval("Date")%></p>
+                                <p><i>Posted by: <%#Eval("user.username")%></i></p>
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </div>
             </div>
         </div>
+      
     </section>
 
     <!-- foodItem model -->
-    <!-- modal 1 -->
+    <!-- model 1 -->
     <div class="foodItem-modal modal fade" id="foodItem1" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
