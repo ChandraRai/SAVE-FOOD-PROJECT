@@ -13,6 +13,70 @@
         }
 
     </script>
+    <style>
+		.star-rating {
+  font-size: 0;
+  white-space: nowrap;
+  display: inline-block;
+  width: 250px;
+  height: 50px;
+  overflow: hidden;
+  position: relative;
+  background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+  background-size: contain;
+}
+.star-rating i {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 20%;
+  z-index: 1;
+  background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+  background-size: contain;
+}
+.star-rating input {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  opacity: 0;
+  display: inline-block;
+  width: 20%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+  position: relative;
+}
+.star-rating input:hover + i,
+.star-rating input:checked + i {
+  opacity: 1;
+}
+.star-rating i ~ i {
+  width: 40%;
+}
+.star-rating i ~ i ~ i {
+  width: 60%;
+}
+.star-rating i ~ i ~ i ~ i {
+  width: 80%;
+}
+.star-rating i ~ i ~ i ~ i ~ i {
+  width: 100%;
+}
+::after,
+::before {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  text-align: center;
+  vertical-align: middle;
+}
+
+	</style>
+
+    
     <link rel="stylesheet" type="text/css" href="css/master.css">
 </asp:Content>
 
@@ -174,18 +238,23 @@
                                     <li>Orderd: <span runat="server" id="txtFoodOrdered"></span></li>
                                     <li>Expiry Date: <span runat="server" id="txtFoodOrderDate"></span></li>
                                 </ul>
-                                <asp:Panel runat="server" ID="panelRate">
+                                 <asp:Panel runat="server" ID="panelRate">
                                     <h2>Rate donor</h2>
                                     <div class="container" align="center">
-                                        <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFive" />
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFour" />
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starThree" />
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starTwo" />
+                                       
+																	<span class="star-rating">
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFive" /><i></i>
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFour" /><i></i>
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starThree" /><i></i>
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starTwo" /><i></i>
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starOne" Checked="true" />
-                                        </div>
+										</br>								</span>
+                              <br />
                                         <asp:Button runat="server" class="profile-mb-30" ID="btnSubmitRating" Text="Submit Rating"
                                             Visible="true" Display="Dynamic" OnClick="btnSubmitRating_Click"></asp:Button>
+
+
+
                                     </div>
                                 </asp:Panel>
                                 <div class="btn-container">
