@@ -13,8 +13,7 @@
                 <div class="form-group">
                     <asp:TextBox ID="txtFoodType" type="text" class="form-control" placeholder="Food Type (e.g. Green veg, Canned etc.)"
                         aria-label="txtFoodType" aria-describedby="basic-addon1" runat="server" Enabled="true" />
-                <asp:RequiredFieldValidator ID="rfvType" runat="server" ErrorMessage="Food Type is Required"
-                     ControlToValidate="txtFoodType" Display="Dynamic"></asp:RequiredFieldValidator>
+                <span id="myerror"></span>
                 </div>
                 <div class="form-group">
                     <asp:TextBox ID="txtQty" type="text" class="form-control" placeholder="Qty (if any)"
@@ -30,14 +29,13 @@
                         <p id="characterLeft" class="help-block ">Please write in details.</p>
                     </span>
 
-                    <asp:RequiredFieldValidator ID="rfvDesc" runat="server" ErrorMessage="Food Details are Required"
-                    ControlToValidate="txtDetails" Display="Dynamic"></asp:RequiredFieldValidator>
+                    
                 </div>
                
 
 
                 <asp:Button class="btn btn-primary" ID="btnRequestSubmit" runat="server" Text="Submit" OnClick="btnRequestSubmit_Click"/>
-                <asp:Button class="btn btn-primary" ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" />
+                <asp:Button class="btn btn-primary" ID="Button1" runat="server" Text="Cancel" OnClick="btnCancel_Click"/>
             </div>
         </div>
     

@@ -82,7 +82,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <section class="bg-light">
+    <section class="">
         <div class="container">
             <div class="row">
                 <%-- Content Head --%>
@@ -144,8 +144,8 @@
                 <div class="col-3">
                     <asp:Repeater ID="rptrRequests" runat="server">
                         <ItemTemplate>
-                            <h5 style="margin-left:50px; margin-top: 20px">
-                                <a data-toggle="collapse" data-target="#items" href="#items">+ <%#Eval("ItemType")%></a>
+                            <h5 style="margin-left:50px; margin-top: 20px;">
+                                <a data-toggle="collapse" data-target="#items" style="text-decoration: none; color:darkgray;" href="#items">+ <%#Eval("ItemType")%></a>
                             </h5>
                             <div id="items" class="collapse" style="margin-left:50px" >
                                 <p>User-Request Id: <%#Eval("URId")%></p>
@@ -193,7 +193,7 @@
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starFour" /><i></i>
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starThree" /><i></i>
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starTwo" /><i></i>
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starOne" Checked="true" />
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="starOne" /><i></i>
 					   </br>
 					</span>
 					
@@ -295,11 +295,11 @@
 
     </div>
 
-    <!-- Popup Modal -->
+    <!-- Popup Model -->
     <div class="modal fade" id="popUpConfirm" role="dialog">
         <div class="modal-dialog">
 
-            <!-- Modal content-->
+            <!-- Model content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"><span runat="server" id="txtPopup"></span></h4>

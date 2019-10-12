@@ -82,11 +82,11 @@
                     style="border-radius: 50%; width: 100px; text-align: center; margin-right: auto; display: block;">
             </p>
             <%--<button class="profile-mb-30 btnEdit">Edit</button>--%><br />
-		
- 
-             			
-	        <center><b>Current Rating: <p runat="server" id="lblRating"><%#Eval("Rate") %></p></b></center>
-                                                            <center>
+
+
+
+            <center><b>Current Rating: <p runat="server" id="lblRating"><%#Eval("Rate") %></p></b></center>
+            <center>
             
 			                              <span class="star-rating">
 	      
@@ -94,7 +94,7 @@
                                             <asp:RadioButton runat="server" GroupName="rating" ID="RadioButton2" /><i></i>
                                             <asp:RadioButton runat="server" GroupName="rating" ID="RadioButton3" /><i></i>
                                             <asp:RadioButton runat="server" GroupName="rating" ID="RadioButton4" /><i></i>
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="RadioButton5" Checked="true" />
+                                            <asp:RadioButton runat="server" GroupName="rating" ID="RadioButton5" /><i></i>
 			
 
 		

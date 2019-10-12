@@ -19,11 +19,18 @@ public partial class Request : System.Web.UI.Page
 
     protected void btnRequestSubmit_Click(object sender, EventArgs e)
     {
-        if (Page.IsValid)
-        {
+        //if (Page.IsValid)
+        //{
+        if (txtFoodType.Text != "") {
             UserRequest request = new UserRequest(Session["CurrentUser"].ToString(), txtFoodType.Text, txtDetails.Text, txtQty.Text);
             RequestManager.addRequest(request);
             Response.Redirect("FoodItemList.aspx");
+        } else
+        {
+            String s = "Please enter food type.";
+            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + s + "');", true);
         }
+            
+        //}
     }
 }
