@@ -9,6 +9,7 @@
 
         function populateRating() {
             var currentRating = parseInt(document.querySelector('.lblRating').innerText);
+            document.querySelector('.lblRating').innerText = '';
             var stars = document.querySelectorAll('.star-rating svg');
 
             for (var i = 0; i < currentRating; i++) {
@@ -50,10 +51,7 @@
                     style="border-radius: 50%; width: 100px; text-align: center; margin-right: auto; display: block;">
             </p>
             <%--<button class="profile-mb-30 btnEdit">Edit</button>--%><br />
-
-
-
-            <center><b>Current Rating: <p runat="server" id="lblRating" class="lblRating"><%#Eval("Rate") %></p></b></center>
+            <center><b>Your Rating: <p runat="server" id="lblRating" class="lblRating"><%#Eval("Rate") %></p></b></center>
             <center>
 			        <div class="star-rating">
                         <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>

@@ -3,82 +3,49 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
     <script type="text/javascript">
+        function populateRating() {
+            var currentRating = parseInt(document.querySelector('.lblRating').innerText);
+            var stars = document.querySelectorAll('.star-rating svg');
+
+            for (var i = 0; i < currentRating; i++) {
+                stars[i].setAttribute('class', 'filled-star')
+            }
+        }
+
         function openModal() {
             $('#foodItem1').modal('show');
+            populateRating();
         }
         function openPopup() {
             $('#popUpConfirm').modal('show');
         }
     </script>
-    
-    	
- <style>
-		.star-rating {
-  font-size: 0;
-  white-space: nowrap;
-  display: inline-block;
-  width: 250px;
-  height: 50px;
-  overflow: hidden;
-  position: relative;
-  background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
-  background-size: contain;
-}
-.star-rating i {
-  opacity: 0;
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 20%;
-  z-index: 1;
-  background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
-  background-size: contain;
-}
-.star-rating input {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  opacity: 0;
-  display: inline-block;
-  width: 20%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  z-index: 2;
-  position: relative;
-}
-.star-rating input:hover + i,
-.star-rating input:checked + i {
-  opacity: 1;
-}
-.star-rating i ~ i {
-  width: 40%;
-}
-.star-rating i ~ i ~ i {
-  width: 60%;
-}
-.star-rating i ~ i ~ i ~ i {
-  width: 80%;
-}
-.star-rating i ~ i ~ i ~ i ~ i {
-  width: 100%;
-}
-::after,
-::before {
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  text-align: center;
-  vertical-align: middle;
-}
-
-	</style>
 
 
-	
-    
-    
+    <style>
+        .filled-star {
+            fill: yellow!important;
+        }
+
+        .star-rating svg {
+            fill: #DCDCDC;
+        }
+
+        ::after,
+        ::before {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+
+
+
+
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -112,42 +79,42 @@
 
             <!--This is for Food Item list -->
             <div class="row">
-                <div class="col-9" id="myItemListBorder">                    
-                        <asp:Repeater ID="repeaterFoodItems" runat="server">
-                            <ItemTemplate>
-                              <div class="col col-md-4" id="myItems">
-                                        <asp:LinkButton CssClass="foodItem-link"
-                                            CommandArgument='<%#Eval("donor.username")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId") +";"+Eval("PostingDate")%>' runat="server" OnClick="GetModelData">                            
+                <div class="col-9" id="myItemListBorder">
+                    <asp:Repeater ID="repeaterFoodItems" runat="server">
+                        <ItemTemplate>
+                            <div class="col col-md-4" id="myItems">
+                                <asp:LinkButton CssClass="foodItem-link"
+                                    CommandArgument='<%#Eval("donor.username")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId") +";"+Eval("PostingDate")%>' runat="server" OnClick="GetModelData">                            
                                         <div class="foodItem-caption">
                                             <h4 <%# ChangeColor(Eval("Status").ToString(), (DateTime)Eval("Expiry")) %>>
                                                 <%#Eval("foodName") %></h4>
                                         </div>
                                         <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
-                                        </asp:LinkButton>
-                                        <div class="foodItem-caption">
-                                            <asp:Label runat="server" ID="lblStatus" Visible="false"></asp:Label>
-                                            <p class="text-muted" style="color: black;">
-                                                Donor: <%#Eval("donor.username") %>
-                                                <br>
-                                                Posted: <%#Eval("PostingDate") %>
-                                                <br>
-                                                Expiry Date: <%#Eval("Expiry") %>
-                                            </p>
-                                        </div>
-                                   </div>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </div>
+                                </asp:LinkButton>
+                                <div class="foodItem-caption">
+                                    <asp:Label runat="server" ID="lblStatus" Visible="false"></asp:Label>
+                                    <p class="text-muted" style="color: black;">
+                                        Donor: <%#Eval("donor.username") %>
+                                        <br>
+                                        Posted: <%#Eval("PostingDate") %>
+                                        <br>
+                                        Expiry Date: <%#Eval("Expiry") %>
+                                    </p>
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
 
 
                 <!--This is for Request Items -->
                 <div class="col-3">
                     <asp:Repeater ID="rptrRequests" runat="server">
                         <ItemTemplate>
-                            <h5 style="margin-left:50px; margin-top: 20px;">
-                                <a data-toggle="collapse" data-target="#items" style="text-decoration: none; color:darkgray;" href="#items">+ <%#Eval("ItemType")%></a>
+                            <h5 style="margin-left: 50px; margin-top: 20px;">
+                                <a data-toggle="collapse" data-target="#items" style="text-decoration: none; color: darkgray;" href="#items">+ <%#Eval("ItemType")%></a>
                             </h5>
-                            <div id="items" class="collapse" style="margin-left:50px" >
+                            <div id="items" class="collapse" style="margin-left: 50px">
                                 <p>User-Request Id: <%#Eval("URId")%></p>
                                 <p>Item Details: <%#Eval("ItemDetails")%></p>
                                 <p>Amount: <%#Eval("Amount")%></p>
@@ -159,7 +126,7 @@
                 </div>
             </div>
         </div>
-      
+
     </section>
 
     <!-- foodItem model -->
@@ -180,23 +147,34 @@
                                 <h2 class="text-uppercase" runat="server" id="txtFoodName">Name of Food
                                 </h2>
                                 <a href="DonorInfo.aspx">
-                                    <p class="item-intro text-muted">Name of Donor : <span runat="server"
-                                            id="txtDonor"></span></p>
+                                    <p class="item-intro text-muted">
+                                        Name of Donor : <span runat="server"
+                                            id="txtDonor"></span>
+                                    </p>
                                 </a>
                                 <img class="img-fluid d-block mx-auto" src="images/01-full.jpg" alt="">
                                 <p runat="server" id="txtfoodDesc"></p>
                                 <ul class="list-inline">
                                     <li>Date Posted: <span runat="server" id="txtPosted"></span></li>
-                                    <li>Donor's rating: <span runat="server" id="txtRating"></span></li>
-						<span class="star-rating">
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFive" /><i></i>
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFour" /><i></i>
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starThree" /><i></i>
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starTwo" /><i></i>
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starOne" /><i></i>
-					   </br>
-					</span>
-					
+                                    <li>Donor's rating: <span runat="server" id="txtRating" class="lblRating"></span></li>
+                                    <div class="star-rating">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24">
+                                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24">
+                                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24">
+                                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24">
+                                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24">
+                                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
+                                        </svg>
+                                    </div>
+
                                     <li>Expiry Date: <span runat="server" id="txtExpiry"></span></li>
                                 </ul>
 
@@ -250,13 +228,13 @@
                                                 src='https://www.youtube.com/embed/<%#Eval("Post") %>'></iframe>
                                         </div>
                                         <div class="foodItem-caption">
-                                        <asp:Label runat="server" ID="lblStatus" Visible="false"></asp:Label>
-                                        <p class="text-muted" style="color: black;">
-                                            Posted By: <%#Eval("user.username") %>
-                                            <br>
-                                            Date Posted: <%#Eval("postingDate") %>
-                                        </p>
-                                    </div>
+                                            <asp:Label runat="server" ID="lblStatus" Visible="false"></asp:Label>
+                                            <p class="text-muted" style="color: black;">
+                                                Posted By: <%#Eval("user.username") %>
+                                                <br>
+                                                Date Posted: <%#Eval("postingDate") %>
+                                            </p>
+                                        </div>
                                         <a href="">
                                             <div class="mask rgba-white-light"></div>
                                         </a>
