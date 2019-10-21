@@ -12,69 +12,35 @@
     </script>
     
     	
- <style>
-		.star-rating {
-  font-size: 0;
-  white-space: nowrap;
-  display: inline-block;
-  width: 250px;
-  height: 50px;
-  overflow: hidden;
-  position: relative;
-  background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
-  background-size: contain;
-}
-.star-rating i {
-  opacity: 0;
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 20%;
-  z-index: 1;
-  background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
-  background-size: contain;
-}
-.star-rating input {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  opacity: 0;
-  display: inline-block;
-  width: 20%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  z-index: 2;
-  position: relative;
-}
-.star-rating input:hover + i,
-.star-rating input:checked + i {
-  opacity: 1;
-}
-.star-rating i ~ i {
-  width: 40%;
-}
-.star-rating i ~ i ~ i {
-  width: 60%;
-}
-.star-rating i ~ i ~ i ~ i {
-  width: 80%;
-}
-.star-rating i ~ i ~ i ~ i ~ i {
-  width: 100%;
-}
-::after,
-::before {
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  text-align: center;
-  vertical-align: middle;
+<style>
+	h1[alt="Simple"] {color: black;}
+a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
+
+.starrating > input {display: none;}  /* Remove radio buttons */
+
+.starrating > label:before { 
+  content: "\f005"; /* Star */
+  margin: 1px;
+  font-size: 5em;
+  font-family: FontAwesome;
+  display: inline-block; 
 }
 
-	</style>
+.starrating > label
+{
+  color: #222222; /* Start color when not clicked */
+}
 
+.starrating > input:checked ~ label
+{ color: #ffca08 ; } /* Set yellow color when star checked */
+
+.starrating > input:hover ~ label
+{ color: #ffca08 ;  } /* Set yellow color when star hover */
+
+
+
+</style>
+	
 
 	
     
@@ -82,7 +48,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <section class="">
+    <section class="bg-light">
         <div class="container">
             <div class="row">
                 <%-- Content Head --%>
@@ -133,7 +99,12 @@
                                                 <br>
                                                 Expiry Date: <%#Eval("Expiry") %>
                                             </p>
+
+
+
+
                                         </div>
+
                                    </div>
                             </ItemTemplate>
                         </asp:Repeater>
@@ -144,8 +115,8 @@
                 <div class="col-3">
                     <asp:Repeater ID="rptrRequests" runat="server">
                         <ItemTemplate>
-                            <h5 style="margin-left:50px; margin-top: 20px;">
-                                <a data-toggle="collapse" data-target="#items" style="text-decoration: none; color:darkgray;" href="#items">+ <%#Eval("ItemType")%></a>
+                            <h5 style="margin-left:50px; margin-top: 20px">
+                                <a data-toggle="collapse" data-target="#items" href="#items">+ <%#Eval("ItemType")%></a>
                             </h5>
                             <div id="items" class="collapse" style="margin-left:50px" >
                                 <p>User-Request Id: <%#Eval("URId")%></p>
@@ -153,9 +124,69 @@
                                 <p>Amount: <%#Eval("Amount")%></p>
                                 <p>Posted Date: <%#Eval("Date")%></p>
                                 <p><i>Posted by: <%#Eval("user.username")%></i></p>
+
+								<a href="#" data-toggle="modal" data-target="#myModal">Accept Request</a>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h4 class="modal-title">Accept Request</h4>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-4" for="id">User-Request Id:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="id"  name="id">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-4" for=details">Item Details:</label><br />
+      <div class="col-sm-10">          
+        <input type="text" class="form-control" id="details" placeholder="Item Details" name="details">
+      </div>
+    </div>
+		 <div class="form-group">
+      <label class="control-label col-sm-4" for="amount">Amount:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="amount" placeholder="Amount" name="amount">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-4" for="date">Date:</label>
+      <div class="col-sm-10">          
+        <input type="date" class="form-control" id="date" placeholder="Date" name="date">
+      </div>
+    </div>
+		 <div class="form-group">
+      <label class="control-label col-sm-4" for="posted">Posted By:</label>
+      <div class="col-sm-10">          
+        <input type="text" class="form-control" id="posted" placeholder="Posted By" name="date">
+      </div>
+    </div>
+		  <input type="submit" class="btn btn-info" value="Submit Button">
+		
+    </div>
+
+  </div>
+</div>
+
+
+
+
                             </div>
+
+
+
                         </ItemTemplate>
+
+
                     </asp:Repeater>
+
+
                 </div>
             </div>
         </div>
@@ -188,15 +219,6 @@
                                 <ul class="list-inline">
                                     <li>Date Posted: <span runat="server" id="txtPosted"></span></li>
                                     <li>Donor's rating: <span runat="server" id="txtRating"></span></li>
-						<span class="star-rating">
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFive" /><i></i>
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starFour" /><i></i>
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starThree" /><i></i>
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starTwo" /><i></i>
-                                            <asp:RadioButton runat="server" GroupName="rating" ID="starOne" /><i></i>
-					   </br>
-					</span>
-					
                                     <li>Expiry Date: <span runat="server" id="txtExpiry"></span></li>
                                 </ul>
 
@@ -295,11 +317,11 @@
 
     </div>
 
-    <!-- Popup Model -->
+    <!-- Popup Modal -->
     <div class="modal fade" id="popUpConfirm" role="dialog">
         <div class="modal-dialog">
 
-            <!-- Model content-->
+            <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"><span runat="server" id="txtPopup"></span></h4>
