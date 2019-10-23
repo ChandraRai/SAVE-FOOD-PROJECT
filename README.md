@@ -1,5 +1,5 @@
 # Software Development Project - II (COMP-313)
-Supervised by: `Prof. Hao Lac`, Centennial College 
+Supervised by: `Prof. Hao Lac`, `Prof. Mokhoo Mbobi`, Centennial College 
 
 ## Team Members
 

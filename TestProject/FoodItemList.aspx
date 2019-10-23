@@ -20,8 +20,6 @@
             $('#popUpConfirm').modal('show');
         }
     </script>
-
-
     <style>
         .filled-star {
             fill: yellow!important;
@@ -40,16 +38,39 @@
             text-align: center;
             vertical-align: middle;
         }
-    </style>
+
+	h1[alt="Simple"] {color: black;}
+a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
+
+.starrating > input {display: none;}  /* Remove radio buttons */
+
+.starrating > label:before { 
+  content: "\f005"; /* Star */
+  margin: 1px;
+  font-size: 5em;
+  font-family: FontAwesome;
+  display: inline-block; 
+}
+
+.starrating > label
+{
+  color: #222222; /* Start color when not clicked */
+}
+
+.starrating > input:checked ~ label
+{ color: #ffca08 ; } /* Set yellow color when star checked */
+
+.starrating > input:hover ~ label
+{ color: #ffca08 ;  } /* Set yellow color when star hover */
 
 
 
-
-
+</style>
+	
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <section class="">
+    <section class="bg-light">
         <div class="container">
             <div class="row">
                 <%-- Content Head --%>
@@ -111,8 +132,8 @@
                 <div class="col-3">
                     <asp:Repeater ID="rptrRequests" runat="server">
                         <ItemTemplate>
-                            <h5 style="margin-left: 50px; margin-top: 20px;">
-                                <a data-toggle="collapse" data-target="#items" style="text-decoration: none; color: darkgray;" href="#items">+ <%#Eval("ItemType")%></a>
+                            <h5 style="margin-left:50px; margin-top: 20px">
+                                <a data-toggle="collapse" data-target="#items" href="#items">+ <%#Eval("ItemType")%></a>
                             </h5>
                             <div id="items" class="collapse" style="margin-left: 50px">
                                 <p>User-Request Id: <%#Eval("URId")%></p>
@@ -120,9 +141,69 @@
                                 <p>Amount: <%#Eval("Amount")%></p>
                                 <p>Posted Date: <%#Eval("Date")%></p>
                                 <p><i>Posted by: <%#Eval("user.username")%></i></p>
+
+								<a href="#" data-toggle="modal" data-target="#myModal">Accept Request</a>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h4 class="modal-title">Accept Request</h4>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-4" for="id">User-Request Id:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="id"  name="id">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-4" for=details">Item Details:</label><br />
+      <div class="col-sm-10">          
+        <input type="text" class="form-control" id="details" placeholder="Item Details" name="details">
+      </div>
+    </div>
+		 <div class="form-group">
+      <label class="control-label col-sm-4" for="amount">Amount:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="amount" placeholder="Amount" name="amount">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-4" for="date">Date:</label>
+      <div class="col-sm-10">          
+        <input type="date" class="form-control" id="date" placeholder="Date" name="date">
+      </div>
+    </div>
+		 <div class="form-group">
+      <label class="control-label col-sm-4" for="posted">Posted By:</label>
+      <div class="col-sm-10">          
+        <input type="text" class="form-control" id="posted" placeholder="Posted By" name="date">
+      </div>
+    </div>
+		  <input type="submit" class="btn btn-info" value="Submit Button">
+		
+    </div>
+
+  </div>
+</div>
+
+
+
+
                             </div>
+
+
+
                         </ItemTemplate>
+
+
                     </asp:Repeater>
+
+
                 </div>
             </div>
         </div>
@@ -273,11 +354,11 @@
 
     </div>
 
-    <!-- Popup Model -->
+    <!-- Popup Modal -->
     <div class="modal fade" id="popUpConfirm" role="dialog">
         <div class="modal-dialog">
 
-            <!-- Model content-->
+            <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"><span runat="server" id="txtPopup"></span></h4>
