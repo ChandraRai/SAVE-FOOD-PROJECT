@@ -18,7 +18,7 @@ public partial class MyItems : System.Web.UI.Page
         if (!IsPostBack)
         {
             ShowFoodList();
-            ShowOrderFoodList();
+            ShowOrderedFoodList();
 
         }     
         
@@ -118,7 +118,7 @@ public partial class MyItems : System.Web.UI.Page
     /// This method shows all of the items the user has ordered
     /// Siyanthan Vijithamparanathan - 300925200
     /// </summary>
-    protected void ShowOrderFoodList()
+    protected void ShowOrderedFoodList()
     {
         repeaterOrders.DataSource = OrderManager.getUserOrders(Session["CurrentUser"].ToString());
         repeaterOrders.DataBind();
@@ -196,7 +196,7 @@ public partial class MyItems : System.Web.UI.Page
         {
             OrderManager.cancelOrder(hiddenFoodOrderId.Value);
             FoodManager.updateFoodStatus(hiddenFoodOrderId.Value,1);
-            ShowOrderFoodList();
+            ShowOrderedFoodList();
         }
     }
 
