@@ -1,8 +1,10 @@
 using System;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 using System.Web.Security;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 /// <summary>
@@ -96,11 +98,11 @@ public partial class foodItemList : System.Web.UI.Page
         txtExpiry.InnerText = args[3];
         hiddenFoodId.Value = args[4];
         txtPosted.InnerText = args[5];
-        txtRating.InnerText = getDonorsRating();
+        txtRating.InnerText = GetDonorsRating();
         ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openModal();", true);
     }
 
-    private string getDonorsRating()
+    private string GetDonorsRating()
     {
         var numberOfReviews = 0;
         var sumOfRatings = 0;
@@ -304,7 +306,7 @@ public partial class foodItemList : System.Web.UI.Page
 
     protected void DisplayUserRequests()
     {
-        rptrRequests.DataSource = RequestManager.getRequests(0,UserManager.getUser(Session["CurrentUser"].ToString(),"Username").uId);
+        rptrRequests.DataSource = RequestManager.getRequests(0, UserManager.getUser(Session["CurrentUser"].ToString(), "Username").uId);
         rptrRequests.DataBind();
     }
 
@@ -314,5 +316,64 @@ public partial class foodItemList : System.Web.UI.Page
 
     }
 
+    /// <summary>
+    /// The btnPickup_Click
+    /// </summary>
+    /// <param name="sender">The sender<see cref="object"/></param>
+    /// <param name="e">The e<see cref="EventArgs"/></param>
+    protected void btnAcceptFoodRequest_Click(object sender, EventArgs e)
+    {
+        var requester = txtRequesterName.Text;
+        var donor = Session["CurrentUser"].ToString();
+        if (Page.IsValid)
+        {
+            try
+            {
+                var foodItem = new Food()
+                {
+                    FoodName = txtFoodNameToAccept.Text,
+                    FoodDesc = txtFoodDescToAccept.Text,
+                    FoodCondition = ddlCondition.SelectedIndex.ToString(),
+                    Expiry = DateTime.Parse(txtExpiryFoodToAccept.Text),
+                    donor = new User() { username = donor },
+                    UserRequestId = lblRequestId.Text,
+                    Status = 0
+                };
+                FoodManager.AddFood(foodItem);
+
+                RequestManager.UpdateRequestStatus(1, lblRequestId.Text);
+
+                var foodList = FoodManager.getUserFoodList(donor);
+                var order = new Order(foodList.Last.Value.FId, UserManager.getUser(requester, "Username").uId);
+
+                OrderManager.addOrder(order);
+
+                Response.Redirect("MyItems.aspx");
+            }
+            catch (Exception ex)
+            {
+                lblError.Text = ex.Message;
+            }
+
+        }
+
+
+        Response.Redirect("MyItems.aspx");
+    }
+
+    /// <summary>
+    /// This method sets the toggle window popup properties
+    /// Specific to individual food requests
+    /// Vadym Harkusha - 300909484
+    protected void GetRequestModelData(object sender, EventArgs e)
+    {
+        string[] args = new string[5];
+        LinkButton btn = (LinkButton)sender;
+        args = btn.CommandArgument.Split(';');
+        lblRequestId.Text = args[0];
+        txtFoodNameToAccept.Text = args[2];
+        txtRequesterName.Text = args[1];
+        ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openRequestModal();", true);
+    }
 
 }

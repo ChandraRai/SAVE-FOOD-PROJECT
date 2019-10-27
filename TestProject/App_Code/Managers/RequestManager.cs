@@ -49,7 +49,7 @@ public class RequestManager
         }
     }
 
-    public static LinkedList<UserRequest> getRequests(int type,string id)
+    public static LinkedList<UserRequest> getRequests(int type, string id)
     {
         LinkedList<UserRequest> inventory = new LinkedList<UserRequest>();
 
@@ -90,6 +90,28 @@ public class RequestManager
         {
             conn.Close();
         }
+    }
 
+    public static void UpdateRequestStatus(int status, string userRequestId)
+    {
+        string query = "UPDATE UserRequest SET Status = @Status WHERE URId = @UserRequestId";
+        var conn = new SqlConnection(connStr);
+        var comm = new SqlCommand(query, conn);
+        comm.Parameters.AddWithValue("@Status", status);
+        comm.Parameters.AddWithValue("@UserRequestId", userRequestId);
+
+        try
+        {
+            conn.Open();
+            comm.ExecuteNonQuery();
+        }
+        catch
+        {
+            throw new Exception("Sorry, Something went wrong. Try again.");
+        }
+        finally
+        {
+            conn.Close();
+        }
     }
 }
