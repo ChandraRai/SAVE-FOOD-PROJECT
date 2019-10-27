@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 /// <summary>
 /// Zhi Wei Su - 300899450
 /// Siyanthan Vijithamparanathan - 300925200
+/// Vadym Harkusha - 300909484
 /// SaveFood Web Application
 /// AddFoodItem.aspx.cs Code Behind
 /// </summary>
@@ -33,6 +29,7 @@ public partial class AddFoodItem : System.Web.UI.Page
 
     /// <summary>
     /// Zhi Wei Su - 30099450
+    /// Vadym Harkusha - 300909484
     /// This method adds a Food Object 
     /// into the database
     /// </summary>
@@ -40,39 +37,21 @@ public partial class AddFoodItem : System.Web.UI.Page
     {
         if (Page.IsValid)
         {
-            SqlConnection conn;
-            SqlCommand comm;
-            int id;
-            string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-            conn = new SqlConnection(connectionString);
-            comm = new SqlCommand(
-                "INSERT INTO FoodItems (FoodName, FoodDesc, Status, FoodCondition, Expiry, Id, PostingDate) " +
-                "VALUES (@foodName, @foodDesc, @status, @foodCondition, @expiry, @id, @postingdate)", conn);
-            SqlCommand comm2 = new SqlCommand("SELECT Id FROM USERS WHERE Username = @username", conn);
-            comm.Parameters.AddWithValue("@foodName", txtFoodName.Text);
-            comm.Parameters.AddWithValue("@foodDesc", txtFoodDesc.Text);
-            comm.Parameters.AddWithValue("@status", 1);
-            comm.Parameters.AddWithValue("@foodCondition", ddlCondition.SelectedIndex);
-            comm.Parameters.AddWithValue("@expiry", DateTime.Parse(txtExpiry.Text));
-            comm.Parameters.AddWithValue("@postingdate", DateTime.Now);
-            comm2.Parameters.AddWithValue("@username", HttpContext.Current.User.Identity.Name);
-
             try
             {
-                conn.Open();
-                id = (int)comm2.ExecuteScalar();
-                comm.Parameters.AddWithValue("@id", id);
-                comm.ExecuteNonQuery();
+                var foodItem = new Food() {
+                    FoodName = txtFoodName.Text,
+                    FoodDesc = txtFoodDesc.Text,
+                    FoodCondition = ddlCondition.SelectedIndex.ToString(),
+                    Expiry = DateTime.Parse(txtExpiry.Text),
+                    donor = new User() { username = HttpContext.Current.User.Identity.Name}
+                };
+                FoodManager.AddFood(foodItem);
                 Response.Redirect("MyItems.aspx");
-
             }
-            catch
+            catch(Exception e)
             {
-                lblError.Text = "Something went wrong.";
-            }
-            finally
-            {
-                conn.Close();
+                lblError.Text = e.Message;
             }
         }
     }

@@ -34,8 +34,9 @@ public class Food
     public string FoodName { get; set; }
     public string FoodDesc { get; set; }
     public int Status { get; set; }
-    public string FoodCondition { get; private set; }
+    public string FoodCondition { get; set; }
     public DateTime Expiry { get; set; }
-    public User donor { get; private set; }
-    public DateTime PostingDate { get; private set; }
+    public User donor { get; set; }
+    public DateTime PostingDate { get; set; }
+    public string UserRequestId { get; set; }
 }
