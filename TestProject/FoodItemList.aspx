@@ -19,6 +19,10 @@
         function openPopup() {
             $('#popUpConfirm').modal('show');
         }
+        function openRequestModal() {
+            $('#requestModal').modal('show');
+            populateRating();
+        }
     </script>
     <style>
         .filled-star {
@@ -151,65 +155,10 @@
                                 <p>Amount: <%#Eval("Amount")%></p>
                                 <p>Posted Date: <%#Eval("Date")%></p>
                                 <p><i>Posted by: <%#Eval("user.username")%></i></p>
-
-                                <a href="#" data-toggle="modal" data-target="#myModal">Accept Request</a>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="myModal" role="dialog">
-                                    <div class="modal-dialog">
-
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-
-                                                <h4 class="modal-title">Accept Request</h4>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-4" for="posted">Requested By:</label>
-                                                <div class="col-sm-10">
-                                                    <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" aria-label="Username"
-                                                        aria-describedby="basic-addon1" Text='<%# Eval("user.username") %>' Enabled="False" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-4" for="details">Food Name:</label><br />
-                                                <div class="col-sm-10">
-                                                    <asp:TextBox ID="txtFoodName" type="text" class="form-control" placeholder="Food Name*" aria-label="Food Name"
-                                                        aria-describedby="basic-addon1" runat="server" Text='<%#Eval("ItemType")%>' Enabled="False" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-4" for="date">Expiry Date:</label>
-                                                <div class="col-sm-10">
-                                                    <asp:TextBox ID="txtExpiry" type="" class="form-control" placeholder="Expiry Date*" aria-label="Expiry Date"
-                                                        aria-describedby="basic-addon1" runat="server" TextMode="Date" />
-                                                </div>
-                                            </div>
-                                           <div class="form-group">
-                                                <label class="control-label col-sm-4" for="id">Item Condition:</label>
-                                                <div class="col-sm-10">
-                                                    <asp:DropDownList runat="server" ID="ddlCondition">
-                                                        <asp:ListItem>Fresh</asp:ListItem>
-                                                        <asp:ListItem>Stale</asp:ListItem>
-                                                    </asp:DropDownList>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-4" for="id">Item Description:</label>
-                                                <div class="col-sm-10">
-                                                    <asp:TextBox ID="txtFoodDesc" runat="server" placeholder="Description*" class="form-control" Rows="3"
-                                                        Wrap="False" TextMode="MultiLine"></asp:TextBox>
-                                                </div>
-                                            </div>
-                                            <asp:Button runat="server" ID="btnPost" Text="Submit" class="btn btn-info" type="submit" />
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-
-
+                                <asp:LinkButton CssClass="foodItem-link"
+                                    CommandArgument='<%#Eval("URId")  + ";" + Eval("user.username") +";"+Eval("ItemType")%>'
+                                    runat="server" OnClick="GetRequestModelData" Text="Accept Request">                            
+                                </asp:LinkButton>
                             </div>
 
 
@@ -293,6 +242,59 @@
             </div>
         </div>
     </div>
+    <%-- Request modal --%>
+    <div class="foodItem-modal modal fade" id="requestModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Accept Request #<asp:Label runat="server" ID="lblRequestId"/></h4>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="posted">Requested By:</label>
+                    <div class="col-sm-10">
+                        <asp:TextBox runat="server" ID="txtRequesterName" CssClass="form-control" aria-label="Username"
+                            aria-describedby="basic-addon1" Enabled="False" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="details">Food Name:</label><br />
+                    <div class="col-sm-10">
+                        <asp:TextBox ID="txtFoodNameToAccept" type="text" class="form-control" placeholder="Food Name*" aria-label="Food Name"
+                            aria-describedby="basic-addon1" runat="server" Enabled="False" />
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="date">Expiry Date:</label>
+                    <div class="col-sm-10">
+                        <asp:TextBox ID="txtExpiryFoodToAccept" type="" class="form-control" placeholder="Expiry Date*" aria-label="Expiry Date"
+                            aria-describedby="basic-addon1" runat="server" TextMode="Date" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="id">Item Condition:</label>
+                    <div class="col-sm-10">
+                        <asp:DropDownList runat="server" ID="ddlCondition">
+                            <asp:ListItem Enabled="true">Fresh</asp:ListItem>
+                            <asp:ListItem>Stale</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="id">Item Description:</label>
+                    <div class="col-sm-10">
+                        <asp:TextBox ID="txtFoodDescToAccept" runat="server" placeholder="Description*" class="form-control" Rows="3"
+                            Wrap="False" TextMode="MultiLine"></asp:TextBox>
+                    </div>
+                </div>
+                <asp:Button runat="server" OnClick="btnAcceptFoodRequest_Click" ID="btnAcceptRequest" Text="Submit" class="btn btn-info" type="submit" />
+                <asp:Label runat="server" ID="lblError" />
+            </div>
+
+        </div>
+    </div>
+
     <div class="card text-center">
         <div class="card-header">
             <h3>Featured</h3>
