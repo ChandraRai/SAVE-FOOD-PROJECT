@@ -19,10 +19,11 @@ CREATE TABLE [dbo].[FoodItems] (
     [Expiry]        DATETIME      NOT NULL,
     [Id]            INT           NOT NULL,
     [PostingDate]   DATETIME      NOT NULL,
+    [URId]          INT           NULL,
     PRIMARY KEY CLUSTERED ([FId] ASC),
-    CONSTRAINT [FK_FoodItems] FOREIGN KEY ([Id]) REFERENCES [dbo].[USERS] ([Id])
+    CONSTRAINT [FK_FoodItems] FOREIGN KEY ([Id]) REFERENCES [dbo].[USERS] ([Id]),
+    CONSTRAINT [FK_FoodItem_UserRequest] FOREIGN KEY ([URId]) REFERENCES [dbo].[UserRequest] ([URId])
 );
-
 
 CREATE TABLE [dbo].[Orders] (
     [OId]      INT      IDENTITY (1, 1) NOT NULL,
