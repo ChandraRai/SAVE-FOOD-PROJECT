@@ -104,7 +104,7 @@ public class FoodManager
         SqlConnection conn;
         SqlCommand comm;
         string query = "SELECT FoodItems.FId, FoodItems.FoodName, FoodItems.FoodDesc, FoodItems.Status, FoodItems.FoodCondition, FoodItems.Expiry, FoodItems.Id, FoodItems.PostingDate " +
-            "FROM FoodItems INNER JOIN USERS ON FoodItems.Id = USERS.Id WHERE (FoodItems.Status = 1) AND FoodItems.Id=@UId";
+            "FROM FoodItems INNER JOIN USERS ON FoodItems.Id = USERS.Id WHERE  FoodItems.Id=@UId";
         conn = new SqlConnection(connStr);
         comm = new SqlCommand(query, conn);
         comm.Parameters.AddWithValue("@UId", UserManager.getUser(username,"UserName").uId);

@@ -54,7 +54,7 @@ public partial class MyItems : System.Web.UI.Page
         {
             if (userChoice == "donor")
             {
-                string consumer = OrderManager.getOrder(args[4], "FId").consumer.username;
+                string consumer = OrderManager.getOrder(args[4], "Orders.FId").consumer.username;
                 Session["OtherUser"] = consumer;
                 txtFoodOrderUsername.InnerText ="Picked up by: "+ consumer;
             }
@@ -197,6 +197,7 @@ public partial class MyItems : System.Web.UI.Page
             OrderManager.cancelOrder(hiddenFoodOrderId.Value);
             FoodManager.updateFoodStatus(hiddenFoodOrderId.Value,1);
             ShowOrderFoodList();
+            ShowFoodList();
         }
     }
 
