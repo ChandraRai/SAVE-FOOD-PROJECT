@@ -19,7 +19,7 @@ public class Posts
         user = UserManager.getUser(username,"Username");
         post = _post;
         title = _title;
-        postingDate = DateTime.Now;
+        postingDate = DateTime.Now.ToString();
         postType = _postType;
     }
     public Posts(string _pId,string _title,string _post, string _postdate,string username)
@@ -27,7 +27,7 @@ public class Posts
         user = UserManager.getUser(username, "Username");
         post = _post;
         pId = _pId;
-        postingDate = Convert.ToDateTime(_postdate);
+        postingDate = Convert.ToDateTime(_postdate).ToString("D");
         title = _title;
     }
 
@@ -35,7 +35,7 @@ public class Posts
     public User user { get; private set; }
     public string post { get; set; }
     public string title { get; set; }
-    public DateTime postingDate { get; private set; }
+    public string postingDate { get; private set; }
     public int postType { get; private set; }
 
     public static string getVideoURL(string url)

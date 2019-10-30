@@ -107,7 +107,7 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
                                 <asp:LinkButton CssClass="foodItem-link"
                                     CommandArgument='<%#Eval("donor.username")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId") +";"+Eval("PostingDate")%>' runat="server" OnClick="GetModelData">                            
                                         <div class="foodItem-caption">
-                                            <h4 <%# ChangeColor(Eval("Status").ToString(), (DateTime)Eval("Expiry")) %>>
+                                            <h4 <%# ChangeColor(Eval("Status").ToString(),Eval("Expiry").ToString()) %>>
                                                 <%#Eval("foodName") %></h4>
                                         </div>
                                         <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
@@ -139,7 +139,7 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
                                 <p>User-Request Id: <%#Eval("URId")%></p>
                                 <p>Item Details: <%#Eval("ItemDetails")%></p>
                                 <p>Amount: <%#Eval("Amount")%></p>
-                                <p>Posted Date: <%#Eval("Date")%></p>
+                                <p>Date: <%#Eval("Date")%></p>
                                 <p><i>Posted by: <%#Eval("user.username")%></i></p>
 
 								<a href="#" data-toggle="modal" data-target="#myModal">Accept Request</a>
@@ -163,7 +163,7 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
     <div class="form-group">
       <label class="control-label col-sm-4" for=details">Item Details:</label><br />
       <div class="col-sm-10">          
-        <input type="text" class="form-control" id="details" placeholder="Item Details" name="details">
+        <input runat="server" type="text" class="form-control" id="txtDetails" placeholder="Item Details" name="details">
       </div>
     </div>
 		 <div class="form-group">

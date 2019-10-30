@@ -129,9 +129,9 @@ public partial class MyItems : System.Web.UI.Page
     /// This method changes the background color of the table row based on item status
     /// </summary>
 
-    protected string ChangeColor(string status, DateTime date)
+    protected string ChangeColor(string status, string date)
     {
-        if (DateTime.Now > date)
+        if (DateTime.Now > Convert.ToDateTime(date))
             return "style='color: #FFCD61'";
         else if (status.Equals("1"))
             return "style='color: #6DFF50'";

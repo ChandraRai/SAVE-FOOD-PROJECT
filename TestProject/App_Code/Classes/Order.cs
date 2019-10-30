@@ -18,17 +18,17 @@ public class Order
     {
         foodOrder = FoodManager.getFood(_FId, "FId");
         consumer = UserManager.getUser(_UId, "Id");
-        postingDate = DateTime.Now;
+        postingDate = DateTime.Now.ToString();
     }
     public Order(string _OId, string _FId, string _UId,string date)
     {
         OId = _OId;
         foodOrder = FoodManager.getFood(_FId, "FId");
         consumer = UserManager.getUser(_UId, "Id");
-        postingDate = Convert.ToDateTime(date);
+        postingDate = Convert.ToDateTime(date).ToString("D");
     }
     public string OId { get; private set; }
     public Food foodOrder { get; private set; }
     public User consumer { get; private set; }
-    public DateTime postingDate { get; private set; }
+    public string postingDate { get; private set; }
 }

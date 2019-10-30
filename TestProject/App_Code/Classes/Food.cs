@@ -23,9 +23,9 @@ public class Food
         FoodDesc = _foodDesc;
         Status = _status;
         FoodCondition = _condition;
-        Expiry = Convert.ToDateTime(_expiry);
+        Expiry = Convert.ToDateTime(_expiry).ToString("D");
         donor = UserManager.getUser(_uId, "Id");
-        PostingDate = Convert.ToDateTime(_postingDate);
+        PostingDate = Convert.ToDateTime(_postingDate).ToString("D");
 
     }
 
@@ -35,7 +35,7 @@ public class Food
     public string FoodDesc { get; set; }
     public int Status { get; set; }
     public string FoodCondition { get; private set; }
-    public DateTime Expiry { get; set; }
+    public string Expiry { get; set; }
     public User donor { get; private set; }
-    public DateTime PostingDate { get; private set; }
+    public string PostingDate { get; private set; }
 }

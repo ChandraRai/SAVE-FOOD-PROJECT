@@ -110,7 +110,7 @@
                                     </div>
                               </div>--%>
                                         <div class="foodItem-caption">
-                                            <h4 <%# ChangeColor(Eval("Status").ToString(), (DateTime)Eval("Expiry")) %>>
+                                            <h4 <%# ChangeColor(Eval("Status").ToString(), Eval("Expiry").ToString()) %>>
                                                 <%#Eval("foodName") %></h4>
                                         </div>
                                         <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
