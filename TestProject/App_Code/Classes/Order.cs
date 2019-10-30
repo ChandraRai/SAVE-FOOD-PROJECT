@@ -31,4 +31,5 @@ public class Order
     public Food foodOrder { get; private set; }
     public User consumer { get; private set; }
     public string postingDate { get; private set; }
+    public UserRequest request { get; set; }
 }

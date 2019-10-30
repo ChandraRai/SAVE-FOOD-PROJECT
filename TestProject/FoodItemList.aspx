@@ -138,7 +138,6 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
                             <div id="items" class="collapse" style="margin-left: 50px">
                                 <p>User-Request Id: <%#Eval("URId")%></p>
                                 <p>Item Details: <%#Eval("ItemDetails")%></p>
-                                <p>Amount: <%#Eval("Amount")%></p>
                                 <p>Date: <%#Eval("Date")%></p>
                                 <p><i>Posted by: <%#Eval("user.username")%></i></p>
 
@@ -155,19 +154,19 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
         <h4 class="modal-title">Accept Request</h4>
       </div>
       <div class="form-group">
-      <label class="control-label col-sm-4" for="id">User-Request Id:</label>
+      <label class="control-label col-sm-4" for="id">User:</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="id"  name="id">
+        <input runat="server" type="text" class="form-control" id="txtReqUser"  name="id">
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-4" for=details">Item Details:</label><br />
+      <label class="control-label col-sm-4" for="type">Item Type:</label><br />
       <div class="col-sm-10">          
         <input runat="server" type="text" class="form-control" id="txtDetails" placeholder="Item Details" name="details">
       </div>
     </div>
 		 <div class="form-group">
-      <label class="control-label col-sm-4" for="amount">Amount:</label>
+      <label class="control-label col-sm-4" for="">Amount:</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="amount" placeholder="Amount" name="amount">
       </div>
@@ -277,6 +276,7 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
             </div>
         </div>
     </div>
+    
     <div class="card text-center">
         <div class="card-header">
             <h3>Featured</h3>
