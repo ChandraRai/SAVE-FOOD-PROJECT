@@ -153,4 +153,28 @@ public class RequestManager
         }
 
     }
+
+    public static void CancelRequest(UserRequest cancel)
+    {
+        SqlConnection conn;
+        SqlCommand comm;
+        string query = "DELETE FROM UserRequest WHERE URId = @URId";
+        conn = new SqlConnection(connStr);
+        comm = new SqlCommand(query, conn);
+        comm.Parameters.AddWithValue("@URId", cancel.URId);
+
+        try
+        {
+            conn.Open();
+            comm.ExecuteNonQuery();
+        }
+        catch
+        {
+        }
+        finally
+        {
+            conn.Close();
+        }
+    }
+
 }
