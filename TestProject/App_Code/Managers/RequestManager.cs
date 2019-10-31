@@ -19,6 +19,44 @@ public class RequestManager
         //
     }
 
+    public static UserRequest getRequest(string field, string value)
+    {
+        UserRequest request = new UserRequest();
+        SqlDataReader reader;
+        SqlConnection conn;
+        SqlCommand comm;
+        string query = "SELECT URId, UId, ItemType, ItemDetails, Date, Status FROM UserRequest WHERE " + field + " = '" +value+"'";
+        conn = new SqlConnection(connStr);
+        comm = new SqlCommand(query, conn);
+
+
+        try
+        {
+            conn.Open();
+            reader = comm.ExecuteReader();
+            while(reader.Read())
+                request= new UserRequest(
+                                    reader["URId"].ToString(),
+                                    reader["ItemType"].ToString(),
+                                    reader["ItemDetails"].ToString(),
+                                    reader["Date"].ToString(),
+                                    reader["UId"].ToString(),
+                                    Int32.Parse(reader["Status"].ToString())
+                                    );
+            reader.Close();
+            return request;
+        }
+        catch
+        {
+            return null;
+        }
+        finally
+        {
+            conn.Close();
+        }
+
+    }
+
     public static void addRequest(UserRequest request)
     {
         SqlConnection conn;
@@ -83,6 +121,31 @@ public class RequestManager
         catch
         {
             return null;
+        }
+        finally
+        {
+            conn.Close();
+        }
+
+    }
+
+    public static void UpdateRequestStatus(UserRequest request)
+    {
+        SqlConnection conn;
+        SqlCommand comm;
+        string query = "UPDATE UserRequest SET STATUS = @status WHERE URId=@URId";
+        conn = new SqlConnection(connStr);
+        comm = new SqlCommand(query, conn);
+        comm.Parameters.AddWithValue("@URId", request.URId);
+        comm.Parameters.AddWithValue("@status", request.Status);
+
+        try
+        {
+            conn.Open();
+            comm.ExecuteNonQuery();
+        }
+        catch
+        {
         }
         finally
         {

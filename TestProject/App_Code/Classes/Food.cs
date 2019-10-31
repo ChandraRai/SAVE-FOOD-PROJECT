@@ -29,8 +29,20 @@ public class Food
 
     }
 
+    public Food(string username, string _foodName, string _foodDesc, int _status, string _condition, string _expiry)
+    {
+        donor = UserManager.getUser(username, "Username");
+        FoodName = _foodName;
+        FoodDesc = _foodDesc;
+        Status = _status;
+        FoodCondition = _condition;
+        Expiry = _expiry;
+        PostingDate = DateTime.Now.ToString();
+
+    }
+
     //Getter and Setters
-    public string FId { get; private set; }
+    public string FId { get; set; }
     public string FoodName { get; set; }
     public string FoodDesc { get; set; }
     public int Status { get; set; }

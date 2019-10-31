@@ -20,12 +20,22 @@ public class Order
         consumer = UserManager.getUser(_UId, "Id");
         postingDate = DateTime.Now.ToString();
     }
-    public Order(string _OId, string _FId, string _UId,string date)
+
+    public Order(Food requestedItem, UserRequest reciever)
+    {
+        foodOrder = requestedItem;
+        request = reciever;
+        consumer = reciever.user;
+        postingDate = DateTime.Now.ToString();
+    }
+
+    public Order(string _OId, string _FId, string _UId,string date, string _requestId)
     {
         OId = _OId;
         foodOrder = FoodManager.getFood(_FId, "FId");
         consumer = UserManager.getUser(_UId, "Id");
         postingDate = Convert.ToDateTime(date).ToString("D");
+        request = RequestManager.getRequest("URId", _requestId);
     }
     public string OId { get; private set; }
     public Food foodOrder { get; private set; }

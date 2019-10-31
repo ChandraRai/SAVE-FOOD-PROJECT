@@ -194,7 +194,7 @@ public partial class MyItems : System.Web.UI.Page
         }
         else if (hiddenFoodSelection.Value == "CANCEL")
         {
-            OrderManager.cancelOrder(hiddenFoodOrderId.Value);
+            OrderManager.cancelOrder(OrderManager.getOrder(hiddenFoodOrderId.Value,"Orders.FId"));
             FoodManager.updateFoodStatus(hiddenFoodOrderId.Value,1);
             ShowOrderFoodList();
             ShowFoodList();
