@@ -24,18 +24,6 @@ CREATE TABLE [dbo].[FoodItems] (
 );
 
 
-CREATE TABLE [dbo].[Orders] (
-    [OId]      INT      IDENTITY (1, 1) NOT NULL,
-    [FId]      INT      NOT NULL,
-    [UId]      INT      NOT NULL,
-    [PickedUp] DATETIME NOT NULL,
-	[RequestId] INT,
-    PRIMARY KEY CLUSTERED ([OId] ASC),
-    CONSTRAINT [FK_DonatedFood] FOREIGN KEY ([FId]) REFERENCES [dbo].[FoodItems] ([FId]),
-    CONSTRAINT [FK_User] FOREIGN KEY ([UId]) REFERENCES [dbo].[USERS] ([Id]),
-	CONSTRAINT [FK_Request] FOREIGN KEY ([RequestId]) REFERENCES [dbo].[UserRequest] ([URId])
-);
-
 CREATE TABLE [dbo].[Comments]
 (
     [CId] INT IDENTITY(1,1) NOT NULL,
@@ -75,6 +63,18 @@ CREATE TABLE [dbo].[UserRequest]
    [Date] DATETIME NOT NULL,
    [Status]        SMALLINT      DEFAULT ((0)) NOT NULL,
    PRIMARY KEY CLUSTERED ([URId] ASC)
+);
+
+CREATE TABLE [dbo].[Orders] (
+    [OId]      INT      IDENTITY (1, 1) NOT NULL,
+    [FId]      INT      NOT NULL,
+    [UId]      INT      NOT NULL,
+    [PickedUp] DATETIME NOT NULL,
+	[RequestId] INT,
+    PRIMARY KEY CLUSTERED ([OId] ASC),
+    CONSTRAINT [FK_DonatedFood] FOREIGN KEY ([FId]) REFERENCES [dbo].[FoodItems] ([FId]),
+    CONSTRAINT [FK_User] FOREIGN KEY ([UId]) REFERENCES [dbo].[USERS] ([Id]),
+	CONSTRAINT [FK_Request] FOREIGN KEY ([RequestId]) REFERENCES [dbo].[UserRequest] ([URId])
 );
 
 CREATE TABLE [dbo].[Rate]
