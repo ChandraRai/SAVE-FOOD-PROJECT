@@ -15,10 +15,7 @@
                         aria-label="txtFoodType" aria-describedby="basic-addon1" runat="server" Enabled="true" />
                 <span id="myerror"></span>
                 </div>
-                <div class="form-group">
-                    <asp:TextBox ID="txtQty" type="text" class="form-control" placeholder="Qty (if any)"
-                        aria-label="txtQty" aria-describedby="basic-addon1" runat="server" Enabled="true" />
-                </div>
+
                 <br />
                 <div class="form-group">
                     <asp:TextBox ID="txtDetails" TextMode="multiline" Columns="30" Rows="4" MaxLength="100" type="text"

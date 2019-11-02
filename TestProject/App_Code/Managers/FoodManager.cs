@@ -250,4 +250,41 @@ public class FoodManager
             conn.Close();
         }
     }
+
+    public static Food AddFood(Food food)
+    {
+
+        SqlConnection conn;
+        SqlCommand comm;
+        conn = new SqlConnection(connStr);
+        comm = new SqlCommand(
+            "INSERT INTO FoodItems (FoodName, FoodDesc, Status, FoodCondition, Expiry, Id, PostingDate) " +
+            "VALUES (@foodName, @foodDesc, @status, @foodCondition, @expiry, @id, @postingdate); SELECT SCOPE_IDENTITY() ", conn);
+
+        comm.Parameters.AddWithValue("@foodName", food.FoodName);
+        comm.Parameters.AddWithValue("@foodDesc", food.FoodDesc);
+        comm.Parameters.AddWithValue("@status", food.Status);
+        comm.Parameters.AddWithValue("@foodCondition", food.FoodCondition);
+        comm.Parameters.AddWithValue("@expiry", food.Expiry);
+        comm.Parameters.AddWithValue("@postingdate", food.PostingDate);
+        comm.Parameters.AddWithValue("@id", food.donor.uId);
+
+        SqlCommand comm2 = new SqlCommand("SELECT SCOPE_IDENTITY()");
+
+        try
+        {
+            conn.Open();
+            string foodId = comm.ExecuteScalar().ToString();
+            food.FId = foodId;
+            return food;
+        }
+        catch
+        {
+            return null;
+        }
+        finally
+        {
+            conn.Close();
+        }
+    }
 }

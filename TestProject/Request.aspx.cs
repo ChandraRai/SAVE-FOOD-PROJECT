@@ -22,7 +22,7 @@ public partial class Request : System.Web.UI.Page
         //if (Page.IsValid)
         //{
         if (txtFoodType.Text != "") {
-            UserRequest request = new UserRequest(Session["CurrentUser"].ToString(), txtFoodType.Text, txtDetails.Text, txtQty.Text);
+            UserRequest request = new UserRequest(Session["CurrentUser"].ToString(), txtFoodType.Text, txtDetails.Text);
             RequestManager.addRequest(request);
             Response.Redirect("FoodItemList.aspx");
         } else

@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 /// SaveFood Web Application
 /// FoodItemList.aspx.cs Code Behind
 /// </summary>
-public partial class foodItemList : System.Web.UI.Page
+public partial class FoodItemList : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -43,6 +43,7 @@ public partial class foodItemList : System.Web.UI.Page
         btnSendEmail.Visible = showEmail;
         h2Title.InnerText = h2Text;
         h3Title.InnerText = h3Text;
+    
     }
 
     /// <summary>
@@ -70,9 +71,9 @@ public partial class foodItemList : System.Web.UI.Page
     /// Zhi Wei Su 300899450
     /// This method changes the background color of the table row based on item status
     /// </summary>
-    protected string ChangeColor(string status, DateTime date)
+    protected string ChangeColor(string status, string date)
     {
-        if (DateTime.Now > date)
+        if (DateTime.Now > Convert.ToDateTime(date))
             return "style='color: #FFCD61'";
         else if (status.Equals("1"))
             return "style='color: #6DFF50'";
@@ -80,26 +81,7 @@ public partial class foodItemList : System.Web.UI.Page
             return "style='color: #00e600'";
     }
 
-    /// <summary>
-    /// This method sets the toggle window popup properties
-    /// Specific to individual food item
-    /// Siyanthan Vijithamparanathan - 300925200
-    protected void GetModelData(object sender, EventArgs e)
-    {
-        string[] args = new string[5];
-        LinkButton btn = (LinkButton)sender;
-        args = btn.CommandArgument.Split(';');
-        Session["OtherUser"] = args[0];
-        txtDonor.InnerText = args[0];
-        txtFoodName.InnerText = args[1];
-        txtfoodDesc.InnerText = args[2];
-        txtExpiry.InnerText = args[3];
-        hiddenFoodId.Value = args[4];
-        txtPosted.InnerText = args[5];
-        txtRating.InnerText = getDonorsRating();
-        ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openModal();", true);
-    }
-
+ 
     private string getDonorsRating()
     {
         var numberOfReviews = 0;
@@ -178,7 +160,7 @@ public partial class foodItemList : System.Web.UI.Page
 
         if (donor.uId == consumer.uId)
         {
-            showPopup(
+            ShowPopup(
                     "Error",
                     "You cannot pickup your own food.",
                     "CANCEL"
@@ -248,7 +230,7 @@ public partial class foodItemList : System.Web.UI.Page
             string VId = Posts.getVideoURL(txtVideo.Text);
             if (VId == "")
             {
-                showPopup(
+                ShowPopup(
                     "Posting Error",
                     "Trouble getting Youtube Video. Please confirm the link provided is valid.",
                     "Exit"
@@ -262,7 +244,7 @@ public partial class foodItemList : System.Web.UI.Page
         }
         else
         {
-            showPopup(
+            ShowPopup(
                     "Posting Error",
                     "Youtube Link must be provided.",
                     "Exit"
@@ -283,13 +265,46 @@ public partial class foodItemList : System.Web.UI.Page
 
     }
 
-    protected void showPopup(string title, string desc, string btnMessage)
+    protected void ShowPopup(string title, string desc, string btnMessage)
     {
         txtPopup.InnerText = title;
         txtPopupText.InnerText = desc;
         btnConfirmPopup.Text = btnMessage;
         ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openPopup();", true);
     }
+
+    protected void ShowRequestPopup(object sender, EventArgs e)
+    {
+        LinkButton btn = (LinkButton)sender;
+        string id = btn.CommandArgument;
+        UserRequest request = RequestManager.getRequest("URId", id);
+        txtRequestType.Text = request.ItemType;
+        txtRequestId.Text = request.URId;
+        txtRequestDetails.Text = request.ItemDetails;
+        hiddenRequestId.Value = request.URId;
+        ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openRequestPopup();", true);
+    }
+
+    /// <summary>
+    /// This method sets the toggle window popup properties
+    /// Specific to individual food item
+    /// Siyanthan Vijithamparanathan - 300925200
+    protected void GetModelData(object sender, EventArgs e)
+    {
+        string[] args = new string[5];
+        LinkButton btn = (LinkButton)sender;
+        args = btn.CommandArgument.Split(';');
+        Session["OtherUser"] = args[0];
+        txtDonor.InnerText = args[0];
+        txtFoodName.InnerText = args[1];
+        txtfoodDesc.InnerText = args[2];
+        txtExpiry.InnerText = args[3];
+        hiddenFoodId.Value = args[4];
+        txtPosted.InnerText = args[5];
+        txtRating.InnerText = getDonorsRating();
+        ClientScript.RegisterStartupScript(this.GetType(), "Pop", "openModal();", true);
+    }
+
 
     protected void btnHealthTipsPost_Click(object sender, EventArgs e)
     {
@@ -315,4 +330,31 @@ public partial class foodItemList : System.Web.UI.Page
     }
 
 
+
+    protected void btnRequestSubmit_Click(object sender, EventArgs e)
+    {
+        if (txtRequestExpiry.Text != "" && ddlRequestCondition.SelectedValue != null)
+        {
+            Food request = new Food(
+                 Session["CurrentUser"].ToString(),
+                 txtRequestType.Text,
+                 txtRequestDetails.Text,
+                 2,
+                 ddlRequestCondition.SelectedIndex.ToString(),
+                 DateTime.Parse(txtRequestExpiry.Text).ToString()
+                ) ;
+
+            
+            Food addedItem = FoodManager.AddFood(request);
+            UserRequest userRequest = RequestManager.getRequest("URId", hiddenRequestId.Value.ToString());
+            OrderManager.addOrder(new Order(addedItem,userRequest));
+            userRequest.Status = 1;
+            RequestManager.UpdateRequestStatus(userRequest);
+            DisplayUserRequests();
+        }
+        else
+        {
+            ShowPopup("Error", "Please enter required fields to accept request", "Exit");
+        }
+    }
 }

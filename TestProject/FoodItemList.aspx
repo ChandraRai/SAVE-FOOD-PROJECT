@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="foodItemList.aspx.cs" Inherits="foodItemList" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="FoodItemList.aspx.cs" Inherits="FoodItemList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -19,10 +19,13 @@
         function openPopup() {
             $('#popUpConfirm').modal('show');
         }
+        function openRequestPopup() {
+            $('#RequestModal').modal('show');
+        }
     </script>
     <style>
         .filled-star {
-            fill: yellow!important;
+            fill: yellow !important;
         }
 
         .star-rating svg {
@@ -39,34 +42,44 @@
             vertical-align: middle;
         }
 
-	h1[alt="Simple"] {color: black;}
-a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
+        h1[alt="Simple"] {
+            color: black;
+        }
 
-.starrating > input {display: none;}  /* Remove radio buttons */
+        a[href], a[href]:hover {
+            color: grey;
+            font-size: 1em;
+            text-decoration: none
+        }
 
-.starrating > label:before { 
-  content: "\f005"; /* Star */
-  margin: 1px;
-  font-size: 5em;
-  font-family: FontAwesome;
-  display: inline-block; 
-}
+        .starrating > input {
+            display: none;
+        }
+        /* Remove radio buttons */
 
-.starrating > label
-{
-  color: #222222; /* Start color when not clicked */
-}
+        .starrating > label:before {
+            content: "\f005"; /* Star */
+            margin: 1px;
+            font-size: 5em;
+            font-family: FontAwesome;
+            display: inline-block;
+        }
 
-.starrating > input:checked ~ label
-{ color: #ffca08 ; } /* Set yellow color when star checked */
+        .starrating > label {
+            color: #222222; /* Start color when not clicked */
+        }
 
-.starrating > input:hover ~ label
-{ color: #ffca08 ;  } /* Set yellow color when star hover */
+        .starrating > input:checked ~ label {
+            color: #ffca08;
+        }
+        /* Set yellow color when star checked */
 
+        .starrating > input:hover ~ label {
+            color: #ffca08;
+        }
+        /* Set yellow color when star hover */
+    </style>
 
-
-</style>
-	
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -107,7 +120,7 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
                                 <asp:LinkButton CssClass="foodItem-link"
                                     CommandArgument='<%#Eval("donor.username")  + ";" + Eval("FoodName") +";"+Eval("FoodDesc") +";"+Eval("Expiry") +";"+Eval("FId") +";"+Eval("PostingDate")%>' runat="server" OnClick="GetModelData">                            
                                         <div class="foodItem-caption">
-                                            <h4 <%# ChangeColor(Eval("Status").ToString(), (DateTime)Eval("Expiry")) %>>
+                                            <h4 <%# ChangeColor(Eval("Status").ToString(),Eval("Expiry").ToString()) %>>
                                                 <%#Eval("foodName") %></h4>
                                         </div>
                                         <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
@@ -132,83 +145,75 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
                 <div class="col-3">
                     <asp:Repeater ID="rptrRequests" runat="server">
                         <ItemTemplate>
-                            <h5 style="margin-left:50px; margin-top: 20px">
+                            <h5 style="margin-left: 50px; margin-top: 20px">
                                 <a data-toggle="collapse" data-target="#items" href="#items">+ <%#Eval("ItemType")%></a>
                             </h5>
                             <div id="items" class="collapse" style="margin-left: 50px">
                                 <p>User-Request Id: <%#Eval("URId")%></p>
                                 <p>Item Details: <%#Eval("ItemDetails")%></p>
-                                <p>Amount: <%#Eval("Amount")%></p>
-                                <p>Posted Date: <%#Eval("Date")%></p>
+                                <p>Date: <%#Eval("Date")%></p>
                                 <p><i>Posted by: <%#Eval("user.username")%></i></p>
-
-								<a href="#" data-toggle="modal" data-target="#myModal">Accept Request</a>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-
-        <h4 class="modal-title">Accept Request</h4>
-      </div>
-      <div class="form-group">
-      <label class="control-label col-sm-4" for="id">User-Request Id:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="id"  name="id">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-4" for=details">Item Details:</label><br />
-      <div class="col-sm-10">          
-        <input type="text" class="form-control" id="details" placeholder="Item Details" name="details">
-      </div>
-    </div>
-		 <div class="form-group">
-      <label class="control-label col-sm-4" for="amount">Amount:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="amount" placeholder="Amount" name="amount">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-4" for="date">Date:</label>
-      <div class="col-sm-10">          
-        <input type="date" class="form-control" id="date" placeholder="Date" name="date">
-      </div>
-    </div>
-		 <div class="form-group">
-      <label class="control-label col-sm-4" for="posted">Posted By:</label>
-      <div class="col-sm-10">          
-        <input type="text" class="form-control" id="posted" placeholder="Posted By" name="date">
-      </div>
-    </div>
-		  <input type="submit" class="btn btn-info" value="Submit Button">
-		
-    </div>
-
-  </div>
-</div>
-
-
-
-
+                                <asp:LinkButton ID="lnkPopupAcceptRequest" runat="server" CommandArgument='<%#Eval("URId")%>' OnClick="ShowRequestPopup">Accept Request</asp:LinkButton>
                             </div>
-
-
-
                         </ItemTemplate>
-
-
                     </asp:Repeater>
-
-
                 </div>
             </div>
         </div>
 
     </section>
+
+    <!-- Request Modal -->
+    <div class="modal fade" id="RequestModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Accept Request</h4>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="id">User:</label>
+                    <div class="col-sm-10">
+                        <asp:TextBox ID="txtRequestId" runat="server" ReadOnly="true" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="type">Item Type:</label><br />
+                    <div class="col-sm-10">
+                        <asp:TextBox ID="txtRequestType" runat="server" ReadOnly="true" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="">Details:</label>
+                    <div class="col-sm-10">
+                        <asp:TextBox ID="txtRequestDetails" runat="server" ReadOnly="true" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="posted">Food Condition</label>
+                    <div class="col-sm-10">
+                        <asp:DropDownList runat="server" ID="ddlRequestCondition">
+                            <asp:ListItem>Fresh</asp:ListItem>
+                            <asp:ListItem>Stale</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="posted">Expiry</label>
+                    <div class="col-sm-10">
+                    <asp:TextBox ID="txtRequestExpiry" type="" class="form-control" placeholder="Expiry Date*" aria-label="Expiry Date"
+                        aria-describedby="basic-addon1" runat="server" TextMode="Date" />
+                </div>
+                    </div>
+                <asp:HiddenField ID="hiddenRequestId" runat="server" />
+                <asp:Button ID="btnRequestSubmit" runat="server" Text="Submit" OnClick="btnRequestSubmit_Click" CssClass="btn btn-info" />
+            </div>
+
+        </div>
+    </div>
 
     <!-- foodItem model -->
     <!-- model 1 -->
@@ -277,6 +282,7 @@ a[href], a[href]:hover {color: grey; font-size: 1em; text-decoration: none}
             </div>
         </div>
     </div>
+
     <div class="card text-center">
         <div class="card-header">
             <h3>Featured</h3>

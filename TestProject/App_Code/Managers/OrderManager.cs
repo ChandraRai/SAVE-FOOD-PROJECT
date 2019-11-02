@@ -24,7 +24,7 @@ public class OrderManager
         SqlDataReader reader;
         SqlConnection conn;
         SqlCommand comm;
-        string command = "SELECT OId,Orders.FId,UId,PickedUp from Orders INNER JOIN FoodItems on Orders.FId = FoodItems.FId " +
+        string command = "SELECT OId,Orders.FId,UId,PickedUp, RequestId from Orders INNER JOIN FoodItems on Orders.FId = FoodItems.FId " +
             " WHERE " + field + " = " + value + "";
         Order item = new Order();
 
@@ -39,7 +39,7 @@ public class OrderManager
             reader = comm.ExecuteReader();
             while (reader.Read())
             {
-                item = new Order(reader["OId"].ToString(), reader["FId"].ToString(), reader["UId"].ToString(), reader["PickedUp"].ToString());
+                item = new Order(reader["OId"].ToString(), reader["FId"].ToString(), reader["UId"].ToString(), reader["PickedUp"].ToString(), reader["RequestId"].ToString());
             }
             reader.Close();
             return item;
@@ -59,13 +59,28 @@ public class OrderManager
     {
         SqlConnection conn;
         SqlCommand comm;
-        string query = "INSERT INTO Orders (FId, UId, PickedUp) VALUES (@FId, @UId, @PickedUp)";
-        conn = new SqlConnection(connStr);
-        comm = new SqlCommand(query, conn);
-        comm.Parameters.AddWithValue("@FId", newOrder.foodOrder.FId);
-        comm.Parameters.AddWithValue("@UId", newOrder.consumer.uId);
-        comm.Parameters.AddWithValue("@Pickedup", newOrder.postingDate);
 
+        if (newOrder.request == null)
+        {
+            string query = "INSERT INTO Orders (FId, UId, PickedUp) VALUES (@FId, @UId, @PickedUp)";
+            conn = new SqlConnection(connStr);
+            comm = new SqlCommand(query, conn);
+            comm.Parameters.AddWithValue("@FId", newOrder.foodOrder.FId);
+            comm.Parameters.AddWithValue("@UId", newOrder.consumer.uId);
+            comm.Parameters.AddWithValue("@Pickedup", newOrder.postingDate);
+        }
+        else
+        {
+            string query = "INSERT INTO Orders (FId, UId, PickedUp, RequestId) VALUES (@FId, @UId, @PickedUp, @RequestId)";
+            conn = new SqlConnection(connStr);
+            comm = new SqlCommand(query, conn);
+            comm.Parameters.AddWithValue("@FId", newOrder.foodOrder.FId);
+            comm.Parameters.AddWithValue("@UId", newOrder.consumer.uId);
+            comm.Parameters.AddWithValue("@Pickedup", newOrder.postingDate);
+            comm.Parameters.AddWithValue("@RequestId", newOrder.request.URId);
+
+
+        }
 
         try
         {
@@ -81,6 +96,7 @@ public class OrderManager
         }
     }
 
+
     public static LinkedList<Order> getUserOrders(string username)
     {
         LinkedList<Order> inventory = new LinkedList<Order>();
@@ -88,7 +104,7 @@ public class OrderManager
         SqlDataReader reader;
         SqlConnection conn;
         SqlCommand comm;
-        string query = "SELECT OId,Orders.FId,UId,PickedUp from Orders INNER JOIN FoodItems on Orders.FId = FoodItems.FId where Orders.UId=@UId";
+        string query = "SELECT OId,Orders.FId,UId,PickedUp,RequestId from Orders INNER JOIN FoodItems on Orders.FId = FoodItems.FId where Orders.UId=@UId";
         conn = new SqlConnection(connStr);
         comm = new SqlCommand(query, conn);
         comm.Parameters.AddWithValue("@UId", UserManager.getUser(username, "Username").uId);
@@ -99,7 +115,7 @@ public class OrderManager
             reader = comm.ExecuteReader();
             while (reader.Read())
             {
-                Order item = new Order(reader["OId"].ToString(),reader["FId"].ToString(),reader["UId"].ToString(),reader["PickedUp"].ToString());
+                Order item = new Order(reader["OId"].ToString(),reader["FId"].ToString(),reader["UId"].ToString(),reader["PickedUp"].ToString(),reader["RequestId"].ToString());
                 inventory.AddLast(item);
             }
             reader.Close();
@@ -115,18 +131,19 @@ public class OrderManager
         }
     }
 
-    public static void cancelOrder(string foodId)
+    public static void cancelOrder(Order order)
     {
         SqlConnection conn;
         SqlCommand command;
         conn = new SqlConnection(connStr);
         command = new SqlCommand("DELETE FROM ORDERS WHERE FId=@FId", conn);
-        command.Parameters.AddWithValue("@FId", foodId);
+        command.Parameters.AddWithValue("@FId", order.foodOrder.FId);
 
         try
         {
             conn.Open();
             command.ExecuteNonQuery();
+            
         }
         catch
         {
@@ -135,6 +152,13 @@ public class OrderManager
         finally
         {
             conn.Close();
+
+            if (order.request != null)
+            {
+                UserRequest request = RequestManager.getRequest("URId", order.request.URId);
+                request.Status = 0;
+                RequestManager.UpdateRequestStatus(request);
+            }
         }
     }
 }
