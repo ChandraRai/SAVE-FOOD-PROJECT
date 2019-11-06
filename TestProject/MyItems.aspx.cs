@@ -292,46 +292,6 @@
 
 
 
-  
-
-            <!--This is for Food Item list -->
-            <div class="row">
-            
-
-
-                <!--This is for Request Items -->
-                <div class="col-3">
-                    <asp:Repeater ID="rptrRequests" runat="server">
-                        <ItemTemplate>
-                            <h5 style="margin-left:50px; margin-top: 20px">
-                                <a data-toggle="collapse" data-target="#items" href="#items">+ <%#Eval("ItemType")%></a>
-                            </h5>
-                            <div id="items" class="collapse" style="margin-left:50px" >
-                                <p>User-Request Id: <%#Eval("URId")%></p>
-                                <p>Item Details: <%#Eval("ItemDetails")%></p>
-                                <p>Amount: <%#Eval("Amount")%></p>
-                                <p>Posted Date: <%#Eval("Date")%></p>
-                                <p><i>Posted by: <%#Eval("user.username")%></i></p>
-
-								<a href="#" data-toggle="modal" data-target="#myModal">Cancel Request</a>
-
-
-
-
-
-
-                            </div>
-
-
-
-                        </ItemTemplate>
-
-
-                    </asp:Repeater>
-
-
-                </div>
-				</div>
 
 
 
