@@ -78,6 +78,24 @@
             color: #ffca08;
         }
         /* Set yellow color when star hover */
+        .botder_design {
+            border-radius: 50px;
+            -moz-border-radius: 50px;
+            -webkit-border-radius: 50px;
+            margin-left: 50px;
+            margin-bottom: 20px;
+            border: double;
+        }
+
+        .requestItem {
+            overflow: auto;
+            height: 350px;
+        }
+        .btn_request {
+            margin: auto; 
+            width: 400px;
+            margin-bottom:20px;
+        }
     </style>
 
 </asp:Content>
@@ -90,6 +108,8 @@
                 <div class="col-lg-12 text-center head-div">
                     <h2 class="section-heading text-uppercase" id="h2Title" runat="server">Donated Food List</h2>
                     <h3 class="FoodForYou" id="h3Title" runat="server">Food for you.</h3>
+                                   
+
                 </div>
                 <%-- Search Bar --%>
                 <div class="search-container1">
@@ -139,21 +159,23 @@
                         </ItemTemplate>
                     </asp:Repeater>
                 </div>
-
-
                 <!--This is for Request Items -->
-                <div class="col-3">
+                <div class="col-3 requestItem">
                     <asp:Repeater ID="rptrRequests" runat="server">
                         <ItemTemplate>
                             <h5 style="margin-left: 50px; margin-top: 20px">
                                 <a data-toggle="collapse" data-target="#items" href="#items">+ <%#Eval("ItemType")%></a>
                             </h5>
-                            <div id="items" class="collapse" style="margin-left: 50px">
-                                <p>User-Request Id: <%#Eval("URId")%></p>
-                                <p>Item Details: <%#Eval("ItemDetails")%></p>
-                                <p>Date: <%#Eval("Date")%></p>
-                                <p><i>Posted by: <%#Eval("user.username")%></i></p>
-                                <asp:LinkButton ID="lnkPopupAcceptRequest" runat="server" CommandArgument='<%#Eval("URId")%>' OnClick="ShowRequestPopup">Accept Request</asp:LinkButton>
+                            <div id="items" class="collapse botder_design">
+                                <div style="margin-left: 23px; margin-top: 20px;">
+                                    <p>User-Request Id: <%#Eval("URId")%></p>
+                                    <p>Item Details: <%#Eval("ItemDetails")%></p>
+                                    <p>Date: <%#Eval("Date")%></p>
+                                    <p><i>Posted by: <%#Eval("user.username")%></i></p>
+                                    <div style="margin-bottom: 20px">
+                                        <asp:LinkButton class="btn btn-primary" ID="lnkPopupAcceptRequest" runat="server" CommandArgument='<%#Eval("URId")%>' OnClick="ShowRequestPopup">Accept Request</asp:LinkButton>
+                                    </div>
+                                </div>
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>
@@ -170,7 +192,6 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-
                     <h4 class="modal-title">Accept Request</h4>
                 </div>
                 <div class="form-group">
@@ -199,17 +220,18 @@
                             <asp:ListItem>Stale</asp:ListItem>
                         </asp:DropDownList>
                     </div>
-
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-4" for="posted">Expiry</label>
                     <div class="col-sm-10">
-                    <asp:TextBox ID="txtRequestExpiry" type="" class="form-control" placeholder="Expiry Date*" aria-label="Expiry Date"
-                        aria-describedby="basic-addon1" runat="server" TextMode="Date" />
-                </div>
+                        <asp:TextBox ID="txtRequestExpiry" type="" class="form-control" placeholder="Expiry Date*" aria-label="Expiry Date"
+                            aria-describedby="basic-addon1" runat="server" TextMode="Date" />
                     </div>
+                </div>
                 <asp:HiddenField ID="hiddenRequestId" runat="server" />
-                <asp:Button ID="btnRequestSubmit" runat="server" Text="Submit" OnClick="btnRequestSubmit_Click" CssClass="btn btn-info" />
+               
+                    <asp:Button ID="btnRequestSubmit" runat="server" Text="Submit" OnClick="btnRequestSubmit_Click" CssClass="btn_request btn btn-info" />
+             
             </div>
 
         </div>
@@ -284,7 +306,7 @@
     </div>
 
     <div class="card text-center">
-        <div class="card-header">
+        <div class="card-header" style="margin-top: 20px">
             <h3>Featured</h3>
         </div>
         <div class="card-body">
@@ -352,7 +374,6 @@
                             <p><small><i>Posted on: <%#Eval("postingDate") %></i></small></p>
                             <hr />
                         </div>
-
                     </ItemTemplate>
                 </asp:Repeater>
             </div>

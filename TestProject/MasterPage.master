@@ -116,7 +116,7 @@
                 </div>
 
           <!-- Navigation -->
-                     <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+                     <span style="font-size:30px;cursor:pointer; margin-left: 20px;"  onclick="openNav()">&#9776;</span>
                      <div class="topnav">
                    </div>
 

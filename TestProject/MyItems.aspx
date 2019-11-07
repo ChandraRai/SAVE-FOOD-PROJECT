@@ -11,7 +11,6 @@
         function openPopup() {
             $('#popUpConfirm').modal('show');
         }
-
     </script>
     <style>
         .star-rating {
@@ -79,12 +78,12 @@
             text-align: center;
             vertical-align: middle;
         }
+        .btn_Submitbtn{
+            width: 80px
+        }
     </style>
-
-
     <link rel="stylesheet" type="text/css" href="css/master.css">
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <section class="bg-light" id="foodItem">
         <div class="container">
@@ -153,6 +152,42 @@
                                       <i class="fas fa-plus fa-3x"></i>
                                     </div>
                               </div>--%>
+                       <div class="foodItem-caption">
+                        <h4 style="color:black;"><%#Eval("foodOrder.foodName") %></h4>
+                       </div>
+                           <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
+                            </asp:LinkButton>
+                            <div class="foodItem-caption">
+                                <p class="text-muted">
+                                    Order#: <%#Eval("OId") %>
+                                    <br>
+                                    Ordered: <%#Eval("postingDate") %>
+                                    <br>
+                                    Expiry: <%#Eval("foodOrder.Expiry") %>
+                                </p>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
+        </div>
+    </section>
+    <section class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h4 class="section-heading text-uppercase">My Request Food List</h4>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <asp:Repeater ID="repeater1" runat="server">
+                    <ItemTemplate>
+                        <div class="col-md-4 col-sm-6 foodItem-item">
+                            <asp:LinkButton CssClass="foodItem-link"
+                                CommandArgument='<%#Eval("foodOrder.donor.UserName")  + ";" + Eval("foodOrder.FoodName") +";"+Eval("foodOrder.FoodDesc") +";"+Eval("FoodOrder.Expiry") +";"+Eval("foodOrder.FId")+";"+Eval("foodOrder.Status")+";"+Eval("postingDate")+";order"%>'
+                                runat="server"
+                                OnClick="GetModelData">
                        <div class="foodItem-caption">
                         <h4 style="color:black;"><%#Eval("foodOrder.foodName") %></h4>
                        </div>
@@ -242,35 +277,26 @@
                                 <ul class="list-inline">
                                     <li>Orderd: <span runat="server" id="txtFoodOrdered"></span></li>
                                     <li>Expiry Date: <span runat="server" id="txtFoodOrderDate"></span></li>
-                                </ul>
+                                </ul>  
+                                <asp:Button ID="btnCancelOrder" runat="server" Text="Cancel Order"
+                                    CssClass="btn btn-danger" OnClick="btnCancelOrder_Click" />
+                                <button class="btn btn-primary">Back</button>
+                                <asp:HiddenField ID="hiddenFoodOrderId" runat="server" />
                                 <asp:Panel runat="server" ID="panelRate">
-                                    <h2>Rate donor</h2>
-                                    <div class="container" align="center">
-
-                                        <span class="star-rating">
+                                    <div class="container" style="display:flex; margin-bottom:20px; margin-top:20px">
+                                        <span class="star-rating" style="margin-left:170px; margin-right:10px">
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starOne" /><i></i>
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starTwo" /><i></i>
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starThree" /><i></i>
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starFour" /><i></i>
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starFive" Checked="true" /><i></i>
-                                            </br>								
+                                            <br>
                                         </span>
                                         <br />
-                                        <asp:Button runat="server" class="profile-mb-30" ID="btnSubmitRating" Text="Submit Rating"
+                                        <asp:Button runat="server" class="btn btn-success btn_Submitbtn" ID="btnSubmitRating" Text="Submit"
                                             Visible="true" Display="Dynamic" OnClick="btnSubmitRating_Click"></asp:Button>
-
-
-
                                     </div>
                                 </asp:Panel>
-                                <div class="btn-container">
-                                    <button class="btn btn-danger" id="btnBack">
-                                        <a class="a-link-back">Back </a>
-                                    </button>
-                                </div>
-                                <asp:Button ID="btnCancelOrder" runat="server" Text="Cancel Order"
-                                    CssClass="btn btn-danger btn-cancelOrder" OnClick="btnCancelOrder_Click" />
-                                <asp:HiddenField ID="hiddenFoodOrderId" runat="server" />
                             </div>
                         </div>
                     </div>
