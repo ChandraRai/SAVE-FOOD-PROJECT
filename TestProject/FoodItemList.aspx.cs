@@ -319,7 +319,7 @@ public partial class FoodItemList : System.Web.UI.Page
 
     protected void DisplayUserRequests()
     {
-        rptrRequests.DataSource = RequestManager.getRequests(0,UserManager.getUser(Session["CurrentUser"].ToString(),"Username").uId);
+        rptrRequests.DataSource = RequestManager.getRequests(UserManager.getUser(Session["CurrentUser"].ToString(),"Username").uId,false);
         rptrRequests.DataBind();
     }
 

@@ -12,19 +12,13 @@ public partial class MyItems : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["CurrentUser"] == null || !User.Identity.IsAuthenticated)
-            FormsAuthentication.RedirectToLoginPage("Login.aspx");
-        else
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                ShowFoodList();
-                ShowOrderFoodList();
+            ShowFoodList();
+            ShowOrderFoodList();
+            ShowFoodRequests();
 
-            }
         }
-       
-
     }
     protected void GetModelData(object sender, EventArgs e)
     {
@@ -119,6 +113,12 @@ public partial class MyItems : System.Web.UI.Page
         repeaterOrders.DataBind();
     }
 
+    protected void ShowFoodRequests()
+    {
+        requestList.DataSource = RequestManager.getRequests(UserManager.getUser(Session["CurrentUser"].ToString(), "username").uId, true);
+        requestList.DataBind();
+    }
+
     /// <summary>
     /// Zhi Wei Su 300899450
     /// This method changes the background color of the table row based on item status
@@ -153,6 +153,18 @@ public partial class MyItems : System.Web.UI.Page
     {
         if (status == "1") { return "Avaliable"; }
         else { return "Unavaliable"; }
+    }
+
+    protected string ShowRequestStatus(string status)
+    {
+        if (status == "1") { return "Accepted"; }
+        else { return "Active"; }
+    }
+
+    protected bool ShowDeleteRequest(string status)
+    {
+        if (status == "1") { return false; }
+        else { return true; }
     }
 
     /// <summary>
@@ -193,6 +205,12 @@ public partial class MyItems : System.Web.UI.Page
             FoodManager.updateFoodStatus(hiddenFoodOrderId.Value, 1);
             ShowOrderFoodList();
             ShowFoodList();
+            ShowFoodRequests();
+        }
+        else if (hiddenFoodSelection.Value == "DELETE")
+        {
+            RequestManager.CancelRequest(hiddenRequestSelection.Value);
+            ShowFoodRequests();
         }
     }
 
@@ -252,5 +270,18 @@ public partial class MyItems : System.Web.UI.Page
         if (starFour.Checked)
             return 4;
         return 5;
+    }
+
+    protected void btnDeleteRequest_Click(object sender, EventArgs e)
+    {
+        string requestId;
+        LinkButton btn = (LinkButton)sender;
+        requestId = btn.CommandArgument;
+        hiddenRequestSelection.Value = requestId;
+        showPopup(
+            "Cancel Request?",
+            "Are you sure you would like to remove this request? If yes, press confirm.",
+            "DELETE"
+           );
     }
 }

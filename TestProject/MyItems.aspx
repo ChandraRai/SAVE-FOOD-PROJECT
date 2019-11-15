@@ -78,7 +78,8 @@
             text-align: center;
             vertical-align: middle;
         }
-        .btn_Submitbtn{
+
+        .btn_Submitbtn {
             width: 80px
         }
     </style>
@@ -181,30 +182,34 @@
             </div>
             <hr />
             <div class="row">
-                <asp:Repeater ID="repeater1" runat="server">
-                    <ItemTemplate>
-                        <div class="col-md-4 col-sm-6 foodItem-item">
-                            <asp:LinkButton CssClass="foodItem-link"
-                                CommandArgument='<%#Eval("foodOrder.donor.UserName")  + ";" + Eval("foodOrder.FoodName") +";"+Eval("foodOrder.FoodDesc") +";"+Eval("FoodOrder.Expiry") +";"+Eval("foodOrder.FId")+";"+Eval("foodOrder.Status")+";"+Eval("postingDate")+";order"%>'
-                                runat="server"
-                                OnClick="GetModelData">
-                       <div class="foodItem-caption">
-                        <h4 style="color:black;"><%#Eval("foodOrder.foodName") %></h4>
-                       </div>
-                           <img class="img-fluid" src="images/01-thumbnail.jpg" alt="">
-                            </asp:LinkButton>
-                            <div class="foodItem-caption">
-                                <p class="text-muted">
-                                    Order#: <%#Eval("OId") %>
-                                    <br>
-                                    Ordered: <%#Eval("postingDate") %>
-                                    <br>
-                                    Expiry: <%#Eval("foodOrder.Expiry") %>
-                                </p>
-                            </div>
-                        </div>
-                    </ItemTemplate>
-                </asp:Repeater>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                        <asp:ListView ID="requestList" runat="server">
+                            <EmptyDataTemplate>
+
+                                <tr>
+                                    <td>No Requests Made</td>
+                                </tr>
+
+                            </EmptyDataTemplate>
+                            <ItemTemplate>
+                                <tr>
+                                    <td><%#Eval("ItemType")%></td>
+                                    <td><%#Eval("ItemDetails")%></td>
+                                    <td><%#Eval("Date")%></td>
+                                    <td><%#ShowRequestStatus(Eval("Status").ToString())%></td>
+                                    <td>
+                                        <asp:LinkButton runat="server" ID="btnDeleteRequest" 
+                                            CssClass="delete btn btn-danger btn-sm" 
+                                            OnClick="btnDeleteRequest_Click"
+                                            Enabled='<%#ShowDeleteRequest(Eval("Status").ToString())%>'
+                                            CommandArgument='<%#Eval("URId")%>'>DELETE</asp:LinkButton>
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:ListView>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
@@ -277,14 +282,14 @@
                                 <ul class="list-inline">
                                     <li>Orderd: <span runat="server" id="txtFoodOrdered"></span></li>
                                     <li>Expiry Date: <span runat="server" id="txtFoodOrderDate"></span></li>
-                                </ul>  
+                                </ul>
                                 <asp:Button ID="btnCancelOrder" runat="server" Text="Cancel Order"
                                     CssClass="btn btn-danger" OnClick="btnCancelOrder_Click" />
                                 <button class="btn btn-primary">Back</button>
                                 <asp:HiddenField ID="hiddenFoodOrderId" runat="server" />
                                 <asp:Panel runat="server" ID="panelRate">
-                                    <div class="container" style="display:flex; margin-bottom:20px; margin-top:20px">
-                                        <span class="star-rating" style="margin-left:170px; margin-right:10px">
+                                    <div class="container" style="display: flex; margin-bottom: 20px; margin-top: 20px">
+                                        <span class="star-rating" style="margin-left: 170px; margin-right: 10px">
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starOne" /><i></i>
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starTwo" /><i></i>
                                             <asp:RadioButton runat="server" GroupName="rating" ID="starThree" /><i></i>
@@ -324,6 +329,7 @@
                 </div>
             </div>
             <asp:HiddenField runat="server" ID="hiddenFoodSelection" />
+            <asp:HiddenField runat="server" ID="hiddenRequestSelection" />
         </div>
     </div>
 </asp:Content>

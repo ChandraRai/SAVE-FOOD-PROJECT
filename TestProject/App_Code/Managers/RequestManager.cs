@@ -86,18 +86,31 @@ public class RequestManager
         }
     }
 
-    public static LinkedList<UserRequest> getRequests(int type,string id)
+    public static LinkedList<UserRequest> getRequests(string id, bool requesttype)
     {
         LinkedList<UserRequest> inventory = new LinkedList<UserRequest>();
 
         SqlDataReader reader;
         SqlConnection conn;
         SqlCommand comm;
-        string query = "SELECT URId, UId, ItemType, ItemDetails, Date, Status FROM UserRequest WHERE Status=@type AND UId!=@Id";
-        conn = new SqlConnection(connStr);
-        comm = new SqlCommand(query, conn);
-        comm.Parameters.AddWithValue("@type", type);
-        comm.Parameters.AddWithValue("@Id", id);
+        string query;
+        //Get All Requests that are not linked with the current user (FoodItems Page)
+        if (requesttype == false)
+        {
+            query = "SELECT URId, UId, ItemType, ItemDetails, Date, Status FROM UserRequest WHERE Status=0 AND UId!=@Id";
+            conn = new SqlConnection(connStr);
+            comm = new SqlCommand(query, conn);
+            comm.Parameters.AddWithValue("@Id", id);
+        }
+        //Get All Requests that are linked with the current user. (MyItems Page)
+        else
+        {
+            query = "SELECT URId, UId, ItemType, ItemDetails, Date, Status FROM UserRequest WHERE UId=@Id";
+            conn = new SqlConnection(connStr);
+            comm = new SqlCommand(query, conn);
+            comm.Parameters.AddWithValue("@Id", id);
+        }
+        
 
         try
         {
@@ -154,14 +167,14 @@ public class RequestManager
 
     }
 
-    public static void CancelRequest(UserRequest cancel)
+    public static void CancelRequest(string id)
     {
         SqlConnection conn;
         SqlCommand comm;
         string query = "DELETE FROM UserRequest WHERE URId = @URId";
         conn = new SqlConnection(connStr);
         comm = new SqlCommand(query, conn);
-        comm.Parameters.AddWithValue("@URId", cancel.URId);
+        comm.Parameters.AddWithValue("@URId", id);
 
         try
         {
