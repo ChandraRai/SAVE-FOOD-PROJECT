@@ -1,1 +1,6 @@
 .vs
+Debug
+bin/
+obj/
+TestResults/
+*.cache

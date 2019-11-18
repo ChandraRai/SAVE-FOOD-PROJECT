@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TestProject", ".", "{E5F179C7-A020-4009-8864-FC50B0A87036}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{b02f514d-9afd-4062-bc05-1ef5dfeb4095}|SafeFoodLibrary.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_50006"
 		Debug.AspNetCompiler.PhysicalPath = "..\TestProject\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50006\"
@@ -26,6 +27,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TestProject", ".", "{E5F179
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "..\Tests\Tests.csproj", "{0AB6312F-0493-4C0A-AC69-7F17CBE5FCE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeFoodLibrary", "..\SafeFoodLibrary\SafeFoodLibrary.csproj", "{B02F514D-9AFD-4062-BC05-1EF5DFEB4095}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +43,10 @@ Global
 		{0AB6312F-0493-4C0A-AC69-7F17CBE5FCE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AB6312F-0493-4C0A-AC69-7F17CBE5FCE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AB6312F-0493-4C0A-AC69-7F17CBE5FCE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B02F514D-9AFD-4062-BC05-1EF5DFEB4095}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B02F514D-9AFD-4062-BC05-1EF5DFEB4095}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B02F514D-9AFD-4062-BC05-1EF5DFEB4095}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B02F514D-9AFD-4062-BC05-1EF5DFEB4095}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
