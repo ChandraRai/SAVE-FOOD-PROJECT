@@ -14,7 +14,7 @@ using System.Web.UI.WebControls;
 /// EditItems.aspx.cs Code Behind
 /// </summary>
 
-public partial class EditItems : System.Web.UI.Page
+public partial class EditItems : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -35,20 +35,15 @@ public partial class EditItems : System.Web.UI.Page
     protected void SetUpEditForm()
     {
         string foodId = Request.QueryString["id"];
-        SqlDataReader reader;
-        SqlConnection conn;
-        SqlCommand command;
 
-
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
-        command = new SqlCommand("SELECT * FROM FOODITEMS WHERE FId=@FId", conn);
+        var conn = new SqlConnection(connStr);
+        var command = new SqlCommand("SELECT * FROM FOODITEMS WHERE FId=@FId", conn);
         command.Parameters.AddWithValue("@FId", foodId);
 
         try
         {
             conn.Open();
-            reader = command.ExecuteReader();
+            var reader = command.ExecuteReader();
             while (reader.Read())
             {
                 txtUserName.Text = reader["FId"].ToString();
@@ -72,13 +67,10 @@ public partial class EditItems : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        SqlConnection conn;
-        SqlCommand comm2;
-
         string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
+        var conn = new SqlConnection(connectionString);
 
-        comm2 = new SqlCommand("UPDATE FOODITEMS SET FoodName=@FoodName,FoodDesc=@FoodDesc, Expiry=@Expiry,FoodCondition=@foodCondition WHERE FId=@FId", conn);
+        var comm2 = new SqlCommand("UPDATE FOODITEMS SET FoodName=@FoodName,FoodDesc=@FoodDesc, Expiry=@Expiry,FoodCondition=@foodCondition WHERE FId=@FId", conn);
         comm2.Parameters.AddWithValue("@FId", txtUserName.Text);
         comm2.Parameters.AddWithValue("@FoodName",txtFoodName.Text);
         comm2.Parameters.AddWithValue("@FoodDesc", txtFoodDesc.Text);

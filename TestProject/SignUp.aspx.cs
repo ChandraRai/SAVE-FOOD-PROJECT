@@ -7,10 +7,14 @@ using System.Web.UI;
 /// SaveFood Web Application
 /// SignUp.aspx.cs Code Behind
 /// </summary>
-public partial class SingIn : Page
+public partial class SingIn : BasePage
 {
+    private UserManager _userManager { get; set; }
+
     protected void Page_Load(object sender, EventArgs e)
     {
+        _userManager = new UserManager(connStr);
+
         if (!IsPostBack)
         {
 
@@ -30,7 +34,7 @@ public partial class SingIn : Page
         if (Page.IsValid && !UsernameExists())
         {
             User user = new User(txtUserName.Text, txtEmail.Text, txtPhone.Text, txtFirstName.Text, txtLastName.Text, txtPassword.Text);
-            if (UserManager.addUser(user))
+            if (_userManager.addUser(user))
             {
                 Response.Redirect("Login.aspx");
             }
@@ -45,7 +49,7 @@ public partial class SingIn : Page
     /// <returns>The <see cref="bool"/></returns>
     protected bool UsernameExists()
     {
-        if (UserManager.UsernameExists(txtUserName.Text))
+        if (_userManager.UsernameExists(txtUserName.Text))
         {
             lblError.Visible = true;
             lblError.Text = "Username already exists.";

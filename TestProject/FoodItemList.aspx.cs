@@ -11,14 +11,13 @@ using System.Web.UI.WebControls;
 /// SaveFood Web Application
 /// FoodItemList.aspx.cs Code Behind
 /// </summary>
-public partial class FoodItemList : System.Web.UI.Page
+public partial class FoodItemList : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
         if (!Page.IsPostBack)
         {
-            if (UserManager.getUser(Session["CurrentUser"].ToString(), "Username").privilege == 1)
+            if (_userManager.getUser(Session["CurrentUser"].ToString(), "Username").privilege == 1)
             {
                 ShowFoodListAll();
                 PageSetup(true, true, false, false, "DONATED FOOD LIST - Admin View", "Admin List. Edit or Delete an item.");
@@ -43,7 +42,7 @@ public partial class FoodItemList : System.Web.UI.Page
         btnSendEmail.Visible = showEmail;
         h2Title.InnerText = h2Text;
         h3Title.InnerText = h3Text;
-    
+
     }
 
     /// <summary>
@@ -52,7 +51,7 @@ public partial class FoodItemList : System.Web.UI.Page
     /// </summary>
     protected void ShowFoodList()
     {
-        repeaterFoodItems.DataSource = FoodManager.getUserFoodList();
+        repeaterFoodItems.DataSource = _foodManager.getUserFoodList();
         repeaterFoodItems.DataBind();
 
     }
@@ -63,7 +62,7 @@ public partial class FoodItemList : System.Web.UI.Page
     /// </summary>
     protected void ShowFoodListAll()
     {
-        repeaterFoodItems.DataSource = FoodManager.getAdminFoodList();
+        repeaterFoodItems.DataSource = _foodManager.getAdminFoodList();
         repeaterFoodItems.DataBind();
     }
 
@@ -81,17 +80,16 @@ public partial class FoodItemList : System.Web.UI.Page
             return "style='color: #00e600'";
     }
 
- 
+
     private string getDonorsRating()
     {
         var numberOfReviews = 0;
         var sumOfRatings = 0;
-        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        var conn = new SqlConnection(connectionString);
+        var conn = new SqlConnection(connStr);
         var comm = new SqlCommand(
             "SELECT *  FROM dbo.Rate WHERE UId = @userId", conn);
 
-        var currentUser = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        var currentUser = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
         comm.Parameters.AddWithValue("@userId", currentUser.uId);
 
         try
@@ -139,7 +137,7 @@ public partial class FoodItemList : System.Web.UI.Page
     {
         if (!string.IsNullOrEmpty(txtSearch.Text))
         {
-            repeaterFoodItems.DataSource = FoodManager.searchFood(txtSearch.Text);
+            repeaterFoodItems.DataSource = _foodManager.searchFood(txtSearch.Text);
             repeaterFoodItems.DataBind();
         }
         else
@@ -155,8 +153,8 @@ public partial class FoodItemList : System.Web.UI.Page
     protected void PickUpItem()
     {
         //Add FoodItem to orders and remove from foodItem Listing page
-        User donor = UserManager.getUser(txtDonor.InnerText, "Username");
-        User consumer = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        User donor = _userManager.getUser(txtDonor.InnerText, "Username");
+        User consumer = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
 
         if (donor.uId == consumer.uId)
         {
@@ -169,8 +167,15 @@ public partial class FoodItemList : System.Web.UI.Page
         }
         else
         {
-            OrderManager.addOrder(new Order(hiddenFoodId.Value, consumer.uId));
-            FoodManager.updateFoodStatus(hiddenFoodId.Value, 0);
+            var order = new Order()
+            {
+                foodOrder = _foodManager.getFood(hiddenFoodId.Value, "FId"),
+                consumer = _userManager.getUser(consumer.uId, "Id"),
+                postingDate = DateTime.Now.ToString()
+            };
+
+            _orderManager.addOrder(order);
+            _foodManager.updateFoodStatus(hiddenFoodId.Value, 0);
             ShowFoodList();
         }
     }
@@ -203,7 +208,7 @@ public partial class FoodItemList : System.Web.UI.Page
     /// </summary>
     protected void RemoveItem()
     {
-        FoodManager.deleteFood(hiddenFoodId.Value);
+        _foodManager.deleteFood(hiddenFoodId.Value);
         ShowFoodListAll();
     }
 
@@ -218,7 +223,7 @@ public partial class FoodItemList : System.Web.UI.Page
     /// </summary>
     protected void DisplayHealthVideos()
     {
-        rptrVideos.DataSource = PostsManager.getPostsList(1);
+        rptrVideos.DataSource = _postsManager.getPostsList(1);
         rptrVideos.DataBind();
     }
 
@@ -259,8 +264,8 @@ public partial class FoodItemList : System.Web.UI.Page
     protected void AddVideoPost(string VId)
     {
         //Add Video to posts
-        Posts newPost = new Posts(Session["CurrentUser"].ToString(), "", VId, 1);
-        PostsManager.addPost(newPost);
+        Posts newPost = new Posts(Session["CurrentUser"].ToString(), "", VId, 1, connStr);
+        _postsManager.addPost(newPost);
         DisplayHealthVideos();
 
     }
@@ -277,7 +282,7 @@ public partial class FoodItemList : System.Web.UI.Page
     {
         LinkButton btn = (LinkButton)sender;
         string id = btn.CommandArgument;
-        UserRequest request = RequestManager.getRequest("URId", id);
+        UserRequest request = _requestManager.getRequest("URId", id);
         txtRequestType.Text = request.ItemType;
         txtRequestId.Text = request.URId;
         txtRequestDetails.Text = request.ItemDetails;
@@ -313,13 +318,13 @@ public partial class FoodItemList : System.Web.UI.Page
 
     protected void DisplayHealthTips()
     {
-        repeaterPost.DataSource = PostsManager.getPostsList(0);
+        repeaterPost.DataSource = _postsManager.getPostsList(0);
         repeaterPost.DataBind();
     }
 
     protected void DisplayUserRequests()
     {
-        rptrRequests.DataSource = RequestManager.getRequests(UserManager.getUser(Session["CurrentUser"].ToString(),"Username").uId,false);
+        rptrRequests.DataSource = _requestManager.getRequests(_userManager.getUser(Session["CurrentUser"].ToString(), "Username").uId, false);
         rptrRequests.DataBind();
     }
 
@@ -341,15 +346,16 @@ public partial class FoodItemList : System.Web.UI.Page
                  txtRequestDetails.Text,
                  2,
                  ddlRequestCondition.SelectedIndex.ToString(),
-                 DateTime.Parse(txtRequestExpiry.Text).ToString()
-                ) ;
+                 DateTime.Parse(txtRequestExpiry.Text).ToString(),
+                 connStr
+                );
 
-            
-            Food addedItem = FoodManager.AddFood(request);
-            UserRequest userRequest = RequestManager.getRequest("URId", hiddenRequestId.Value.ToString());
-            OrderManager.addOrder(new Order(addedItem,userRequest));
+
+            Food addedItem = _foodManager.AddFood(request);
+            UserRequest userRequest = _requestManager.getRequest("URId", hiddenRequestId.Value.ToString());
+            _orderManager.addOrder(new Order(addedItem, userRequest));
             userRequest.Status = 1;
-            RequestManager.UpdateRequestStatus(userRequest);
+            _requestManager.UpdateRequestStatus(userRequest);
             DisplayUserRequests();
         }
         else

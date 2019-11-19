@@ -45,11 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Food.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Posts.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\UserRequest.cs" />
+    <Compile Include="Managers\BaseManager.cs" />
     <Compile Include="Managers\FoodManager.cs" />
     <Compile Include="Managers\OrderManager.cs" />
     <Compile Include="Managers\PostsManager.cs" />

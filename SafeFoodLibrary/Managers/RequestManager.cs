@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SafeFoodLibrary.Managers;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -8,20 +9,15 @@ using System.Web;
 /// <summary>
 /// Summary description for RequestManager
 /// </summary>
-public class RequestManager
+public class RequestManager : BaseManager
 {
-    private static string connStr = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-
-    public RequestManager()
+    public RequestManager(string connectionString) : base(connectionString)
     {
-        //
-        // TODO: Add constructor logic here
-        //
     }
 
-    public static UserRequest getRequest(string field, string value)
+    public UserRequest getRequest(string field, string value)
     {
-        UserRequest request = new UserRequest();
+        UserRequest request = new UserRequest(connStr);
         SqlDataReader reader;
         SqlConnection conn;
         SqlCommand comm;
@@ -41,8 +37,8 @@ public class RequestManager
                                     reader["ItemDetails"].ToString(),
                                     reader["Date"].ToString(),
                                     reader["UId"].ToString(),
-                                    Int32.Parse(reader["Status"].ToString())
-                                    );
+                                    Int32.Parse(reader["Status"].ToString()), 
+                                    connStr);
             reader.Close();
             return request;
         }
@@ -57,7 +53,7 @@ public class RequestManager
 
     }
 
-    public static void addRequest(UserRequest request)
+    public void addRequest(UserRequest request)
     {
         SqlConnection conn;
         SqlCommand comm;
@@ -86,7 +82,7 @@ public class RequestManager
         }
     }
 
-    public static LinkedList<UserRequest> getRequests(string id, bool requesttype)
+    public LinkedList<UserRequest> getRequests(string id, bool requesttype)
     {
         LinkedList<UserRequest> inventory = new LinkedList<UserRequest>();
 
@@ -124,8 +120,8 @@ public class RequestManager
                     reader["ItemDetails"].ToString(),
                     reader["Date"].ToString(),
                     reader["UId"].ToString(),
-                    Int32.Parse(reader["Status"].ToString())
-                    );
+                    Int32.Parse(reader["Status"].ToString()),
+                    connStr);
                 inventory.AddLast(item);
             }
             reader.Close();
@@ -142,7 +138,7 @@ public class RequestManager
 
     }
 
-    public static void UpdateRequestStatus(UserRequest request)
+    public void UpdateRequestStatus(UserRequest request)
     {
         SqlConnection conn;
         SqlCommand comm;
@@ -167,7 +163,7 @@ public class RequestManager
 
     }
 
-    public static void CancelRequest(string id)
+    public void CancelRequest(string id)
     {
         SqlConnection conn;
         SqlCommand comm;

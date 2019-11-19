@@ -16,7 +16,7 @@ using System.Net.Mail;
 /// </summary>
 
 
-public partial class SendEmail : System.Web.UI.Page
+public partial class SendEmail : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -45,8 +45,7 @@ public partial class SendEmail : System.Web.UI.Page
         SqlDataReader reader;
         SqlConnection conn;
         SqlCommand command;
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
+        conn = new SqlConnection(connStr);
         command = new SqlCommand("SELECT Username, Email From USERS WHERE Username = @userName", conn);
         command.Parameters.AddWithValue("@userName", Session["UserEmail"].ToString());
 
@@ -79,8 +78,7 @@ public partial class SendEmail : System.Web.UI.Page
     protected void SendMessage(string email, string message, string subject){
         SqlCommand comm;
         SqlConnection conn;
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
+        conn = new SqlConnection(connStr);
         comm = new SqlCommand("SELECT Email From USERS WHERE Username = @userName", conn);
         comm.Parameters.AddWithValue("@userName", Session["CurrentUser"].ToString());
 

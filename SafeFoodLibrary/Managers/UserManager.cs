@@ -1,21 +1,18 @@
-﻿using System;
+﻿using SafeFoodLibrary.Managers;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
 
 /// <summary>
 /// Summary description for UserManager
 /// </summary>
-public class UserManager
+public class UserManager : BaseManager
 {
-    private static string connStr = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-
-    public UserManager()
+    public UserManager(string connectionString) : base(connectionString)
     {
-        //
-        // TODO: Add constructor logic here
-        //
     }
-    public static bool validateUser(string username,string password)
+
+    public bool validateUser(string username,string password)
     {
         User user = new User(username, password);
         
@@ -30,7 +27,7 @@ public class UserManager
         }
     }
 
-    public static bool addUser(User user)
+    public bool addUser(User user)
     {
         SqlConnection conn = new SqlConnection(connStr);
         SqlCommand comm;
@@ -60,7 +57,7 @@ public class UserManager
         }
     }
 
-    public static void UpdateUser(User user)
+    public void UpdateUser(User user)
     {
         SqlConnection conn;
         SqlCommand comm;
@@ -94,7 +91,7 @@ public class UserManager
     /// Zhi Wei Su - 300899450
     /// This method checks if the username already exists
     /// </summary>
-    public static bool UsernameExists(string username)
+    public bool UsernameExists(string username)
     {
         using (SqlConnection conn = new SqlConnection(connStr))
         {
@@ -114,7 +111,7 @@ public class UserManager
         }
     }
 
-    public static User getUser(string value,string field)
+    public User getUser(string value,string field)
     {
         SqlDataReader reader;
         SqlConnection conn;
@@ -150,4 +147,6 @@ public class UserManager
         }
 
     }
+
+    public string GetUserId(string username) => getUser(username, "Username").uId;
 }

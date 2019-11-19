@@ -10,8 +10,9 @@ using System.Web.Security;
 /// SaveFood Web Application
 /// Login.aspx.cs Code Behind
 /// </summary>
-public partial class login : System.Web.UI.Page
+public partial class Login : BasePage
 {
+    private UserManager _userManager { get; set; }
     /// <summary>
     /// The Page_Load
     /// </summary>
@@ -19,6 +20,7 @@ public partial class login : System.Web.UI.Page
     /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        _userManager = new UserManager(connStr);
     }
 
     /// <summary>
@@ -38,7 +40,8 @@ public partial class login : System.Web.UI.Page
     /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void btnLogin_Click(object sender, EventArgs e)
     {
-        if (UserManager.validateUser(txtUserName.Text, txtPassword.Text))
+        Console.WriteLine(connStr);
+        if (_userManager.validateUser(txtUserName.Text, txtPassword.Text))
         {
             Session["CurrentUser"] = txtUserName.Text;
             Response.Cookies["userName"].Value = txtUserName.Text;

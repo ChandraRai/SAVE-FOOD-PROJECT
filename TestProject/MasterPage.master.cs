@@ -15,17 +15,22 @@ using System.Web.UI.WebControls;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
+    private string connStr { get; set; }
+    private UserManager _userManager { get; set; }
+
 
     protected void Page_Init(object sender, EventArgs e)
     {
+        connStr = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+        _userManager = new UserManager(connStr);
+
         if (!Page.IsPostBack)
         {
-            User currentUser = new User();
             if (HttpContext.Current.User.Identity.IsAuthenticated && Session["CurrentUser"] != null)
             {
                 string user = HttpContext.Current.User.Identity.Name;
                 lblUser.Text = user;
-                currentUser = UserManager.getUser(user, "Username");
+                var currentUser = _userManager.getUser(user, "Username");
                 lblUser.Text = currentUser.username;
                 lblEmail.Text = currentUser.email;
                 setPage(currentUser.privilege);

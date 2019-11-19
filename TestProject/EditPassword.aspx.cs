@@ -9,7 +9,7 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class EditPassword : System.Web.UI.Page
+public partial class EditPassword : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -32,11 +32,8 @@ public partial class EditPassword : System.Web.UI.Page
     /// </summary>
     protected void UpdatePassword(string newPass, string pass)
     {
-        SqlConnection conn;
-        SqlCommand comm;
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
-        comm = new SqlCommand("UPDATE USERS SET Password = @password WHERE Username = @username", conn);
+        var conn = new SqlConnection(connStr);
+        var comm = new SqlCommand("UPDATE USERS SET Password = @password WHERE Username = @username", conn);
         comm.Parameters.AddWithValue("@password", Sha1(Salt(newPass)));
         comm.Parameters.AddWithValue("@username", Session["CurrentUser"].ToString());
 
@@ -119,7 +116,6 @@ public partial class EditPassword : System.Web.UI.Page
 
     private bool ValidatePassword(string password)
     {
-        string connStr = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
         using (SqlConnection conn = new SqlConnection(connStr))
         {
             SqlDataReader reader;
@@ -145,7 +141,6 @@ public partial class EditPassword : System.Web.UI.Page
 
     private bool VerifyPassword(string password)
     {
-        string connStr = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
         using (SqlConnection conn = new SqlConnection(connStr))
         {
             SqlDataReader reader;

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Security;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class AdminUser : System.Web.UI.Page
+public partial class AdminUser : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -27,16 +22,13 @@ public partial class AdminUser : System.Web.UI.Page
 
     protected void ShowUserList()
     {
-        SqlDataReader reader;
-        SqlConnection conn;
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
-        SqlCommand comm = new SqlCommand(
+        var conn = new SqlConnection(connStr);
+        var  comm = new SqlCommand(
         "SELECT Id,Username,Email FROM Users WHERE username!='admin'", conn);
         try
         {
             conn.Open();
-            reader = comm.ExecuteReader();
+            var reader = comm.ExecuteReader();
             repeaterUserTable.DataSource = reader;
             repeaterUserTable.DataBind();
             reader.Close();
@@ -66,9 +58,7 @@ public partial class AdminUser : System.Web.UI.Page
 
     protected void DeleteUser(string id)
     {
-        SqlConnection conn;
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
+        var conn = new SqlConnection(connStr);
         SqlCommand comm = new SqlCommand(
         "Delete FROM Users WHERE Id=@id", conn);
         SqlCommand comm2 = new SqlCommand(

@@ -13,7 +13,7 @@ using System.Web.UI.WebControls;
 /// AddFoodItem.aspx.cs Code Behind
 /// </summary>
 
-public partial class AddFoodItem : System.Web.UI.Page
+public partial class AddFoodItem : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -40,12 +40,8 @@ public partial class AddFoodItem : System.Web.UI.Page
     {
         if (Page.IsValid)
         {
-            SqlConnection conn;
-            SqlCommand comm;
-            int id;
-            string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-            conn = new SqlConnection(connectionString);
-            comm = new SqlCommand(
+            var conn = new SqlConnection(connStr);
+            var comm = new SqlCommand(
                 "INSERT INTO FoodItems (FoodName, FoodDesc, Status, FoodCondition, Expiry, Id, PostingDate) " +
                 "VALUES (@foodName, @foodDesc, @status, @foodCondition, @expiry, @id, @postingdate)", conn);
             SqlCommand comm2 = new SqlCommand("SELECT Id FROM USERS WHERE Username = @username", conn);
@@ -60,7 +56,7 @@ public partial class AddFoodItem : System.Web.UI.Page
             try
             {
                 conn.Open();
-                id = (int)comm2.ExecuteScalar();
+                var id = (int)comm2.ExecuteScalar();
                 comm.Parameters.AddWithValue("@id", id);
                 comm.ExecuteNonQuery();
                 Response.Redirect("MyItems.aspx");

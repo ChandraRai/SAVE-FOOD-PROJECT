@@ -9,8 +9,10 @@ using System.Web.UI;
 /// SaveFood Web Application
 /// EditAccount.aspx.cs Code Behind
 /// </summary>
-public partial class EditAccountaspx : System.Web.UI.Page
+public partial class EditAccountaspx : BasePage
 {
+    public UserManager _userManager { get; set; }
+
     /// <summary>
     /// The Page_Load
     /// </summary>
@@ -18,6 +20,7 @@ public partial class EditAccountaspx : System.Web.UI.Page
     /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        _userManager = new UserManager(connStr);
         ValidateUser();
     }
 
@@ -39,7 +42,7 @@ public partial class EditAccountaspx : System.Web.UI.Page
         }
         else
         {
-            if (UserManager.getUser(Session["CurrentUser"].ToString(), "Username").privilege == 0)
+            if (_userManager.getUser(Session["CurrentUser"].ToString(), "Username").privilege == 0)
             {
                 if (id == null)
                 {
@@ -73,7 +76,7 @@ public partial class EditAccountaspx : System.Web.UI.Page
         var conn = new SqlConnection(connectionString);
         var comm = new SqlCommand("SELECT *  FROM dbo.Rate WHERE UId = @userId", conn);
 
-        var currentUser = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        var currentUser = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
         comm.Parameters.AddWithValue("@userId", currentUser.uId);
 
         try
@@ -107,7 +110,7 @@ public partial class EditAccountaspx : System.Web.UI.Page
     /// <param name="id">The id<see cref="string"/></param>
     protected void ShowAdminInfo(string id)
     {
-        User user = UserManager.getUser(id, "Id");
+        User user = _userManager.getUser(id, "Id");
         if (!user.Equals(null))
         {
             lblUsername.InnerText = user.username;
@@ -129,7 +132,7 @@ public partial class EditAccountaspx : System.Web.UI.Page
     /// </summary>
     protected void ShowInfo()
     {
-        User user = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        User user = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
         lblUsername.InnerText = user.username;
         txtFirstName.Text = user.firstName;
         ViewState["First"] = user.firstName;
@@ -154,26 +157,26 @@ public partial class EditAccountaspx : System.Web.UI.Page
     {
         string username = Session["CurrentUser"].ToString();
 
-        if (UserManager.getUser(username, "Username").privilege == 0)
+        if (_userManager.getUser(username, "Username").privilege == 0)
         {
 
-            User currentUser = UserManager.getUser(username, "Username");
+            User currentUser = _userManager.getUser(username, "Username");
             currentUser.firstName = firstName;
             currentUser.lastName = lastName;
             currentUser.email = email;
             currentUser.phone = phone;
-            UserManager.UpdateUser(currentUser);
+            _userManager.UpdateUser(currentUser);
 
         }
         else
         {
             username = Request.QueryString["id"];
-            User currentUser = UserManager.getUser(username, "Username");
+            User currentUser = _userManager.getUser(username, "Username");
             currentUser.firstName = firstName;
             currentUser.lastName = lastName;
             currentUser.email = email;
             currentUser.phone = phone;
-            UserManager.UpdateUser(currentUser);
+            _userManager.UpdateUser(currentUser);
         }
     }
 

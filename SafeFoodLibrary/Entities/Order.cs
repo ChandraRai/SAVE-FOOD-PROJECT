@@ -8,17 +8,17 @@ using System.Web;
 /// </summary>
 public class Order
 {
+    public string OId { get; set; }
+    public Food foodOrder { get; set; }
+    public User consumer { get; set; }
+    public string postingDate { get; set; }
+    public UserRequest request { get; set; }
+
     public Order()
     {
         //
         // TODO: Add constructor logic here
         //
-    }
-    public Order (string _FId, string _UId)
-    {
-        foodOrder = FoodManager.getFood(_FId, "FId");
-        consumer = UserManager.getUser(_UId, "Id");
-        postingDate = DateTime.Now.ToString();
     }
 
     public Order(Food requestedItem, UserRequest reciever)
@@ -28,18 +28,4 @@ public class Order
         consumer = reciever.user;
         postingDate = DateTime.Now.ToString();
     }
-
-    public Order(string _OId, string _FId, string _UId,string date, string _requestId)
-    {
-        OId = _OId;
-        foodOrder = FoodManager.getFood(_FId, "FId");
-        consumer = UserManager.getUser(_UId, "Id");
-        postingDate = Convert.ToDateTime(date).ToString("D");
-        request = RequestManager.getRequest("URId", _requestId);
-    }
-    public string OId { get; private set; }
-    public Food foodOrder { get; private set; }
-    public User consumer { get; private set; }
-    public string postingDate { get; private set; }
-    public UserRequest request { get; set; }
 }

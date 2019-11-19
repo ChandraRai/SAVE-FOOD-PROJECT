@@ -8,16 +8,25 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Security;
 
-public partial class MyItems : System.Web.UI.Page
+public partial class MyItems : BasePage
 {
+    private UserManager _userManager { get; set; }
+    private FoodManager _foodManager { get; set; }
+    private OrderManager _orderManager { get; set; }
+    private RequestManager _requestManager { get; set; }
+
     protected void Page_Load(object sender, EventArgs e)
     {
+        _userManager = new UserManager(connStr);
+        _foodManager = new FoodManager(connStr);
+        _orderManager = new OrderManager(connStr);
+        _requestManager = new RequestManager(connStr);
+
         if (!IsPostBack)
         {
             ShowFoodList();
             ShowOrderFoodList();
             ShowFoodRequests();
-
         }
     }
     protected void GetModelData(object sender, EventArgs e)
@@ -43,7 +52,7 @@ public partial class MyItems : System.Web.UI.Page
         {
             if (userChoice == "donor")
             {
-                string consumer = OrderManager.getOrder(args[4], "Orders.FId").consumer.username;
+                string consumer = _orderManager.getOrder(args[4], "Orders.FId").consumer.username;
                 Session["OtherUser"] = consumer;
                 txtFoodOrderUsername.InnerText = "Picked up by: " + consumer;
             }
@@ -52,7 +61,7 @@ public partial class MyItems : System.Web.UI.Page
                 Session["OtherUser"] = args[0];
                 txtFoodOrderUsername.InnerText = "Donated by: " + args[0];
             }
-            txtFoodOrderId.InnerText = OrderManager.getOrder(args[4], "FoodItems.FId").OId;
+            txtFoodOrderId.InnerText = _orderManager.getOrder(args[4], "FoodItems.FId").OId;
             txtFoodOrderName.InnerText = args[1];
             txtFoodOrderDesc.InnerText = args[2];
             txtFoodOrderDate.InnerText = args[3];
@@ -65,13 +74,12 @@ public partial class MyItems : System.Web.UI.Page
 
     private bool isOrderRated()
     {
-        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        var conn = new SqlConnection(connectionString);
+        var conn = new SqlConnection(connStr);
         var comm = new SqlCommand(
             "SELECT *  FROM dbo.Rate WHERE " +
             "UId = @userId AND OId = @orderId", conn);
 
-        var currentUser = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        var currentUser = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
         comm.Parameters.AddWithValue("@userId", currentUser.uId);
         comm.Parameters.AddWithValue("@orderId", txtFoodOrderId.InnerText);
 
@@ -99,7 +107,8 @@ public partial class MyItems : System.Web.UI.Page
     /// </summary>
     protected void ShowFoodList()
     {
-        repeaterUserFoodItems.DataSource = FoodManager.getUserFoodList(Session["CurrentUser"].ToString());
+        var userId = _userManager.getUser(Session["CurrentUser"].ToString(), "UserName").uId;
+        repeaterUserFoodItems.DataSource = _foodManager.getUserFoodList(userId);
         repeaterUserFoodItems.DataBind();
     }
 
@@ -109,13 +118,13 @@ public partial class MyItems : System.Web.UI.Page
     /// </summary>
     protected void ShowOrderFoodList()
     {
-        repeaterOrders.DataSource = OrderManager.getUserOrders(Session["CurrentUser"].ToString());
+        repeaterOrders.DataSource = _orderManager.getUserOrders(Session["CurrentUser"].ToString());
         repeaterOrders.DataBind();
     }
 
     protected void ShowFoodRequests()
     {
-        requestList.DataSource = RequestManager.getRequests(UserManager.getUser(Session["CurrentUser"].ToString(), "username").uId, true);
+        requestList.DataSource = _requestManager.getRequests(_userManager.getUser(Session["CurrentUser"].ToString(), "username").uId, true);
         requestList.DataBind();
     }
 
@@ -196,20 +205,20 @@ public partial class MyItems : System.Web.UI.Page
     {
         if (hiddenFoodSelection.Value == "REMOVE")
         {
-            FoodManager.deleteFood(hiddenFoodId.Value);
+            _foodManager.deleteFood(hiddenFoodId.Value);
             ShowFoodList();
         }
         else if (hiddenFoodSelection.Value == "CANCEL")
         {
-            OrderManager.cancelOrder(OrderManager.getOrder(hiddenFoodOrderId.Value, "Orders.FId"));
-            FoodManager.updateFoodStatus(hiddenFoodOrderId.Value, 1);
+            _orderManager.cancelOrder(_orderManager.getOrder(hiddenFoodOrderId.Value, "Orders.FId"));
+            _foodManager.updateFoodStatus(hiddenFoodOrderId.Value, 1);
             ShowOrderFoodList();
             ShowFoodList();
             ShowFoodRequests();
         }
         else if (hiddenFoodSelection.Value == "DELETE")
         {
-            RequestManager.CancelRequest(hiddenRequestSelection.Value);
+            _requestManager.CancelRequest(hiddenRequestSelection.Value);
             ShowFoodRequests();
         }
     }
@@ -231,13 +240,12 @@ public partial class MyItems : System.Web.UI.Page
 
     private void AddRating(int rating)
     {
-        var connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        var conn = new SqlConnection(connectionString);
+        var conn = new SqlConnection(connStr);
         var comm = new SqlCommand(
             "INSERT INTO dbo.Rate (UId, OId, Rate, Date)" +
             "VALUES(@userId, @orderId, @rate, @date)", conn);
 
-        var currentUser = UserManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        var currentUser = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
         comm.Parameters.AddWithValue("@userId", currentUser.uId);
         comm.Parameters.AddWithValue("@orderId", txtFoodOrderId.InnerText);
         comm.Parameters.AddWithValue("@rate", rating);

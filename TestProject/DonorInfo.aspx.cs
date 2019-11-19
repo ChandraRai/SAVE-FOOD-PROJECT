@@ -9,8 +9,10 @@ using System.Web.Security;
 /// SaveFood Web Application
 /// DonorInfo.aspx.cs Code Behind
 /// </summary>
-public partial class DonorInfoaspx : System.Web.UI.Page
+public partial class DonorInfoaspx : BasePage
 {
+    public UserManager _userManager { get; set; }
+
     /// <summary>
     /// The Page_Load
     /// </summary>
@@ -18,6 +20,7 @@ public partial class DonorInfoaspx : System.Web.UI.Page
     /// <param name="e">The e<see cref="EventArgs"/></param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        _userManager = new UserManager(connStr);
         if (Session["CurrentUser"] == null || !User.Identity.IsAuthenticated)
             FormsAuthentication.RedirectToLoginPage("Login.aspx");
         else
@@ -51,7 +54,7 @@ public partial class DonorInfoaspx : System.Web.UI.Page
     protected void ShowInfo()
     {
 
-        User user = UserManager.getUser(Session["OtherUser"].ToString(),"Username");
+        User user = _userManager.getUser(Session["OtherUser"].ToString(),"Username");
 
         txtFirstName.Text = user.firstName;
         ViewState["First"] = user.firstName;
@@ -93,6 +96,6 @@ public partial class DonorInfoaspx : System.Web.UI.Page
     /// <returns>The <see cref="string"/></returns>
     protected string getUserId(string user)
     {
-        return UserManager.getUser(user,"Username").uId;
+        return _userManager.getUser(user,"Username").uId;
     }
 }

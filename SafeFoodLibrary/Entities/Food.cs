@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SafeFoodLibrary.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,39 +7,39 @@ using System.Web;
 /// <summary>
 /// Summary description for Food
 /// </summary>
-public class Food
+public class Food : BaseEntity
 {
 
-    public Food()
+    public Food(string connectionString):base(connectionString)
     {
-        //
-        // TODO: Add constructor logic here
-        //
+
     }
 
-    public Food(string _fId, string _foodName, string _foodDesc, int _status, string _condition, string _expiry, string _uId, string _postingDate)
+    public Food(string _fId, string _foodName, string _foodDesc, int _status, string _condition, string _expiry, string _uId, string _postingDate, string connectionString) : base(connectionString)
     {
+        var userManager = new UserManager(connectionString);
+
         FId = _fId;
         FoodName = _foodName;
         FoodDesc = _foodDesc;
         Status = _status;
         FoodCondition = _condition;
         Expiry = Convert.ToDateTime(_expiry).ToString("D");
-        donor = UserManager.getUser(_uId, "Id");
+        donor = userManager.getUser(_uId, "Id");
         PostingDate = Convert.ToDateTime(_postingDate).ToString("D");
 
     }
 
-    public Food(string username, string _foodName, string _foodDesc, int _status, string _condition, string _expiry)
+    public Food(string username, string _foodName, string _foodDesc, int _status, string _condition, string _expiry, string connectionString) : base(connectionString)
     {
-        donor = UserManager.getUser(username, "Username");
+        var userManager = new UserManager(connectionString);
+        donor = userManager.getUser(username, "Username");
         FoodName = _foodName;
         FoodDesc = _foodDesc;
         Status = _status;
         FoodCondition = _condition;
         Expiry = _expiry;
         PostingDate = DateTime.Now.ToString();
-
     }
 
     //Getter and Setters

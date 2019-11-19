@@ -8,7 +8,7 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class WriteReview : System.Web.UI.Page
+public partial class WriteReview : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -41,11 +41,8 @@ public partial class WriteReview : System.Web.UI.Page
         string title = txtTitle.Text;
         string comment = txtComment.InnerText.ToString();
 
-        SqlConnection conn;
-        SqlCommand command;
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
-        command = new SqlCommand("Insert INTO Comments (DonorId,UId,Title,Comment,Date) Values (@DonorId,@UId,@Title,@Comment,@Date)", conn);
+        var conn = new SqlConnection(connStr);
+        var command = new SqlCommand("Insert INTO Comments (DonorId,UId,Title,Comment,Date) Values (@DonorId,@UId,@Title,@Comment,@Date)", conn);
 
 
         command.Parameters.AddWithValue("@DonorId", donorId);
@@ -71,21 +68,15 @@ public partial class WriteReview : System.Web.UI.Page
 
     protected string getUserId()
     {
-
-        SqlDataReader reader;
-        SqlConnection conn;
-        SqlCommand command;
-
         string UserId = null;
-        string connectionString = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-        conn = new SqlConnection(connectionString);
-        command = new SqlCommand("SELECT Id From Users WHERE Username = @username", conn);
+        var conn = new SqlConnection(connStr);
+        var command = new SqlCommand("SELECT Id From Users WHERE Username = @username", conn);
         command.Parameters.AddWithValue("@username", Session["CurrentUser"].ToString());
 
         try
         {
             conn.Open();
-            reader = command.ExecuteReader();
+            var reader = command.ExecuteReader();
             while (reader.Read())
                 UserId = reader["Id"].ToString();
             reader.Close();

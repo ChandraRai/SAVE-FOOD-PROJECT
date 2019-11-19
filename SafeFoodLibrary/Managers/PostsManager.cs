@@ -1,24 +1,16 @@
-﻿using System;
+﻿using SafeFoodLibrary.Managers;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
-/// <summary>
-/// Summary description for PostsManager
-/// </summary>
-public class PostsManager
+public class PostsManager : BaseManager
 {
-    private static string connStr = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
-
-    public PostsManager()
+    public PostsManager(string connectionString) : base(connectionString)
     {
-        //
-        // TODO: Add constructor logic here
-        //
     }
-    public static LinkedList<Posts> getPostsList(int type)
+
+    public LinkedList<Posts> getPostsList(int type)
     {
         LinkedList<Posts> videoList = new LinkedList<Posts>();
 
@@ -37,7 +29,7 @@ public class PostsManager
             while (reader.Read())
             {
                 Posts item = new Posts(reader["PId"].ToString(),reader["Title"].ToString(),
-                    reader["Post"].ToString(), reader["Date"].ToString(), reader["Username"].ToString());
+                    reader["Post"].ToString(), reader["Date"].ToString(), reader["Username"].ToString(), connStr);
                 videoList.AddLast(item);
             }
             reader.Close();
@@ -54,7 +46,7 @@ public class PostsManager
 
     }
 
-    public static void addPost(Posts post)
+    public void addPost(Posts post)
     {
         SqlConnection conn;
         SqlCommand comm;

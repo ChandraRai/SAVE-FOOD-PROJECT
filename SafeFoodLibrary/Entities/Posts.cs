@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SafeFoodLibrary.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,25 +7,28 @@ using System.Web;
 /// <summary>
 /// Summary description for Posts
 /// </summary>
-public class Posts
+public class Posts : BaseEntity
 {
-    public Posts()
+    public Posts(string connectionString) : base(connectionString)
     {
-        //
-        // TODO: Add constructor logic here
-        //
     }
-    public Posts(string username,string _title,string _post, int _postType)
+
+    public Posts(string username, string _title, string _post, int _postType, string connectionString) : base(connectionString)
     {
-        user = UserManager.getUser(username,"Username");
+        var userManager = new UserManager(connectionString);
+
+        user = userManager.getUser(username, "Username");
         post = _post;
         title = _title;
         postingDate = DateTime.Now.ToString();
         postType = _postType;
     }
-    public Posts(string _pId,string _title,string _post, string _postdate,string username)
+
+    public Posts(string _pId, string _title, string _post, string _postdate, string username, string connectionString) : base(connectionString)
     {
-        user = UserManager.getUser(username, "Username");
+        var userManager = new UserManager(connectionString);
+
+        user = userManager.getUser(username, "Username");
         post = _post;
         pId = _pId;
         postingDate = Convert.ToDateTime(_postdate).ToString("D");

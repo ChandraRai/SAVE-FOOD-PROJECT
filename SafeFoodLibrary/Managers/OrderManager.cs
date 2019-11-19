@@ -1,25 +1,23 @@
-﻿using System;
+﻿using SafeFoodLibrary.Managers;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
-/// <summary>
-/// Summary description for OrderManager
-/// </summary>
-public class OrderManager
+public class OrderManager : BaseManager
 {
-    private static string connStr = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
+    private UserManager _userManager { get; set; }
+    private FoodManager _foodManager { get; set; }
+    private RequestManager _requestManager { get; set; }
 
-    public OrderManager()
+    public OrderManager(string connectionString) : base(connectionString)
     {
-        //
-        // TODO: Add constructor logic here
-        //
+        _userManager = new UserManager(connStr);
+        _foodManager = new FoodManager(connStr);
+        _requestManager = new RequestManager(connStr);
     }
 
-    public static Order getOrder(string value,string field)
+
+    public Order getOrder(string value, string field)
     {
         SqlDataReader reader;
         SqlConnection conn;
@@ -39,7 +37,14 @@ public class OrderManager
             reader = comm.ExecuteReader();
             while (reader.Read())
             {
-                item = new Order(reader["OId"].ToString(), reader["FId"].ToString(), reader["UId"].ToString(), reader["PickedUp"].ToString(), reader["RequestId"].ToString());
+                item = new Order
+                {
+                    OId = reader["OId"].ToString(),
+                    foodOrder = _foodManager.getFood(reader["FId"].ToString(), "FId"),
+                    consumer = _userManager.getUser(reader["UId"].ToString(), "Id"),
+                    postingDate = Convert.ToDateTime(reader["PickedUp"].ToString()).ToString("D"),
+                    request = _requestManager.getRequest("URId", reader["RequestId"].ToString())
+                };
             }
             reader.Close();
             return item;
@@ -55,7 +60,7 @@ public class OrderManager
         }
     }
 
-    public static void addOrder(Order newOrder)
+    public void addOrder(Order newOrder)
     {
         SqlConnection conn;
         SqlCommand comm;
@@ -97,7 +102,7 @@ public class OrderManager
     }
 
 
-    public static LinkedList<Order> getUserOrders(string username)
+    public LinkedList<Order> getUserOrders(string username)
     {
         LinkedList<Order> inventory = new LinkedList<Order>();
 
@@ -107,7 +112,7 @@ public class OrderManager
         string query = "SELECT OId,Orders.FId,UId,PickedUp,RequestId from Orders INNER JOIN FoodItems on Orders.FId = FoodItems.FId where Orders.UId=@UId";
         conn = new SqlConnection(connStr);
         comm = new SqlCommand(query, conn);
-        comm.Parameters.AddWithValue("@UId", UserManager.getUser(username, "Username").uId);
+        comm.Parameters.AddWithValue("@UId", _userManager.getUser(username, "Username").uId);
 
         try
         {
@@ -115,13 +120,20 @@ public class OrderManager
             reader = comm.ExecuteReader();
             while (reader.Read())
             {
-                Order item = new Order(reader["OId"].ToString(),reader["FId"].ToString(),reader["UId"].ToString(),reader["PickedUp"].ToString(),reader["RequestId"].ToString());
+                var item = new Order
+                {
+                    OId = reader["OId"].ToString(),
+                    foodOrder = _foodManager.getFood(reader["FId"].ToString(), "FId"),
+                    consumer = _userManager.getUser(reader["UId"].ToString(), "Id"),
+                    postingDate = Convert.ToDateTime(reader["PickedUp"].ToString()).ToString("D"),
+                    request = _requestManager.getRequest("URId", reader["RequestId"].ToString())
+                };
                 inventory.AddLast(item);
             }
             reader.Close();
             return inventory;
         }
-        catch
+        catch(Exception e)
         {
             return null;
         }
@@ -131,7 +143,7 @@ public class OrderManager
         }
     }
 
-    public static void cancelOrder(Order order)
+    public void cancelOrder(Order order)
     {
         SqlConnection conn;
         SqlCommand command;
@@ -143,7 +155,7 @@ public class OrderManager
         {
             conn.Open();
             command.ExecuteNonQuery();
-            
+
         }
         catch
         {
@@ -155,9 +167,9 @@ public class OrderManager
 
             if (order.request != null)
             {
-                UserRequest request = RequestManager.getRequest("URId", order.request.URId);
+                UserRequest request = _requestManager.getRequest("URId", order.request.URId);
                 request.Status = 0;
-                RequestManager.UpdateRequestStatus(request);
+                _requestManager.UpdateRequestStatus(request);
             }
         }
     }

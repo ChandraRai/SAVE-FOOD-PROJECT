@@ -1,33 +1,23 @@
-﻿using System;
+﻿using SafeFoodLibrary.Managers;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
-/// <summary>
-/// Summary description for FoodManager
-/// </summary>
-public class FoodManager
+public class FoodManager : BaseManager
 {
-    private static string connStr { get; set; } = ConfigurationManager.ConnectionStrings["savefood"].ConnectionString;
 
-    public FoodManager()
+    public FoodManager(string connectionString) : base(connectionString)
     {
-        //
-        // TODO: Add constructor logic here
-        //
     }
 
-    public static Food getFood(string value, string  field)
+    public Food getFood(string value, string field)
     {
-        var item = new Food();
+        var item = new Food(connStr);
         var command = "SELECT FoodItems.FId, FoodItems.FoodName, FoodItems.FoodDesc, FoodItems.Status, FoodItems.FoodCondition, FoodItems.Expiry, FoodItems.Id, FoodItems.PostingDate " +
-            "FROM FoodItems INNER JOIN USERS ON FoodItems.Id = USERS.Id WHERE "+ field + " = " + value;
+            "FROM FoodItems INNER JOIN USERS ON FoodItems.Id = USERS.Id WHERE " + field + " = " + value;
 
         var conn = new SqlConnection(connStr);
         var comm = new SqlCommand(command, conn);
-
 
         try
         {
@@ -36,7 +26,7 @@ public class FoodManager
             while (reader.Read())
             {
                 item = new Food(reader["FId"].ToString(), reader["FoodName"].ToString(), reader["FoodDesc"].ToString(), Int32.Parse(reader["Status"].ToString()),
-                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString());
+                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString(), connStr);
             }
 
             reader.Close();
@@ -55,7 +45,7 @@ public class FoodManager
     }
 
 
-    public static LinkedList<Food> getUserFoodList()
+    public LinkedList<Food> getUserFoodList()
     {
         LinkedList<Food> inventory = new LinkedList<Food>();
 
@@ -73,8 +63,8 @@ public class FoodManager
             reader = comm.ExecuteReader();
             while (reader.Read())
             {
-                Food item = new Food(reader["FId"].ToString(), reader["FoodName"].ToString(), reader["FoodDesc"].ToString(),Int32.Parse(reader["Status"].ToString()),
-                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString());
+                Food item = new Food(reader["FId"].ToString(), reader["FoodName"].ToString(), reader["FoodDesc"].ToString(), Int32.Parse(reader["Status"].ToString()),
+                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString(), connStr);
                 inventory.AddLast(item);
             }
             reader.Close();
@@ -91,7 +81,7 @@ public class FoodManager
 
     }
 
-    public static LinkedList<Food> getUserFoodList(string username)
+    public LinkedList<Food> getUserFoodList(string userId)
     {
         LinkedList<Food> inventory = new LinkedList<Food>();
 
@@ -102,7 +92,7 @@ public class FoodManager
             "FROM FoodItems INNER JOIN USERS ON FoodItems.Id = USERS.Id WHERE  FoodItems.Id=@UId";
         conn = new SqlConnection(connStr);
         comm = new SqlCommand(query, conn);
-        comm.Parameters.AddWithValue("@UId", UserManager.getUser(username,"UserName").uId);
+        comm.Parameters.AddWithValue("@UId", userId);
 
         try
         {
@@ -111,7 +101,7 @@ public class FoodManager
             while (reader.Read())
             {
                 Food item = new Food(reader["FId"].ToString(), reader["FoodName"].ToString(), reader["FoodDesc"].ToString(), Int32.Parse(reader["Status"].ToString()),
-                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString());
+                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString(), connStr);
                 inventory.AddLast(item);
             }
             reader.Close();
@@ -128,7 +118,7 @@ public class FoodManager
 
     }
 
-    public static LinkedList<Food> getAdminFoodList()
+    public LinkedList<Food> getAdminFoodList()
     {
         LinkedList<Food> inventory = new LinkedList<Food>();
 
@@ -147,7 +137,7 @@ public class FoodManager
             while (reader.Read())
             {
                 Food item = new Food(reader["FId"].ToString(), reader["FoodName"].ToString(), reader["FoodDesc"].ToString(), Int32.Parse(reader["Status"].ToString()),
-                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString());
+                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString(), connStr);
                 inventory.AddLast(item);
             }
             reader.Close();
@@ -163,7 +153,7 @@ public class FoodManager
         }
     }
 
-    public static LinkedList<Food> searchFood(string search)
+    public LinkedList<Food> searchFood(string search)
     {
         LinkedList<Food> inventory = new LinkedList<Food>();
 
@@ -183,7 +173,7 @@ public class FoodManager
             while (reader.Read())
             {
                 Food item = new Food(reader["FId"].ToString(), reader["FoodName"].ToString(), reader["FoodDesc"].ToString(), Int32.Parse(reader["Status"].ToString()),
-                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString());
+                    reader["FoodCondition"].ToString(), reader["Expiry"].ToString(), reader["Id"].ToString(), reader["PostingDate"].ToString(), connStr);
                 inventory.AddLast(item);
             }
             reader.Close();
@@ -199,7 +189,7 @@ public class FoodManager
         }
     }
 
-    public static void updateFoodStatus(string foodId,int status)
+    public void updateFoodStatus(string foodId, int status)
     {
         SqlConnection conn;
         SqlCommand comm;
@@ -223,7 +213,7 @@ public class FoodManager
         }
     }
 
-    public static void deleteFood(string foodId)
+    public void deleteFood(string foodId)
     {
         SqlConnection conn;
         SqlCommand comm;
@@ -246,7 +236,7 @@ public class FoodManager
         }
     }
 
-    public static Food AddFood(Food food)
+    public Food AddFood(Food food)
     {
 
         SqlConnection conn;
