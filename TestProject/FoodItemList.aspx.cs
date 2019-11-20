@@ -174,7 +174,7 @@ public partial class FoodItemList : BasePage
                 postingDate = DateTime.Now.ToString()
             };
 
-            _orderManager.addOrder(order);
+            _orderManager.AddOrder(order);
             _foodManager.UpdateFoodStatus(hiddenFoodId.Value, 0);
             ShowFoodList();
         }
@@ -223,7 +223,7 @@ public partial class FoodItemList : BasePage
     /// </summary>
     protected void DisplayHealthVideos()
     {
-        rptrVideos.DataSource = _postsManager.getPostsList(1);
+        rptrVideos.DataSource = _postsManager.GetPostsList(1);
         rptrVideos.DataBind();
     }
 
@@ -232,7 +232,7 @@ public partial class FoodItemList : BasePage
     {
         if (txtVideo.Text != "")
         {
-            string VId = Posts.getVideoURL(txtVideo.Text);
+            string VId = Post.getVideoURL(txtVideo.Text);
             if (VId == "")
             {
                 ShowPopup(
@@ -264,8 +264,8 @@ public partial class FoodItemList : BasePage
     protected void AddVideoPost(string VId)
     {
         //Add Video to posts
-        Posts newPost = new Posts(Session["CurrentUser"].ToString(), "", VId, 1, connStr);
-        _postsManager.addPost(newPost);
+        Post newPost = new Post(Session["CurrentUser"].ToString(), "", VId, 1, connStr);
+        _postsManager.AddPost(newPost);
         DisplayHealthVideos();
 
     }
@@ -318,7 +318,7 @@ public partial class FoodItemList : BasePage
 
     protected void DisplayHealthTips()
     {
-        repeaterPost.DataSource = _postsManager.getPostsList(0);
+        repeaterPost.DataSource = _postsManager.GetPostsList(0);
         repeaterPost.DataBind();
     }
 
@@ -353,7 +353,7 @@ public partial class FoodItemList : BasePage
 
             Food addedItem = _foodManager.AddFood(request);
             UserRequest userRequest = _requestManager.getRequest("URId", hiddenRequestId.Value.ToString());
-            _orderManager.addOrder(new Order(addedItem, userRequest));
+            _orderManager.AddOrder(new Order(addedItem, userRequest));
             userRequest.Status = 1;
             _requestManager.UpdateRequestStatus(userRequest);
             DisplayUserRequests();

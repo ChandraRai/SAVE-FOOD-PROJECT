@@ -10,43 +10,39 @@ public class PostsManager : BaseManager
     {
     }
 
-    public LinkedList<Posts> getPostsList(int type)
+    public LinkedList<Post> GetPostsList(int type)
     {
-        LinkedList<Posts> videoList = new LinkedList<Posts>();
+        LinkedList<Post> videoList = new LinkedList<Post>();
 
-        SqlDataReader reader;
-        SqlConnection conn;
-        SqlCommand comm;
         string query = "SELECT Posts.PId, Posts.Title, Posts.Post, Posts.Date,Users.Username FROM Posts INNER JOIN Users on Posts.UId=Users.Id  WHERE Posts.PostType = @type ";
-        conn = new SqlConnection(connStr);
-        comm = new SqlCommand(query, conn);
+        var conn = new SqlConnection(connStr);
+        var comm = new SqlCommand(query, conn);
         comm.Parameters.AddWithValue("@type", type);
 
         try
         {
             conn.Open();
-            reader = comm.ExecuteReader();
+            var reader = comm.ExecuteReader();
             while (reader.Read())
             {
-                Posts item = new Posts(reader["PId"].ToString(),reader["Title"].ToString(),
+                Post item = new Post(reader["PId"].ToString(),reader["Title"].ToString(),
                     reader["Post"].ToString(), reader["Date"].ToString(), reader["Username"].ToString(), connStr);
                 videoList.AddLast(item);
             }
             reader.Close();
-            return videoList;
         }
         catch
         {
-            return null;
         }
         finally
         {
             conn.Close();
         }
 
+        return videoList;
     }
 
-    public void addPost(Posts post)
+    public void AddPost(Post post)
     {
         SqlConnection conn;
         SqlCommand comm;

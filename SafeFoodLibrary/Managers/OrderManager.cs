@@ -17,7 +17,7 @@ public class OrderManager : BaseManager
     }
 
 
-    public Order getOrder(string value, string field)
+    public Order GetOrder(string value, string field)
     {
         SqlDataReader reader;
         SqlConnection conn;
@@ -47,20 +47,19 @@ public class OrderManager : BaseManager
                 };
             }
             reader.Close();
-            return item;
-
         }
         catch
         {
-            return item;
         }
         finally
         {
             conn.Close();
         }
+
+        return item;
     }
 
-    public void addOrder(Order newOrder)
+    public void AddOrder(Order newOrder)
     {
         SqlConnection conn;
         SqlCommand comm;
@@ -83,8 +82,6 @@ public class OrderManager : BaseManager
             comm.Parameters.AddWithValue("@UId", newOrder.consumer.uId);
             comm.Parameters.AddWithValue("@Pickedup", newOrder.postingDate);
             comm.Parameters.AddWithValue("@RequestId", newOrder.request.URId);
-
-
         }
 
         try
@@ -102,7 +99,7 @@ public class OrderManager : BaseManager
     }
 
 
-    public LinkedList<Order> getUserOrders(string username)
+    public LinkedList<Order> GetUserOrders(string username)
     {
         LinkedList<Order> inventory = new LinkedList<Order>();
 
@@ -131,19 +128,19 @@ public class OrderManager : BaseManager
                 inventory.AddLast(item);
             }
             reader.Close();
-            return inventory;
         }
-        catch(Exception e)
+        catch (Exception e)
         {
-            return null;
         }
         finally
         {
             conn.Close();
         }
+
+        return inventory;
     }
 
-    public void cancelOrder(Order order)
+    public void CancelOrder(Order order)
     {
         SqlConnection conn;
         SqlCommand command;
@@ -157,14 +154,14 @@ public class OrderManager : BaseManager
             command.ExecuteNonQuery();
 
         }
-        catch
-        {
-
-        }
+        catch { }
         finally
         {
             conn.Close();
+        }
 
+        try
+        {
             if (order.request != null)
             {
                 UserRequest request = _requestManager.getRequest("URId", order.request.URId);
@@ -172,5 +169,6 @@ public class OrderManager : BaseManager
                 _requestManager.UpdateRequestStatus(request);
             }
         }
+        catch { }
     }
 }

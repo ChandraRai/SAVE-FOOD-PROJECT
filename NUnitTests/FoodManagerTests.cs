@@ -12,12 +12,12 @@ namespace NUnitTests
         private FoodManager foodManager;
         private Mock<IDataReader> dataReaderMock;
         private Mock<DbConnection> dbConnection;
-
+        private string connStr = string.Empty;
 
         [SetUp]
         public void Setup()
         {
-            foodManager = new FoodManager("");
+            foodManager = new FoodManager(connStr);
             dataReaderMock = new Mock<IDataReader>();
             dbConnection = new Mock<DbConnection>();
 
@@ -62,7 +62,7 @@ namespace NUnitTests
         [Test]
         public void SearchFood_ReturnsEmptyList()
         {
-            var result = foodManager.SearchFood(string.Empty);
+            var result = foodManager.SearchFood(connStr);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Count, 0);

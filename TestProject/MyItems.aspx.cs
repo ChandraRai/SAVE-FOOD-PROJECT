@@ -52,7 +52,7 @@ public partial class MyItems : BasePage
         {
             if (userChoice == "donor")
             {
-                string consumer = _orderManager.getOrder(args[4], "Orders.FId").consumer.username;
+                string consumer = _orderManager.GetOrder(args[4], "Orders.FId").consumer.username;
                 Session["OtherUser"] = consumer;
                 txtFoodOrderUsername.InnerText = "Picked up by: " + consumer;
             }
@@ -61,7 +61,7 @@ public partial class MyItems : BasePage
                 Session["OtherUser"] = args[0];
                 txtFoodOrderUsername.InnerText = "Donated by: " + args[0];
             }
-            txtFoodOrderId.InnerText = _orderManager.getOrder(args[4], "FoodItems.FId").OId;
+            txtFoodOrderId.InnerText = _orderManager.GetOrder(args[4], "FoodItems.FId").OId;
             txtFoodOrderName.InnerText = args[1];
             txtFoodOrderDesc.InnerText = args[2];
             txtFoodOrderDate.InnerText = args[3];
@@ -118,7 +118,7 @@ public partial class MyItems : BasePage
     /// </summary>
     protected void ShowOrderFoodList()
     {
-        repeaterOrders.DataSource = _orderManager.getUserOrders(Session["CurrentUser"].ToString());
+        repeaterOrders.DataSource = _orderManager.GetUserOrders(Session["CurrentUser"].ToString());
         repeaterOrders.DataBind();
     }
 
@@ -210,7 +210,7 @@ public partial class MyItems : BasePage
         }
         else if (hiddenFoodSelection.Value == "CANCEL")
         {
-            _orderManager.cancelOrder(_orderManager.getOrder(hiddenFoodOrderId.Value, "Orders.FId"));
+            _orderManager.CancelOrder(_orderManager.GetOrder(hiddenFoodOrderId.Value, "Orders.FId"));
             _foodManager.UpdateFoodStatus(hiddenFoodOrderId.Value, 1);
             ShowOrderFoodList();
             ShowFoodList();

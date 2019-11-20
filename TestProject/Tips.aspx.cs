@@ -20,8 +20,8 @@ public partial class Tips : BasePage
     
     protected void btnTipsSave_Click(object sender, EventArgs e)
     {
-        Posts post = new Posts(Session["CurrentUser"].ToString(), txtTitle.Text, txtTips.Text, 0, connStr);
-        _postsManager.addPost(post);
+        var post = new Post(Session["CurrentUser"].ToString(), txtTitle.Text, txtTips.Text, 0, connStr);
+        _postsManager.AddPost(post);
         Response.Redirect("FoodItemList.aspx");
        
     }

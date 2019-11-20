@@ -177,7 +177,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h4 class="section-heading text-uppercase">My Request Food List</h4>
+                    <h4 class="section-heading text-uppercase">My Requested Food List</h4>
                 </div>
             </div>
             <hr />

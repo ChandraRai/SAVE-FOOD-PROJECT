@@ -7,13 +7,13 @@ using System.Web;
 /// <summary>
 /// Summary description for Posts
 /// </summary>
-public class Posts : BaseEntity
+public class Post : BaseEntity
 {
-    public Posts(string connectionString) : base(connectionString)
+    public Post(string connectionString) : base(connectionString)
     {
     }
 
-    public Posts(string username, string _title, string _post, int _postType, string connectionString) : base(connectionString)
+    public Post(string username, string _title, string _post, int _postType, string connectionString) : base(connectionString)
     {
         var userManager = new UserManager(connectionString);
 
@@ -24,7 +24,7 @@ public class Posts : BaseEntity
         postType = _postType;
     }
 
-    public Posts(string _pId, string _title, string _post, string _postdate, string username, string connectionString) : base(connectionString)
+    public Post(string _pId, string _title, string _post, string _postdate, string username, string connectionString) : base(connectionString)
     {
         var userManager = new UserManager(connectionString);
 
@@ -36,7 +36,7 @@ public class Posts : BaseEntity
     }
 
     public string pId { get; private set; }
-    public User user { get; private set; }
+    public User user { get; set; }
     public string post { get; set; }
     public string title { get; set; }
     public string postingDate { get; private set; }
