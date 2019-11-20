@@ -1,94 +1,100 @@
-﻿using Microsoft.Extensions.Configuration;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Reflection;
-using System.Text;
-using Tests;
+using System.Data.Common;
 
 namespace NUnitTests
 {
     class FoodManagerTests
     {
-        private Mock<Tests.IConfiguration> ConfigurationMock;
-       //private Mock<IConfigurationManager> ConfigurationMock;
-        private Mock<IDataReader> ReaderMock;
+
+        private FoodManager foodManager;
+        private Mock<IDataReader> dataReaderMock;
+        private Mock<DbConnection> dbConnection;
+
 
         [SetUp]
         public void Setup()
         {
-            //ConfigurationMock = new Mock<Tests.IConfiguration>();
-            //ReaderMock = new Mock<IDataReader>();
+            foodManager = new FoodManager("");
+            dataReaderMock = new Mock<IDataReader>();
+            dbConnection = new Mock<DbConnection>();
 
+            dataReaderMock.SetupSequence(x => x.Read())
+                .Returns(true)
+                .Returns(false);
 
-            //ConfigurationMock.SetupGet(c => c.savefood).Returns("");
-            //var mockConfSection = new Mock<IConfigurationSection>();
-            //mockConfSection.SetupGet(m => m[It.IsAny<string>()]).Returns("mock value");
-            //var mockConfiguration = new Mock<Microsoft.Extensions.Configuration.IConfiguration>();
-            //mockConfiguration.Setup(a => a.GetSection(It.Is<string>(s => s == "ConnectionStrings"))).Returns(mockConfSection.Object);
-            var config = ConfigurationManager.OpenExeConfiguration(Assembly.GetCallingAssembly().Location);
-            var connectionStrings = (ConnectionStringsSection)config.GetSection("connectionStrings");
-            connectionStrings.ConnectionStrings["savefood"]
-                .ConnectionString = @"Data Source=C:\Dev\commands.sqlite";
-            config.Save();
-            ConfigurationManager.RefreshSection("connectionStrings");
+            dbConnection.Setup(c => c.Open());
         }
 
         [Test]
-        public void AddFood()
+        public void GetFood_ReturnsNullFood()
         {
-            //var food = new Food();
+            var result = foodManager.GetFood("name", "John");
 
-            //var result = FoodManager.getFood("name", "John");
-
-            //Assert.IsNotNull(result);
-            //Assert.IsNull(result.donor);
-            //Assert.AreEqual(result.FoodName, "dfd");
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.donor);
+            Assert.IsNull(result.FoodName);
+            Assert.IsNull(result.FoodDesc);
+            Assert.IsNull(result.PostingDate);
+            Assert.IsNull(result.FId);
         }
 
-        private IDataReader MockIDataReader()
+        [Test]
+        public void GetUserFoodList_ReturnsEmptyList()
         {
-            var moq = new Mock<IDataReader>();
+            var result = foodManager.GetUserFoodList();
 
-            bool readToggle = true;
-
-            moq.Setup(x => x.Read())
-                // Returns value of local variable 'readToggle' (note that 
-                // you must use lambda and not just .Returns(readToggle) 
-                // because it will not be lazy initialized then)
-                .Returns(() => readToggle)
-                // After 'Read()' is executed - we change 'readToggle' value 
-                // so it will return false on next calls of 'Read()'
-                .Callback(() => readToggle = false);
-
-            moq.Setup(x => x["Char"])
-                .Returns('C');
-
-            return moq.Object;
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Count, 0);
         }
 
-        private class TestData
+        [Test]
+        public void GetAdminFoodList_ReturnsEmptyList()
         {
-            public char ValidChar { get; set; }
+            var result = foodManager.GetAdminFoodList();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Count, 0);
         }
 
-        private TestData GetTestData()
+        [Test]
+        public void SearchFood_ReturnsEmptyList()
         {
-            var testData = new TestData();
+            var result = foodManager.SearchFood(string.Empty);
 
-            using (var reader = MockIDataReader())
-            {
-                testData = new TestData
-                {
-                    ValidChar = (char)reader["Char"]
-                };
-            }
-
-            return testData;
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Count, 0);
         }
 
+        [Test]
+        public void UpdateFoodStatus_NoException()
+        {
+            Assert.DoesNotThrow(() => foodManager.UpdateFoodStatus("1", 3));
+        }
+
+        [Test]
+        public void DeleteFood_NoException()
+        {
+            Assert.DoesNotThrow(() => foodManager.DeleteFood("1"));
+        }
+
+        [Test]
+        public void AddFood_NoException()
+        {
+            Assert.DoesNotThrow(() => foodManager.AddFood(new Food("") {
+                FId = "1",
+                FoodName = "food",
+                FoodDesc = "desc",
+                donor = new User()
+            }));
+        }
+
+        [Test]
+        public void AddFood_NullReferenceException()
+        {
+            Assert.Throws<NullReferenceException>(() => foodManager.AddFood(new Food("")));
+        }
     }
 }

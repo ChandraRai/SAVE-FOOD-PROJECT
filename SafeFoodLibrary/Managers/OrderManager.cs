@@ -40,7 +40,7 @@ public class OrderManager : BaseManager
                 item = new Order
                 {
                     OId = reader["OId"].ToString(),
-                    foodOrder = _foodManager.getFood(reader["FId"].ToString(), "FId"),
+                    foodOrder = _foodManager.GetFood(reader["FId"].ToString(), "FId"),
                     consumer = _userManager.getUser(reader["UId"].ToString(), "Id"),
                     postingDate = Convert.ToDateTime(reader["PickedUp"].ToString()).ToString("D"),
                     request = _requestManager.getRequest("URId", reader["RequestId"].ToString())
@@ -123,7 +123,7 @@ public class OrderManager : BaseManager
                 var item = new Order
                 {
                     OId = reader["OId"].ToString(),
-                    foodOrder = _foodManager.getFood(reader["FId"].ToString(), "FId"),
+                    foodOrder = _foodManager.GetFood(reader["FId"].ToString(), "FId"),
                     consumer = _userManager.getUser(reader["UId"].ToString(), "Id"),
                     postingDate = Convert.ToDateTime(reader["PickedUp"].ToString()).ToString("D"),
                     request = _requestManager.getRequest("URId", reader["RequestId"].ToString())

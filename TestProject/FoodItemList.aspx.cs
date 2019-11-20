@@ -51,7 +51,7 @@ public partial class FoodItemList : BasePage
     /// </summary>
     protected void ShowFoodList()
     {
-        repeaterFoodItems.DataSource = _foodManager.getUserFoodList();
+        repeaterFoodItems.DataSource = _foodManager.GetUserFoodList();
         repeaterFoodItems.DataBind();
 
     }
@@ -62,7 +62,7 @@ public partial class FoodItemList : BasePage
     /// </summary>
     protected void ShowFoodListAll()
     {
-        repeaterFoodItems.DataSource = _foodManager.getAdminFoodList();
+        repeaterFoodItems.DataSource = _foodManager.GetAdminFoodList();
         repeaterFoodItems.DataBind();
     }
 
@@ -137,7 +137,7 @@ public partial class FoodItemList : BasePage
     {
         if (!string.IsNullOrEmpty(txtSearch.Text))
         {
-            repeaterFoodItems.DataSource = _foodManager.searchFood(txtSearch.Text);
+            repeaterFoodItems.DataSource = _foodManager.SearchFood(txtSearch.Text);
             repeaterFoodItems.DataBind();
         }
         else
@@ -169,13 +169,13 @@ public partial class FoodItemList : BasePage
         {
             var order = new Order()
             {
-                foodOrder = _foodManager.getFood(hiddenFoodId.Value, "FId"),
+                foodOrder = _foodManager.GetFood(hiddenFoodId.Value, "FId"),
                 consumer = _userManager.getUser(consumer.uId, "Id"),
                 postingDate = DateTime.Now.ToString()
             };
 
             _orderManager.addOrder(order);
-            _foodManager.updateFoodStatus(hiddenFoodId.Value, 0);
+            _foodManager.UpdateFoodStatus(hiddenFoodId.Value, 0);
             ShowFoodList();
         }
     }
@@ -208,7 +208,7 @@ public partial class FoodItemList : BasePage
     /// </summary>
     protected void RemoveItem()
     {
-        _foodManager.deleteFood(hiddenFoodId.Value);
+        _foodManager.DeleteFood(hiddenFoodId.Value);
         ShowFoodListAll();
     }
 

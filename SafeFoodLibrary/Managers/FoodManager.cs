@@ -10,7 +10,7 @@ public class FoodManager : BaseManager
     {
     }
 
-    public Food getFood(string value, string field)
+    public Food GetFood(string value, string field)
     {
         var item = new Food(connStr);
         var command = "SELECT FoodItems.FId, FoodItems.FoodName, FoodItems.FoodDesc, FoodItems.Status, FoodItems.FoodCondition, FoodItems.Expiry, FoodItems.Id, FoodItems.PostingDate " +
@@ -45,7 +45,7 @@ public class FoodManager : BaseManager
     }
 
 
-    public LinkedList<Food> getUserFoodList()
+    public LinkedList<Food> GetUserFoodList()
     {
         LinkedList<Food> inventory = new LinkedList<Food>();
 
@@ -68,17 +68,16 @@ public class FoodManager : BaseManager
                 inventory.AddLast(item);
             }
             reader.Close();
-            return inventory;
         }
         catch
         {
-            return null;
         }
         finally
         {
             conn.Close();
         }
 
+        return inventory;
     }
 
     public LinkedList<Food> getUserFoodList(string userId)
@@ -118,7 +117,7 @@ public class FoodManager : BaseManager
 
     }
 
-    public LinkedList<Food> getAdminFoodList()
+    public LinkedList<Food> GetAdminFoodList()
     {
         LinkedList<Food> inventory = new LinkedList<Food>();
 
@@ -145,15 +144,16 @@ public class FoodManager : BaseManager
         }
         catch
         {
-            return null;
         }
         finally
         {
             conn.Close();
         }
+
+        return inventory;
     }
 
-    public LinkedList<Food> searchFood(string search)
+    public LinkedList<Food> SearchFood(string search)
     {
         LinkedList<Food> inventory = new LinkedList<Food>();
 
@@ -181,15 +181,16 @@ public class FoodManager : BaseManager
         }
         catch
         {
-            return null;
         }
         finally
         {
             conn.Close();
         }
+
+        return inventory;
     }
 
-    public void updateFoodStatus(string foodId, int status)
+    public void UpdateFoodStatus(string foodId, int status)
     {
         SqlConnection conn;
         SqlCommand comm;
@@ -213,7 +214,7 @@ public class FoodManager : BaseManager
         }
     }
 
-    public void deleteFood(string foodId)
+    public void DeleteFood(string foodId)
     {
         SqlConnection conn;
         SqlCommand comm;

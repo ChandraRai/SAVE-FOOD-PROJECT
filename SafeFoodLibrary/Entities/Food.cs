@@ -9,6 +9,14 @@ using System.Web;
 /// </summary>
 public class Food : BaseEntity
 {
+    public string FId { get; set; }
+    public string FoodName { get; set; }
+    public string FoodDesc { get; set; }
+    public int Status { get; set; }
+    public string FoodCondition { get; private set; }
+    public string Expiry { get; set; }
+    public User donor { get; set; }
+    public string PostingDate { get; private set; }
 
     public Food(string connectionString):base(connectionString)
     {
@@ -41,14 +49,4 @@ public class Food : BaseEntity
         Expiry = _expiry;
         PostingDate = DateTime.Now.ToString();
     }
-
-    //Getter and Setters
-    public string FId { get; set; }
-    public string FoodName { get; set; }
-    public string FoodDesc { get; set; }
-    public int Status { get; set; }
-    public string FoodCondition { get; private set; }
-    public string Expiry { get; set; }
-    public User donor { get; private set; }
-    public string PostingDate { get; private set; }
 }

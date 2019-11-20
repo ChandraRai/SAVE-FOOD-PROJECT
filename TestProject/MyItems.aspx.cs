@@ -205,13 +205,13 @@ public partial class MyItems : BasePage
     {
         if (hiddenFoodSelection.Value == "REMOVE")
         {
-            _foodManager.deleteFood(hiddenFoodId.Value);
+            _foodManager.DeleteFood(hiddenFoodId.Value);
             ShowFoodList();
         }
         else if (hiddenFoodSelection.Value == "CANCEL")
         {
             _orderManager.cancelOrder(_orderManager.getOrder(hiddenFoodOrderId.Value, "Orders.FId"));
-            _foodManager.updateFoodStatus(hiddenFoodOrderId.Value, 1);
+            _foodManager.UpdateFoodStatus(hiddenFoodOrderId.Value, 1);
             ShowOrderFoodList();
             ShowFoodList();
             ShowFoodRequests();
