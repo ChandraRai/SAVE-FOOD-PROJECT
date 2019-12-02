@@ -1,6 +1,5 @@
 ﻿using SafeFoodLibrary.Managers;
 using System;
-using System.Configuration;
 using System.Data.SqlClient;
 
 /// <summary>
@@ -12,7 +11,7 @@ public class UserManager : BaseManager
     {
     }
 
-    public bool validateUser(string username,string password)
+    public bool ValidateUser(string username,string password)
     {
         User user = new User(username, password);
         
@@ -27,11 +26,10 @@ public class UserManager : BaseManager
         }
     }
 
-    public bool addUser(User user)
+    public bool AddUser(User user)
     {
-        SqlConnection conn = new SqlConnection(connStr);
-        SqlCommand comm;
-        comm = new SqlCommand("INSERT INTO USERS (FirstName, LastName, Username, Password, Email, Phone)" +
+        var conn = new SqlConnection(connStr);
+        var comm = new SqlCommand("INSERT INTO USERS (FirstName, LastName, Username, Password, Email, Phone)" +
             "VALUES (@first, @last, @username, @password, @email, @phone)", conn);
 
         comm.Parameters.AddWithValue("@first", user.firstName);
@@ -59,11 +57,9 @@ public class UserManager : BaseManager
 
     public void UpdateUser(User user)
     {
-        SqlConnection conn;
-        SqlCommand comm;
-        conn = new SqlConnection(connStr);
+        var conn = new SqlConnection(connStr);
 
-        comm = new SqlCommand("UPDATE USERS SET FirstName = @first, LastName = @last, Phone = @phone, Email = @email WHERE Id = @id", conn);
+        var comm = new SqlCommand("UPDATE USERS SET FirstName = @first, LastName = @last, Phone = @phone, Email = @email WHERE Id = @id", conn);
         comm.Parameters.AddWithValue("@first", user.firstName);
         comm.Parameters.AddWithValue("@last", user.lastName);
         comm.Parameters.AddWithValue("@email", user.email);
@@ -75,10 +71,8 @@ public class UserManager : BaseManager
             conn.Open();
             comm.ExecuteNonQuery();
         }
-
         catch
         {
-
         }
 
         finally
@@ -111,42 +105,37 @@ public class UserManager : BaseManager
         }
     }
 
-    public User getUser(string value,string field)
+    public User GetUser(string value,string field)
     {
-        SqlDataReader reader;
-        SqlConnection conn;
-        SqlCommand comm;
         string command = "SELECT Id,Username,Email,Phone,FirstName,LastName,Privilege" +
             " From USERS WHERE " + field + " = '" + value+"'";
         User user = new User();
 
 
-        conn = new SqlConnection(connStr);
-        comm = new SqlCommand(command, conn);
+        var conn = new SqlConnection(connStr);
+        var comm = new SqlCommand(command, conn);
 
 
         try
         {
             conn.Open();
-            reader = comm.ExecuteReader();
+            var reader = comm.ExecuteReader();
             while (reader.Read())
                 user = new User(reader["Id"].ToString(), reader["Username"].ToString(), reader["Email"].ToString(), reader["Phone"].ToString(), 
                     reader["FirstName"].ToString(), reader["LastName"].ToString(),Int32.Parse(reader["Privilege"].ToString()));
 
             reader.Close();
-            return user;
-            
         }
         catch
         {
-            return user;
         }
         finally
         {
             conn.Close();
         }
 
+        return user;
     }
 
-    public string GetUserId(string username) => getUser(username, "Username").uId;
+    public string GetUserId(string username) => GetUser(username, "Username").uId;
 }

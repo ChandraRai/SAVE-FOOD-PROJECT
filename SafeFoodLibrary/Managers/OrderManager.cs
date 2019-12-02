@@ -41,9 +41,9 @@ public class OrderManager : BaseManager
                 {
                     OId = reader["OId"].ToString(),
                     foodOrder = _foodManager.GetFood(reader["FId"].ToString(), "FId"),
-                    consumer = _userManager.getUser(reader["UId"].ToString(), "Id"),
+                    consumer = _userManager.GetUser(reader["UId"].ToString(), "Id"),
                     postingDate = Convert.ToDateTime(reader["PickedUp"].ToString()).ToString("D"),
-                    request = _requestManager.getRequest("URId", reader["RequestId"].ToString())
+                    request = _requestManager.GetRequest("URId", reader["RequestId"].ToString())
                 };
             }
             reader.Close();
@@ -109,7 +109,7 @@ public class OrderManager : BaseManager
         string query = "SELECT OId,Orders.FId,UId,PickedUp,RequestId from Orders INNER JOIN FoodItems on Orders.FId = FoodItems.FId where Orders.UId=@UId";
         conn = new SqlConnection(connStr);
         comm = new SqlCommand(query, conn);
-        comm.Parameters.AddWithValue("@UId", _userManager.getUser(username, "Username").uId);
+        comm.Parameters.AddWithValue("@UId", _userManager.GetUser(username, "Username").uId);
 
         try
         {
@@ -121,9 +121,9 @@ public class OrderManager : BaseManager
                 {
                     OId = reader["OId"].ToString(),
                     foodOrder = _foodManager.GetFood(reader["FId"].ToString(), "FId"),
-                    consumer = _userManager.getUser(reader["UId"].ToString(), "Id"),
+                    consumer = _userManager.GetUser(reader["UId"].ToString(), "Id"),
                     postingDate = Convert.ToDateTime(reader["PickedUp"].ToString()).ToString("D"),
-                    request = _requestManager.getRequest("URId", reader["RequestId"].ToString())
+                    request = _requestManager.GetRequest("URId", reader["RequestId"].ToString())
                 };
                 inventory.AddLast(item);
             }
@@ -164,7 +164,7 @@ public class OrderManager : BaseManager
         {
             if (order.request != null)
             {
-                UserRequest request = _requestManager.getRequest("URId", order.request.URId);
+                UserRequest request = _requestManager.GetRequest("URId", order.request.URId);
                 request.Status = 0;
                 _requestManager.UpdateRequestStatus(request);
             }

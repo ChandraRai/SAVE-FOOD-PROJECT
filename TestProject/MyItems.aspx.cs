@@ -79,7 +79,7 @@ public partial class MyItems : BasePage
             "SELECT *  FROM dbo.Rate WHERE " +
             "UId = @userId AND OId = @orderId", conn);
 
-        var currentUser = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        var currentUser = _userManager.GetUser(Session["CurrentUser"].ToString(), "Username");
         comm.Parameters.AddWithValue("@userId", currentUser.uId);
         comm.Parameters.AddWithValue("@orderId", txtFoodOrderId.InnerText);
 
@@ -107,7 +107,7 @@ public partial class MyItems : BasePage
     /// </summary>
     protected void ShowFoodList()
     {
-        var userId = _userManager.getUser(Session["CurrentUser"].ToString(), "UserName").uId;
+        var userId = _userManager.GetUser(Session["CurrentUser"].ToString(), "UserName").uId;
         repeaterUserFoodItems.DataSource = _foodManager.getUserFoodList(userId);
         repeaterUserFoodItems.DataBind();
     }
@@ -124,7 +124,7 @@ public partial class MyItems : BasePage
 
     protected void ShowFoodRequests()
     {
-        requestList.DataSource = _requestManager.getRequests(_userManager.getUser(Session["CurrentUser"].ToString(), "username").uId, true);
+        requestList.DataSource = _requestManager.GetRequests(_userManager.GetUser(Session["CurrentUser"].ToString(), "username").uId, true);
         requestList.DataBind();
     }
 
@@ -245,7 +245,7 @@ public partial class MyItems : BasePage
             "INSERT INTO dbo.Rate (UId, OId, Rate, Date)" +
             "VALUES(@userId, @orderId, @rate, @date)", conn);
 
-        var currentUser = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        var currentUser = _userManager.GetUser(Session["CurrentUser"].ToString(), "Username");
         comm.Parameters.AddWithValue("@userId", currentUser.uId);
         comm.Parameters.AddWithValue("@orderId", txtFoodOrderId.InnerText);
         comm.Parameters.AddWithValue("@rate", rating);

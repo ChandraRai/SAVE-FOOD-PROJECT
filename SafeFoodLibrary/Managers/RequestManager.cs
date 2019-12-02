@@ -1,10 +1,7 @@
 ﻿using SafeFoodLibrary.Managers;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 /// <summary>
 /// Summary description for RequestManager
@@ -15,7 +12,7 @@ public class RequestManager : BaseManager
     {
     }
 
-    public UserRequest getRequest(string field, string value)
+    public UserRequest GetRequest(string field, string value)
     {
         UserRequest request = new UserRequest(connStr);
         SqlDataReader reader;
@@ -40,20 +37,19 @@ public class RequestManager : BaseManager
                                     Int32.Parse(reader["Status"].ToString()), 
                                     connStr);
             reader.Close();
-            return request;
         }
         catch
         {
-            return null;
         }
         finally
         {
             conn.Close();
         }
 
+        return request;
     }
 
-    public void addRequest(UserRequest request)
+    public void AddRequest(UserRequest request)
     {
         SqlConnection conn;
         SqlCommand comm;
@@ -82,11 +78,10 @@ public class RequestManager : BaseManager
         }
     }
 
-    public LinkedList<UserRequest> getRequests(string id, bool requesttype)
+    public LinkedList<UserRequest> GetRequests(string id, bool requesttype)
     {
-        LinkedList<UserRequest> inventory = new LinkedList<UserRequest>();
+       var inventory = new LinkedList<UserRequest>();
 
-        SqlDataReader reader;
         SqlConnection conn;
         SqlCommand comm;
         string query;
@@ -111,7 +106,7 @@ public class RequestManager : BaseManager
         try
         {
             conn.Open();
-            reader = comm.ExecuteReader();
+            var reader = comm.ExecuteReader();
             while (reader.Read())
             {
                 UserRequest item = new UserRequest(
@@ -125,26 +120,24 @@ public class RequestManager : BaseManager
                 inventory.AddLast(item);
             }
             reader.Close();
-            return inventory;
         }
         catch
         {
-            return null;
         }
         finally
         {
             conn.Close();
         }
 
+        return inventory;
     }
 
     public void UpdateRequestStatus(UserRequest request)
     {
-        SqlConnection conn;
-        SqlCommand comm;
+ 
         string query = "UPDATE UserRequest SET STATUS = @status WHERE URId=@URId";
-        conn = new SqlConnection(connStr);
-        comm = new SqlCommand(query, conn);
+        var conn = new SqlConnection(connStr);
+        var comm = new SqlCommand(query, conn);
         comm.Parameters.AddWithValue("@URId", request.URId);
         comm.Parameters.AddWithValue("@status", request.Status);
 
@@ -160,7 +153,6 @@ public class RequestManager : BaseManager
         {
             conn.Close();
         }
-
     }
 
     public void CancelRequest(string id)

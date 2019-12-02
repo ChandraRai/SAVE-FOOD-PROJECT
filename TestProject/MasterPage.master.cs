@@ -30,7 +30,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
             {
                 string user = HttpContext.Current.User.Identity.Name;
                 lblUser.Text = user;
-                var currentUser = _userManager.getUser(user, "Username");
+                var currentUser = _userManager.GetUser(user, "Username");
                 lblUser.Text = currentUser.username;
                 lblEmail.Text = currentUser.email;
                 setPage(currentUser.privilege);

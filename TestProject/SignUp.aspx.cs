@@ -34,7 +34,7 @@ public partial class SingIn : BasePage
         if (Page.IsValid && !UsernameExists())
         {
             User user = new User(txtUserName.Text, txtEmail.Text, txtPhone.Text, txtFirstName.Text, txtLastName.Text, txtPassword.Text);
-            if (_userManager.addUser(user))
+            if (_userManager.AddUser(user))
             {
                 Response.Redirect("Login.aspx");
             }

@@ -41,7 +41,7 @@ public partial class Login : BasePage
     protected void btnLogin_Click(object sender, EventArgs e)
     {
         Console.WriteLine(connStr);
-        if (_userManager.validateUser(txtUserName.Text, txtPassword.Text))
+        if (_userManager.ValidateUser(txtUserName.Text, txtPassword.Text))
         {
             Session["CurrentUser"] = txtUserName.Text;
             Response.Cookies["userName"].Value = txtUserName.Text;

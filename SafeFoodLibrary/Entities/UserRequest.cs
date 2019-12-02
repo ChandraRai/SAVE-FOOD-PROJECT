@@ -13,7 +13,7 @@ public class UserRequest : BaseEntity
     public string ItemType { get; set; }
     public string ItemDetails { get; set; }
     public string Date { get; set; }
-    public User user { get; private set; }
+    public User user { get; set; }
     public int Status { get; set; }
 
     public UserRequest(string connectionString) : base(connectionString)
@@ -24,7 +24,7 @@ public class UserRequest : BaseEntity
     {
         var userManager = new UserManager(connectionString);
 
-        user = userManager.getUser(username,"Username");
+        user = userManager.GetUser(username,"Username");
         ItemType = _itemType;
         ItemDetails = _itemDetails;
         Status = 0;
@@ -38,7 +38,7 @@ public class UserRequest : BaseEntity
         ItemType = _itemType;
         ItemDetails = _itemDetails;
         Status = _status;
-        user = userManager.getUser(UId, "Id");
+        user = userManager.GetUser(UId, "Id");
         Date = Convert.ToDateTime(_date).ToString("D");
     }
 }

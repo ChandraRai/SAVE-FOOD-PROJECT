@@ -17,7 +17,7 @@ public class Post : BaseEntity
     {
         var userManager = new UserManager(connectionString);
 
-        user = userManager.getUser(username, "Username");
+        user = userManager.GetUser(username, "Username");
         post = _post;
         title = _title;
         postingDate = DateTime.Now.ToString();
@@ -28,7 +28,7 @@ public class Post : BaseEntity
     {
         var userManager = new UserManager(connectionString);
 
-        user = userManager.getUser(username, "Username");
+        user = userManager.GetUser(username, "Username");
         post = _post;
         pId = _pId;
         postingDate = Convert.ToDateTime(_postdate).ToString("D");

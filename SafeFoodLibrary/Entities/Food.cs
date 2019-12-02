@@ -33,7 +33,7 @@ public class Food : BaseEntity
         Status = _status;
         FoodCondition = _condition;
         Expiry = Convert.ToDateTime(_expiry).ToString("D");
-        donor = userManager.getUser(_uId, "Id");
+        donor = userManager.GetUser(_uId, "Id");
         PostingDate = Convert.ToDateTime(_postingDate).ToString("D");
 
     }
@@ -41,7 +41,7 @@ public class Food : BaseEntity
     public Food(string username, string _foodName, string _foodDesc, int _status, string _condition, string _expiry, string connectionString) : base(connectionString)
     {
         var userManager = new UserManager(connectionString);
-        donor = userManager.getUser(username, "Username");
+        donor = userManager.GetUser(username, "Username");
         FoodName = _foodName;
         FoodDesc = _foodDesc;
         Status = _status;
