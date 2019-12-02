@@ -23,7 +23,7 @@ public partial class Request : BasePage
     {
         if (txtFoodType.Text != "") {
             UserRequest request = new UserRequest(Session["CurrentUser"].ToString(), txtFoodType.Text, txtDetails.Text, connStr);
-            _requestManager.addRequest(request);
+            _requestManager.AddRequest(request);
             Response.Redirect("FoodItemList.aspx");
         } else
         {

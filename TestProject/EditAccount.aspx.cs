@@ -42,7 +42,7 @@ public partial class EditAccountaspx : BasePage
         }
         else
         {
-            if (_userManager.getUser(Session["CurrentUser"].ToString(), "Username").privilege == 0)
+            if (_userManager.GetUser(Session["CurrentUser"].ToString(), "Username").privilege == 0)
             {
                 if (id == null)
                 {
@@ -76,7 +76,7 @@ public partial class EditAccountaspx : BasePage
         var conn = new SqlConnection(connectionString);
         var comm = new SqlCommand("SELECT *  FROM dbo.Rate WHERE UId = @userId", conn);
 
-        var currentUser = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        var currentUser = _userManager.GetUser(Session["CurrentUser"].ToString(), "Username");
         comm.Parameters.AddWithValue("@userId", currentUser.uId);
 
         try
@@ -110,7 +110,7 @@ public partial class EditAccountaspx : BasePage
     /// <param name="id">The id<see cref="string"/></param>
     protected void ShowAdminInfo(string id)
     {
-        User user = _userManager.getUser(id, "Id");
+        User user = _userManager.GetUser(id, "Id");
         if (!user.Equals(null))
         {
             lblUsername.InnerText = user.username;
@@ -132,7 +132,7 @@ public partial class EditAccountaspx : BasePage
     /// </summary>
     protected void ShowInfo()
     {
-        User user = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        User user = _userManager.GetUser(Session["CurrentUser"].ToString(), "Username");
         lblUsername.InnerText = user.username;
         txtFirstName.Text = user.firstName;
         ViewState["First"] = user.firstName;
@@ -157,10 +157,10 @@ public partial class EditAccountaspx : BasePage
     {
         string username = Session["CurrentUser"].ToString();
 
-        if (_userManager.getUser(username, "Username").privilege == 0)
+        if (_userManager.GetUser(username, "Username").privilege == 0)
         {
 
-            User currentUser = _userManager.getUser(username, "Username");
+            User currentUser = _userManager.GetUser(username, "Username");
             currentUser.firstName = firstName;
             currentUser.lastName = lastName;
             currentUser.email = email;
@@ -171,7 +171,7 @@ public partial class EditAccountaspx : BasePage
         else
         {
             username = Request.QueryString["id"];
-            User currentUser = _userManager.getUser(username, "Username");
+            User currentUser = _userManager.GetUser(username, "Username");
             currentUser.firstName = firstName;
             currentUser.lastName = lastName;
             currentUser.email = email;

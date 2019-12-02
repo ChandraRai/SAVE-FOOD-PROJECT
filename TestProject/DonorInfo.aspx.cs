@@ -54,7 +54,7 @@ public partial class DonorInfoaspx : BasePage
     protected void ShowInfo()
     {
 
-        User user = _userManager.getUser(Session["OtherUser"].ToString(),"Username");
+        User user = _userManager.GetUser(Session["OtherUser"].ToString(),"Username");
 
         txtFirstName.Text = user.firstName;
         ViewState["First"] = user.firstName;
@@ -96,6 +96,6 @@ public partial class DonorInfoaspx : BasePage
     /// <returns>The <see cref="string"/></returns>
     protected string getUserId(string user)
     {
-        return _userManager.getUser(user,"Username").uId;
+        return _userManager.GetUser(user,"Username").uId;
     }
 }

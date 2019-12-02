@@ -17,7 +17,7 @@ public partial class FoodItemList : BasePage
     {
         if (!Page.IsPostBack)
         {
-            if (_userManager.getUser(Session["CurrentUser"].ToString(), "Username").privilege == 1)
+            if (_userManager.GetUser(Session["CurrentUser"].ToString(), "Username").privilege == 1)
             {
                 ShowFoodListAll();
                 PageSetup(true, true, false, false, "DONATED FOOD LIST - Admin View", "Admin List. Edit or Delete an item.");
@@ -89,7 +89,7 @@ public partial class FoodItemList : BasePage
         var comm = new SqlCommand(
             "SELECT *  FROM dbo.Rate WHERE UId = @userId", conn);
 
-        var currentUser = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        var currentUser = _userManager.GetUser(Session["CurrentUser"].ToString(), "Username");
         comm.Parameters.AddWithValue("@userId", currentUser.uId);
 
         try
@@ -153,8 +153,8 @@ public partial class FoodItemList : BasePage
     protected void PickUpItem()
     {
         //Add FoodItem to orders and remove from foodItem Listing page
-        User donor = _userManager.getUser(txtDonor.InnerText, "Username");
-        User consumer = _userManager.getUser(Session["CurrentUser"].ToString(), "Username");
+        User donor = _userManager.GetUser(txtDonor.InnerText, "Username");
+        User consumer = _userManager.GetUser(Session["CurrentUser"].ToString(), "Username");
 
         if (donor.uId == consumer.uId)
         {
@@ -170,7 +170,7 @@ public partial class FoodItemList : BasePage
             var order = new Order()
             {
                 foodOrder = _foodManager.GetFood(hiddenFoodId.Value, "FId"),
-                consumer = _userManager.getUser(consumer.uId, "Id"),
+                consumer = _userManager.GetUser(consumer.uId, "Id"),
                 postingDate = DateTime.Now.ToString()
             };
 
@@ -282,7 +282,7 @@ public partial class FoodItemList : BasePage
     {
         LinkButton btn = (LinkButton)sender;
         string id = btn.CommandArgument;
-        UserRequest request = _requestManager.getRequest("URId", id);
+        UserRequest request = _requestManager.GetRequest("URId", id);
         txtRequestType.Text = request.ItemType;
         txtRequestId.Text = request.URId;
         txtRequestDetails.Text = request.ItemDetails;
@@ -324,7 +324,7 @@ public partial class FoodItemList : BasePage
 
     protected void DisplayUserRequests()
     {
-        rptrRequests.DataSource = _requestManager.getRequests(_userManager.getUser(Session["CurrentUser"].ToString(), "Username").uId, false);
+        rptrRequests.DataSource = _requestManager.GetRequests(_userManager.GetUser(Session["CurrentUser"].ToString(), "Username").uId, false);
         rptrRequests.DataBind();
     }
 
@@ -352,7 +352,7 @@ public partial class FoodItemList : BasePage
 
 
             Food addedItem = _foodManager.AddFood(request);
-            UserRequest userRequest = _requestManager.getRequest("URId", hiddenRequestId.Value.ToString());
+            UserRequest userRequest = _requestManager.GetRequest("URId", hiddenRequestId.Value.ToString());
             _orderManager.AddOrder(new Order(addedItem, userRequest));
             userRequest.Status = 1;
             _requestManager.UpdateRequestStatus(userRequest);
