@@ -18,6 +18,9 @@
 </head>
 
 
+
+
+
 <body>
 	<div class="container-login100" style="background-image: url('images/bg.jpg');">
 		<div class="login-container p-l-10 p-r-10 p-t-30 p-b-260">
@@ -137,7 +140,7 @@
 
 	
 				<table class='table'>
-<tr><td ><span class='form-group' id=terms1> <input type=checkbox value=yes name='terms1' id='terms'>
+<tr><td ><span class='form-group' id=terms1/> <input type=checkbox value=yes name='terms1' id='terms' required/>
   
 
   I Agree to 	<a href="#" data-toggle="popover" title="" data-content="Upon check marking this agreement, Save Food shall not be legally bound in respect of the any kind of food related issues on these Terms and Conditions">Terms and Conditions</a>
